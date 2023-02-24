@@ -1,3 +1,8 @@
 # .zshrc
-./shell/{{ .OS }}.zshrc : ~/.zshrc
+./shell/.zshrc : ~/.zshrc
+./shell/.aliases : ~/.aliases
+./shell/.zshrc-{{.OS}} : ~/.zshrc-{{.OS}}
+
+# Git
+./git/.gitconfig : ~/.gitconfig
 
