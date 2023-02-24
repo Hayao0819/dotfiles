@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+alias ls='lsd'
+
+winegame(){
+    export WINEPREFIX=/Users/hayao/Library/PlayOnMac/wineprefix/MyGames WINEARCH=win64
+    [[ -z "$*" ]] && return 0
+    wine64 "$@"
+}
+alias winestatus='echo -e "WINEPREFIX is ${WINEPREFIX}\nWINEARCH is ${WINEARCH}"'
+
+alias phpserver='sudo php -S 127.0.0.1:80'
+alias phpbrows='google-chrome http://localhost:80'
+
+alias adb_uninstall='adb shell pm uninstall -k --user 0'
+
+#alias lima="lima fish"

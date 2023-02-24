@@ -135,23 +135,27 @@ fi
 export OPENCV_LOG_LEVEL=ERROR
 
 source "${HOME}/.aliases"
+export EDITOR="nano"
 
-#-- 以下Mac用 --#
 
 #shox 2> /dev/null || true
 export GPG_TTY=$TTY
 export PATH=$HOME/.composer/vendor/bin:$PATH
 
-export LIMA_INSTANCE="archlinux"
+case "$(uname -o)" in 
+    "Darwin")
+        export LIMA_INSTANCE="archlinux"
+        export SNDCPY_HOME="$HOME/Applications/Android/sndcpy"
+        export SNDCPY_APK="$HOME/Applications/Android/sndcpy/sndcpy.apk"
+        export PATH="$SNDCPY_HOME/:$PATH"
+        alias sndcpy="sh sndcpy"
+        export GOPATH="$HOME/.gopath"
+        export PATH="$GOPATH/bin:$PATH"
+        export QT_HOMEBREW=true
+        export PATH="/Users/hayao/.bin/platform-tools:/opt/homebrew/opt/openjdk@17/bin:$PATH"
+        ;;
+esac
 
-export SNDCPY_HOME="$HOME/Applications/Android/sndcpy"
-export SNDCPY_APK="$HOME/Applications/Android/sndcpy/sndcpy.apk"
-export PATH="$SNDCPY_HOME/:$PATH"
-alias sndcpy="sh sndcpy"
-export GOPATH="$HOME/.gopath"
-export PATH="$GOPATH/bin:$PATH"
 
 
 
-export QT_HOMEBREW=true
-export PATH="/Users/hayao/.bin/platform-tools:/opt/homebrew/opt/openjdk@17/bin:$PATH"
