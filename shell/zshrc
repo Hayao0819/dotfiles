@@ -11,12 +11,15 @@
 
 
 #-- Alias --#
-[[ -f .aliases ]] && source .aliases
+[[ -e "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
 
 #-- Completion --#
 [ -e /usr/local/share/zsh-completions ] && fpath=(/usr/local/share/zsh-completions $fpath)
-autoload -U compinit
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+fi
+autoload -Uz compinit
 compinit -u
 
 
@@ -25,18 +28,12 @@ export ZIPINFOOPT=-OCP932
 export UNZIPOPT=-OCP932
 
 
-#-- Like fish prompt --#
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
+#-- Load plugin  with sheldon --#
+if which sheldon 2> /dev/null 1>&2; then
+    eval "$(sheldon source)"
 fi
+
+
 
 #-- Key --#
 # create a zkbd compatible hash;
@@ -44,7 +41,6 @@ fi
 typeset -A key
 
 key[Home]=${terminfo[khome]}
-
 key[End]=${terminfo[kend]}
 key[Insert]=${terminfo[kich1]}
 key[Delete]=${terminfo[kdch1]}
@@ -66,8 +62,7 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" end-of-buffer-or-history
 
 # Normal history display
-if [[ -f "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
-    source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+if printf "%s\n" $widgets[@] | grep -q "history_substring"; then
     [[ -n "${key[Up]}"       ]]  && bindkey  "${key[Up]}"       history-substring-search-up
     [[ -n "${key[Down]}"     ]]  && bindkey  "${key[Down]}"     history-substring-search-down
 else
@@ -106,16 +101,18 @@ autoload -Uz colors
 colors
 
 
-#-- Pass to the path --#
+#-- Add path --#
 if [[ -e "$HOME/.bin" ]]; then
     export PATH="$HOME/.bin:${PATH}"
 fi
 
+export PATH="$HOME/.composer/vendor/bin:$PATH"
+
 
 #-- PROMPT --#
-if [[ ${TERM} = "linux" ]]; then
+if [[ "${TERM}" = "linux" ]]; then
     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
-else
+elif which powerline-go 2> /dev/null 1>&2; then
     function powerline_precmd() {
         PS1="$(powerline-go -error $? -shell zsh)"
     }
@@ -132,16 +129,18 @@ else
     install_powerline_precmd
 fi
 
+
+#-- MISC --#
 export OPENCV_LOG_LEVEL=ERROR
-
-source "${HOME}/.aliases"
 export EDITOR="nano"
+export GPG_TTY="$TTY"
+
+#-- Lang --#
+export GOPATH="$HOME/.gopath"
+export PATH="${GOPATH}/bin:$PATH"
 
 
-#shox 2> /dev/null || true
-export GPG_TTY=$TTY
-export PATH=$HOME/.composer/vendor/bin:$PATH
-
+#-- OS Config --#
 case "$(uname -o)" in 
     "Darwin")
         export LIMA_INSTANCE="archlinux"
@@ -149,7 +148,7 @@ case "$(uname -o)" in
         export SNDCPY_APK="$HOME/Applications/Android/sndcpy/sndcpy.apk"
         export PATH="$SNDCPY_HOME/:$PATH"
         alias sndcpy="sh sndcpy"
-        export GOPATH="$HOME/.gopath"
+        
         export PATH="$GOPATH/bin:$PATH"
         export QT_HOMEBREW=true
         export PATH="/Users/hayao/.bin/platform-tools:/opt/homebrew/opt/openjdk@17/bin:$PATH"

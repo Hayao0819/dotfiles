@@ -6,3 +6,6 @@
 # Git
 #./git/gitconfig : ~/.gitconfig
 
+{{  if eq .OS "linux" }}
+    ./shell/sheldon/plugins.toml:{{ .Home }}/.config/sheldon/plugins.toml
+{{ end }}
