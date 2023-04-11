@@ -31,3 +31,8 @@
 {{ if (is_installed "yay") }}
     ./linux/yay/config.json : ~/.config/yay/config.json
 {{ end }}
+
+# Xfce4 Terminal
+{{ if (is_installed "xfce4-terminal") }}
+    ./linux/gui/xfce4-terminal/terminalrc : ~/.config/xfce4/terminal/terminalrc
+{{ end }}
