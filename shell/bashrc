@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Default alias
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Lang
+export GOPATH="${HOME}/.gopath"
+export PATH="${GOPATH}/bin:$PATH"
+
+# Prompt
+PS1='[\u@\h \W]\$ '
