@@ -1,13 +1,23 @@
 # .zshrc
 ./shell/zshrc : ~/.zshrc
 ./shell/aliases : ~/.aliases
-
+{{  if eq .OS "linux" }}
+    ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
+{{ end }}
 
 # Git
 ./git/gitconfig : ~/.gitconfig
 
-{{  if eq .OS "linux" }}
-    ./shell/sheldon/plugins.toml:{{ .Home }}/.config/sheldon/plugins.toml
+# Bash
+./shell/bashrc:~/.bashrc
+
+# Linux Xorg
+{{ $xdg_var := "XDG_SESSION_TYPE" }}
+{{ if and ( isset $xdg_var ) ( eq (environ $xdg_var) "x11" ) }} # if isset($xdg_var) &&  $xdg_var = "x11"
+    ./linux/gui/xprofile : ~/.xprofile
 {{ end }}
 
-./shell/bashrc:{{ .Home }}/.bashrc
+# ArchLinux yay
+{{ if (is_installed "yay") }}
+    ./linux/yay/config.json : ~/.config/yay/config.json
+{{ end }}
