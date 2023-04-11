@@ -1,15 +1,25 @@
-# .zshrc
-./shell/zshrc : ~/.zshrc
+# エイリアス
 ./shell/aliases : ~/.aliases
+
+{{ if (is_installed "zsh") }}
+    ./shell/zshrc : ~/.zshrc
+{{ end }}
+
 {{  if eq .OS "linux" }}
     ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
 {{ end }}
 
 # Git
-./git/gitconfig : ~/.gitconfig
+{{ if (is_installed "git") }}
+    ./git/gitconfig : ~/.gitconfig
+{{ end }}
 
 # Bash
-./shell/bashrc:~/.bashrc
+{{ if isunix }}
+    ./shell/bashrc:~/.bashrc
+    ./shell/bash_logout:~/.bash_logout
+    ./shell/bash_profile:~/.bash_profile
+{{ end }}
 
 # Linux Xorg
 {{ $xdg_var := "XDG_SESSION_TYPE" }}
