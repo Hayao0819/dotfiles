@@ -42,3 +42,9 @@
     ./linux/gui/konsole/Iceberg.colorscheme:~/.local/share/konsole/Iceberg.colorscheme
     ./linux/gui/konsole/Main.profile:~/.local/share/konsole/Main.profile
 {{ end }}
+
+
+{{ if (is_installed "fcitx5" ) }}
+    ./linux/gui/fcitx5/config : ~/.config/fcitx5/config
+    ./linux/gui/fcitx5/profile: ~/.config/fcitx5/profile
+{{ end }}
