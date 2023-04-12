@@ -3,3 +3,4 @@
 ~/.ssh/known_hosts
 .DS_Store
 ~/.config/fcitx5/profile
+{{.List}}
