@@ -36,3 +36,9 @@
 {{ if (is_installed "xfce4-terminal") }}
     ./linux/gui/xfce4-terminal/terminalrc : ~/.config/xfce4/terminal/terminalrc
 {{ end }}
+
+# Konsole
+{{ if (is_installed "konsole") }}
+    ./linux/gui/plasma/konsole:~/.local/share/konsole/Iceberg.colorscheme
+    ./linux/gui/plasma/Main.profile:~/.local/share/konsole/Main.profile
+{{ end }}
