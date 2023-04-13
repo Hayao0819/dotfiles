@@ -3,4 +3,5 @@
 ~/.ssh/known_hosts
 .DS_Store
 ~/.config/fcitx5/profile
+~/.config/fcitx5/conf/cached_layouts
 {{.List}}
