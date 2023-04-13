@@ -45,5 +45,7 @@
 
 
 {{ if (is_installed "fcitx5" ) }}
-    ./linux/gui/fcitx5/config : ~/.config/fcitx5/config
+    #./linux/gui/fcitx5/config : ~/.config/fcitx5/config
+    ./linux/gui/fcitx5 : ~/.config/fcitx5
+
 {{ end }}
