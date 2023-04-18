@@ -1,51 +1,63 @@
-# エイリアス
-./shell/aliases : ~/.aliases
 
-{{ if (is_installed "zsh") }}
-    ./shell/zshrc : ~/.zshrc
-{{ end }}
+{{ if or (eq .UserName "root") (eq  (environ "USER") "root") }}
+    
+{{ else }}
+    # エイリアス
+    ./shell/aliases : ~/.aliases
 
-{{  if eq .OS "linux" }}
-    ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
-{{ end }}
+    {{ if (is_installed "zsh") }}
+        ./shell/zshrc : ~/.zshrc
+    {{ end }}
 
-# Git
-{{ if (is_installed "git") }}
-    ./git/gitconfig : ~/.gitconfig
-{{ end }}
+    {{  if eq .OS "linux" }}
+        ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
+    {{ end }}
 
-# Bash
-{{ if isunix }}
-    ./shell/bashrc:~/.bashrc
-    ./shell/bash_logout:~/.bash_logout
-    ./shell/bash_profile:~/.bash_profile
-{{ end }}
+    # Git
+    {{ if (is_installed "git") }}
+        ./git/gitconfig : ~/.gitconfig
+    {{ end }}
 
-# Linux Xorg
-{{ $xdg_var := "XDG_SESSION_TYPE" }}
-{{ if and ( isset $xdg_var ) ( eq (environ $xdg_var) "x11" ) }} # if isset($xdg_var) &&  $xdg_var = "x11"
-    ./linux/gui/xprofile : ~/.xprofile
-{{ end }}
+    # Bash
+    {{ if isunix }}
+        ./shell/bashrc:~/.bashrc
+        ./shell/bash_logout:~/.bash_logout
+        ./shell/bash_profile:~/.bash_profile
+    {{ end }}
 
-# ArchLinux yay
-{{ if (is_installed "yay") }}
-    ./linux/yay/config.json : ~/.config/yay/config.json
-{{ end }}
+    # Linux Xorg
+    {{ $xdg_var := "XDG_SESSION_TYPE" }}
+    {{ if and ( isset $xdg_var ) ( eq (environ $xdg_var) "x11" ) }} # if isset($xdg_var) &&  $xdg_var = "x11"
+        ./linux/gui/xprofile : ~/.xprofile
+    {{ end }}
 
-# Xfce4 Terminal
-{{ if (is_installed "xfce4-terminal") }}
-    ./linux/gui/xfce4-terminal/terminalrc : ~/.config/xfce4/terminal/terminalrc
-{{ end }}
+    # ArchLinux yay
+    {{ if (is_installed "yay") }}
+        ./linux/yay/config.json : ~/.config/yay/config.json
+    {{ end }}
 
-# Konsole
-{{ if (is_installed "konsole") }}
-    ./linux/gui/konsole/Iceberg.colorscheme:~/.local/share/konsole/Iceberg.colorscheme
-    ./linux/gui/konsole/Main.profile:~/.local/share/konsole/Main.profile
-{{ end }}
+    # Xfce4 Terminal
+    {{ if (is_installed "xfce4-terminal") }}
+        ./linux/gui/xfce4-terminal/terminalrc : ~/.config/xfce4/terminal/terminalrc
+    {{ end }}
+
+    # Konsole
+    {{ if (is_installed "konsole") }}
+        ./linux/gui/konsole/Iceberg.colorscheme:~/.local/share/konsole/Iceberg.colorscheme
+        ./linux/gui/konsole/Main.profile:~/.local/share/konsole/Main.profile
+    {{ end }}
 
 
-{{ if (is_installed "fcitx5" ) }}
-    #./linux/gui/fcitx5/config : ~/.config/fcitx5/config
-    ./linux/gui/fcitx5 : ~/.config/fcitx5
+    {{ if (is_installed "fcitx5" ) }}
+        ./linux/gui/fcitx5 : ~/.config/fcitx5
+    {{ end }}
 
+    {{ if (is_installed "i3") }}
+        ./linux/gui/i3wm : ~/.config/i3
+    {{ end }}
+
+
+    {{ if (is_installed "pacman") }}
+        ./root/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
+    {{ end }}
 {{ end }}
