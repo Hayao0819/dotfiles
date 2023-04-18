@@ -15,3 +15,6 @@ exec --no-startup-id nm-applet
 
 # Start polybar
 exec_always --no-startup-id "${HOME}/.config/polybar/launch.sh"
+
+# Set wallpaper
+exec --no-startup-id "feh --bg-scale ~/.wallpapers/Sayaka.jpg"

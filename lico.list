@@ -2,6 +2,10 @@
 {{ if or (eq .UserName "root") (eq  (environ "USER") "root") }}
     
 {{ else }}
+    # 壁紙
+    ./wallpapers: ~/.wallpapers
+
+
     # エイリアス
     ./shell/aliases : ~/.aliases
 
