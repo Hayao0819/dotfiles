@@ -1,10 +1,11 @@
 
 {{ if or (eq .UserName "root") (eq  (environ "USER") "root") }}
-    
+    {{ if (is_installed "pacman") }}
+        ./root/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
+    {{ end }}
 {{ else }}
     # 壁紙
     ./wallpapers: ~/.wallpapers
-
 
     # エイリアス
     ./shell/aliases : ~/.aliases
@@ -60,8 +61,7 @@
         ./linux/gui/i3wm : ~/.config/i3
     {{ end }}
 
-
-    {{ if (is_installed "pacman") }}
-        ./root/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
+    {{ if (is_installed "polybar") }}
+        ./linux/gui/polybar:~/.config/polybar
     {{ end }}
 {{ end }}
