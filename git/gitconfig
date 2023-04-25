@@ -4,3 +4,5 @@
 	signingKey = EA2BF0839B87C0F40F995DB42A1AFB8335ADA7DC
 [init]
 	defaultBranch = master
+[pull]
+	rebase = false

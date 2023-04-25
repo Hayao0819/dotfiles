@@ -14,3 +14,6 @@ floating_modifier $mod
 # or left-clicking anywhere into the window while holding the floating modifier.
 tiling_drag modifier titlebar
 
+# Remove window title
+default_border pixel 1
+default_floating_border pixel 1

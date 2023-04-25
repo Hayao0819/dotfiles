@@ -9,7 +9,7 @@ set $mod Mod4
 font pango:SauceCodePro Nerd Font Mono 8
 
 # Set window gap
-gaps inner 13
+gaps inner 5
 
 # Include files
 Include ~/.config/i3/config.d/*
