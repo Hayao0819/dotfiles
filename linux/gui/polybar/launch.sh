@@ -5,5 +5,7 @@ while pgrep -u "$UID" -x polybar > /dev/null; do
     sleep 0.5
 done
 
-polybar top &
+for bar in "left" "right"; do
+    polybar -r "$bar" &
+done
 

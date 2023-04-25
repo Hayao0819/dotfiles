@@ -1,6 +1,6 @@
 [Appearance]
 ColorScheme=Iceberg
-Font=SauceCodePro Nerd Font,12,-1,5,50,0,0,0,0,0
+Font=SauceCodePro Nerd Font,10,-1,5,50,0,0,0,0,0
 
 [General]
 Name=Main

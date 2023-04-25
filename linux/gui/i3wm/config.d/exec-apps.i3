@@ -22,3 +22,9 @@ exec --no-startup-id "feh --bg-scale ~/.wallpapers/Sayaka.jpg"
 # start clipboard manager
 exec --no-startup-id greenclip daemon > /dev/null
 
+# start keyring daemon
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=ssh,secrets,pkcs11
+
+# xfce4-screenshooterでクリップボードを使うためにxfce4-clipmanを起動
+exec --no-startup-id xfce4-clipman &
+
