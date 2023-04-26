@@ -73,4 +73,8 @@
         ./linux/gui/rofi/themes      : ~/.local/share/rofi/themes
         ./linux/gui/rofi/config.rasi : ~/.config/rofi/config.rasi
     {{ end }}
+
+    {{ if (is_installed "picom") }}
+       ./linux/gui/picom/picom.conf : ~/.config/picom.conf
+    {{ end }}
 {{ end }}
