@@ -15,7 +15,7 @@ lico set
 
 ### Special Thanks
 
-[watasuke102/dotfiles](https://github.com/watasuke102/dotfiles) 非常に参考にさせていただいております
-[watasuke102/mit-sushi-ware](https://github.com/watasuke102/mit-sushi-ware) MIT-SUSHI-WARE ライセンス
+- [watasuke102/dotfiles](https://github.com/watasuke102/dotfiles) 非常に参考にさせていただいております
+- [watasuke102/mit-sushi-ware](https://github.com/watasuke102/mit-sushi-ware) MIT-SUSHI-WARE ライセンス
 
 
