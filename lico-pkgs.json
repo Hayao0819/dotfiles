@@ -1,21 +1,12 @@
 {
-    "ArchLinux":[
-        {
-            "id": "rolling",
-            "pkgs": [
-                "base",
-                "base-devel"
-            ]
-        }
-    ],
-    "Debian":[
-        {
-            "id": "sid",
-            "pkgs":[]
-        },
-        {
-            "id": "bullseye",
-            "pkgs":[]
-        }
-    ]
+    "ArchLinux":{
+        "rolling":[
+            "base",
+            "base-devel"
+        ]
+    },
+    "Debian":{
+        "sid": [],
+        "bullseye": []
+    }
 }

@@ -28,3 +28,5 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=ssh,secr
 # xfce4-screenshooterでクリップボードを使うためにxfce4-clipmanを起動
 exec --no-startup-id xfce4-clipman &
 
+# Notification daemon
+exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc

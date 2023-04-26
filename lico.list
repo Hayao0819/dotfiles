@@ -64,4 +64,13 @@
     {{ if (is_installed "polybar") }}
         ./linux/gui/polybar:~/.config/polybar
     {{ end }}
+
+    {{ if (is_installed "dunst") }}
+        ./linux/gui/dunst:~/.config/dunst
+    {{ end }}
+
+    {{ if (is_installed "rofi") }}
+        ./linux/gui/rofi/themes      : ~/.local/share/rofi/themes
+        ./linux/gui/rofi/config.rasi : ~/.config/rofi/config.rasi
+    {{ end }}
 {{ end }}
