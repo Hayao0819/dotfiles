@@ -1,7 +1,7 @@
 configuration {
     modi: "combi";
     font: "SauceCodePro Nerd Font 12";
-    combi-modi: "drun,ssh,p:rofi-power-menu";
+    combi-modi: "drun,ssh,p:rofi-power-menu --no-symbols --confirm=''";
     icon-theme: "Papirus-Dark";
     show-icons: true;
     terminal: "konsole";
