@@ -3,6 +3,12 @@
     {{ if (is_installed "pacman") }}
         ./root/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
     {{ end }}
+
+    {{ if isunix }}
+        {{ range (readdir_files (joinpath .Repo "/root/etc/")  ) }}
+            ./root/etc/{{ . }} : /etc/{{ . }}
+        {{ end }}
+    {{ end }}
 {{ else }}
     # 壁紙
     ./wallpapers: ~/.wallpapers
