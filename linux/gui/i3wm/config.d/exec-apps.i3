@@ -33,3 +33,6 @@ exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
 # picom window compositor
 exec_always --no-startup-id picom -b --config ~/.config/picom/picom.conf
+
+# Discordで自動起動
+exec --no-startup-id discord --start-minimized
