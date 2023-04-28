@@ -19,3 +19,6 @@ bindsym Ctrl+Shift+Up exec --no-startup-id $VolumeUp_CMD
 bindsym Ctrl+Shift+Down exec --no-startup-id $VolumeDown_CMD
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Start xfce4-screenshooter
+bindsym Print exec xfce4-screenshooter
