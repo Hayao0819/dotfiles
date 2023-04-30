@@ -2,6 +2,7 @@
 #
 # ~/.bashrc
 #
+# shellcheck disable=SC1090
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -10,9 +11,10 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-# Lang
-export GOPATH="${HOME}/.gopath"
-export PATH="${GOPATH}/bin:$PATH"
+# Source global definitions
+for f in "$HOME/.aliases" "$HOME/.env"; do
+    [[ -f "$f" ]] && source "$f"
+done
 
 # Prompt
 PS1='[\u@\h \W]\$ '

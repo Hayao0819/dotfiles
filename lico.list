@@ -13,9 +13,6 @@
     # 壁紙
     ./wallpapers: ~/.wallpapers
 
-    # エイリアス
-    ./shell/aliases : ~/.aliases
-
     {{ if (is_installed "zsh") }}
         ./shell/zshrc : ~/.zshrc
     {{ end }}
@@ -34,6 +31,8 @@
         ./shell/bashrc:~/.bashrc
         ./shell/bash_logout:~/.bash_logout
         ./shell/bash_profile:~/.bash_profile
+        ./shell/aliases : ~/.aliases
+        ./shell/env : ~/.env
     {{ end }}
 
     # Linux Xorg

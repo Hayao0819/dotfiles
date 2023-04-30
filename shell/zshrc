@@ -10,8 +10,11 @@
 #
 
 
-#-- Alias --#
-[[ -e "$HOME/.aliases" ]] && source "$HOME/.aliases"
+#-- Load config --#
+# Source global definitions
+for f in "$HOME/.aliases" "$HOME/.env"; do
+    [[ -f "$f" ]] && source "$f"
+done
 
 
 #-- Completion --#
@@ -23,16 +26,10 @@ autoload -Uz compinit
 compinit -u
 
 
-#-- Archive settings --#
-export ZIPINFOOPT=-OCP932
-export UNZIPOPT=-OCP932
-
-
 #-- Load plugin  with sheldon --#
 if which sheldon 2> /dev/null 1>&2; then
     eval "$(sheldon source)"
 fi
-
 
 
 #-- Key --#
@@ -106,7 +103,7 @@ if [[ -e "$HOME/.bin" ]]; then
     export PATH="$HOME/.bin:${PATH}"
 fi
 
-export PATH="$HOME/.composer/vendor/bin:$PATH"
+
 
 
 #-- PROMPT --#
@@ -128,16 +125,6 @@ elif which powerline-go 2> /dev/null 1>&2; then
 
     install_powerline_precmd
 fi
-
-
-#-- MISC --#
-export OPENCV_LOG_LEVEL=ERROR
-export EDITOR="nano"
-export GPG_TTY="$TTY"
-
-#-- Lang --#
-export GOPATH="$HOME/.gopath"
-export PATH="${GOPATH}/bin:$PATH"
 
 
 #-- OS Config --#
