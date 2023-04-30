@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#-- MISC --#
+export PATH="$HOME/.composer/vendor/bin:$PATH"
+export OPENCV_LOG_LEVEL=ERROR
+export GPG_TTY="$TTY"
+
+#-- Default app --#
+export EDITOR="nano"
+export TERMINAL="xfce4-terminal"
+
+#-- Lang --#
+export GOPATH="$HOME/.gopath"
+export PATH="${GOPATH}/bin:$PATH"
+
+#-- Archive settings --#
+export ZIPINFOOPT=-OCP932
+export UNZIPOPT=-OCP932
