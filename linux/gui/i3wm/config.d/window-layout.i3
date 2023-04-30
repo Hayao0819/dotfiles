@@ -28,4 +28,5 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # ColorGrabを浮かせる
-for_window[title="[Cc]olor *[Gg]rab"] floating enable
+for_window[class="ColorGrab"] floating enable
+for_window[class="ColorGrab"] resize set 300 300
