@@ -17,7 +17,7 @@
         ./shell/zshrc : ~/.zshrc
     {{ end }}
 
-    {{  if eq .OS "linux" }}
+    {{ if (is_installed "sheldon") }}
         ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
     {{ end }}
 
@@ -36,7 +36,10 @@
         ./shell/bash_logout:~/.bash_logout
         ./shell/bash_profile:~/.bash_profile
         ./shell/aliases : ~/.aliases
-        ./shell/env : ~/.env
+        # ./shell/env : ~/.env
+        ./shell/env_public : ~/.env_public
+
+
     {{ end }}
 
     # Linux Xorg
