@@ -38,6 +38,7 @@
         ./shell/aliases : ~/.aliases
         # ./shell/env : ~/.env
         ./shell/env_public : ~/.env_public
+        ./shell/zshenv : ~/.zshenv
 
 
     {{ end }}
