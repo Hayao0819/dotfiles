@@ -23,7 +23,11 @@
 
     # Git
     {{ if (is_installed "git") }}
-        ./git/gitconfig : ~/.gitconfig
+        {{ if eq .OS "macOS" }}
+            ./git/darwin.ini : ~/.gitconfig
+        {{ else }}
+            ./git/gitconfig.ini : ~/.gitconfig
+        {{ end }}
     {{ end }}
 
     # Bash
