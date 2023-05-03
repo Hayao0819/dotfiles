@@ -5,3 +5,5 @@ alias winestatus='echo -e "WINEPREFIX is ${WINEPREFIX}\nWINEARCH is ${WINEARCH}"
 alias phpserver='sudo php -S'
 alias adb_uninstall='adb shell pm uninstall -k --user 0'
 alias cdlico='cd "$(lico status RepoDir)"'
+alias pull='git pull'
+alias lima='lima fish'
