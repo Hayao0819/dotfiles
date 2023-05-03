@@ -16,3 +16,7 @@ export PATH="${GOPATH}/bin:$PATH"
 #-- Archive settings --#
 export ZIPINFOOPT=-OCP932
 export UNZIPOPT=-OCP932
+
+#-- XDG --#
+export XDG_CONFIG_HOME="$HOME/.config"
+
