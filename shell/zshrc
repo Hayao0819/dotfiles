@@ -12,7 +12,7 @@
 
 #-- Load config --#
 # Source global definitions
-for f in "$HOME/.aliases" "$HOME/.env"; do
+for f in "$HOME/.aliases" "$HOME/.env" "$HOME/.env_public"; do
     [[ -f "$f" ]] && source "$f"
 done
 
