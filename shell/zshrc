@@ -105,7 +105,6 @@ fi
 
 
 
-
 #-- PROMPT --#
 if [[ "${TERM}" = "linux" ]]; then
     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
@@ -136,7 +135,6 @@ case "$(uname -o)" in
         export PATH="$SNDCPY_HOME/:$PATH"
         alias sndcpy="sh sndcpy"
         
-        export PATH="$GOPATH/bin:$PATH"
         export QT_HOMEBREW=true
         export PATH="/Users/hayao/.bin/platform-tools:/opt/homebrew/opt/openjdk@17/bin:$PATH"
         ;;
