@@ -1,5 +1,5 @@
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec i3-sensible-terminal
 
 # focused window
 bindsym $mod+Shift+q kill
