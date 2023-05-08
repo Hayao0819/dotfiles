@@ -15,15 +15,21 @@
 
     {{ if (is_installed "zsh") }}
         ./shell/zshrc : ~/.zshrc
+        ./shell/zshenv : ~/.zshenv
+        ./shell/zprofile : ~/.zprofile
     {{ end }}
 
-    {{  if eq .OS "linux" }}
+    {{ if (is_installed "sheldon") }}
         ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
     {{ end }}
 
     # Git
     {{ if (is_installed "git") }}
-        ./git/gitconfig : ~/.gitconfig
+        {{ if eq .OS "macOS" }}
+            ./git/darwin.ini : ~/.gitconfig
+        {{ else }}
+            ./git/gitconfig.ini : ~/.gitconfig
+        {{ end }}
     {{ end }}
 
     # Bash
@@ -32,7 +38,8 @@
         ./shell/bash_logout:~/.bash_logout
         ./shell/bash_profile:~/.bash_profile
         ./shell/aliases : ~/.aliases
-        ./shell/env : ~/.env
+        # ./shell/env : ~/.env
+        ./shell/env_public : ~/.env_public
     {{ end }}
 
     # Linux Xorg
