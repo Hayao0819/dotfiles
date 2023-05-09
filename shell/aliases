@@ -7,3 +7,5 @@ alias adb_uninstall='adb shell pm uninstall -k --user 0'
 alias cdlico='cd "$(lico status RepoDir)"'
 alias pull='git pull'
 alias lima='lima fish'
+
+alias wine_genshin='export WINEPREFIX="$HOME/Wine/GenshinImpact/" WINEARCH=win64'
