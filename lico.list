@@ -10,8 +10,10 @@
         {{ end }}
     {{ end }}
 
-    {{ if (isunix) }}
+    {{ if or (eq .GOOS "linux") (eq .GOOS "freebsd") }}
         ./wallpapers : /usr/share/wallpapers/hayao
+    {{ else if (eq .GOOS "darwin) }}
+        ./wallpapers : /usr/local/share/wallpapers/hayao
     {{ end }}
 
 {{ else }}
