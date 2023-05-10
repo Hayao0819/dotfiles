@@ -8,11 +8,12 @@
         {{ range (readdir_files (joinpath .Repo "/root/etc/")  ) }}
             ./linux/etc/{{ . }} : /etc/{{ . }}
         {{ end }}
+    {{ end }}
 
+    {{ if (isunix) }}
         ./wallpapers : /usr/share/wallpapers/hayao
     {{ end }}
 
-    
 {{ else }}
     # 壁紙
     ./wallpapers: ~/.wallpapers
