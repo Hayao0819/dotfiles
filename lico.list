@@ -1,12 +1,12 @@
 
 {{ if or (eq .UserName "root") (eq  (environ "USER") "root") }}
     {{ if (is_installed "pacman") }}
-        ./root/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
+        ./linux/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
     {{ end }}
 
-    {{ if isunix }}
+    {{ if eq .GOOS "linux" }}
         {{ range (readdir_files (joinpath .Repo "/root/etc/")  ) }}
-            ./root/etc/{{ . }} : /etc/{{ . }}
+            ./linux/etc/{{ . }} : /etc/{{ . }}
         {{ end }}
 
         ./wallpapers : /usr/share/wallpapers/hayao
