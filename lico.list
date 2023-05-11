@@ -96,4 +96,9 @@
     {{ if (is_installed "picom") }}
        ./linux/gui/picom/picom.conf : ~/.config/picom.conf
     {{ end }}
+
+    {{ if and (is_installed "google-chrome-stable" ) (eq .OS "Arch Linux") }}
+        ./linux/gui/chrome-flags.conf: ~/.config/chrome-flags.conf
+    {{ end }}
 {{ end }}
+
