@@ -32,7 +32,7 @@ exec --no-startup-id xfce4-clipman &
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
 # picom window compositor
-exec_always --no-startup-id picom -b --config ~/.config/picom/picom.conf
+exec_always --no-startup-id picom -b --config ~/.config/picom.conf --legacy-backends
 
 # Discordで自動起動
 exec --no-startup-id discord --start-minimized
