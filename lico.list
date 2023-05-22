@@ -1,5 +1,9 @@
+# Use this file with Hayao0819/lico
+# Twitter: Hayao0819
+#  GitHub: Hayao0819
+#   Email: hayao@fascode.net
 
-{{ if or (eq .UserName "root") (eq  (environ "USER") "root") }}
+{{ if isglobal }}
     {{ if (is_installed "pacman") }}
         ./linux/pacman-hooks/disable-plasma.hook:/usr/share/libalpm/hooks/disable-plasma.hook
     {{ end }}
@@ -85,6 +89,11 @@
         ./linux/gui/i3wm : ~/.config/i3
     {{ end }}
 
+    {{ if (is_installed "sway") }}
+        ./linux/gui/sway/config : ~/.config/sway/config
+        ./linux/gui/i3wm/config.d : ~/.config/sway/config.d
+    {{ end }}
+
     {{ if (is_installed "polybar") }}
         ./linux/gui/polybar:~/.config/polybar
     {{ end }}
@@ -106,4 +115,3 @@
         ./linux/gui/chrome-flags.conf: ~/.config/chrome-flags.conf
     {{ end }}
 {{ end }}
-
