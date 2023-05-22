@@ -71,7 +71,12 @@
         ./linux/gui/konsole/Main.profile:~/.local/share/konsole/Main.profile
     {{ end }}
 
+    # Wezterm
+    {{ if (is_installed "wezterm") }}
+        ./linux/gui/wezterm.lua : ~/.wezterm.lua
+    {{ end }}
 
+    # Fcitx
     {{ if (is_installed "fcitx5" ) }}
         ./linux/gui/fcitx5 : ~/.config/fcitx5
     {{ end }}
