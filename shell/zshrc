@@ -108,7 +108,7 @@ fi
 #-- PROMPT --#
 if [[ "${TERM}" = "linux" ]]; then
     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
-elif which starship 2> /dev/null 1>&2; then
+elif which starship 2> /dev/null 1>&2 && [[ "${FORCE_POWERLINE_GO-""}" != true ]]; then
     eval "$(starship init zsh)"
 elif which powerline-go 2> /dev/null 1>&2; then
     function powerline_precmd() {
