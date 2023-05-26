@@ -34,6 +34,10 @@
         ./shell/sheldon/plugins.toml:~/.config/sheldon/plugins.toml
     {{ end }}
 
+    {{ if (is_installed "starship") }}
+        ./shell/starship.toml : ~/.config/starship.toml
+    {{ end }}
+
     # Git
     {{ if (is_installed "git") }}
         {{ if eq .OS "macOS" }}
@@ -115,3 +119,4 @@
         ./linux/gui/chrome-flags.conf: ~/.config/chrome-flags.conf
     {{ end }}
 {{ end }}
+
