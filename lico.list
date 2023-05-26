@@ -99,7 +99,7 @@
     {{ end }}
 
     {{ if (is_installed "dunst") }}
-        ./linux/gui/dunst:~/.config/dunst
+        ./linux/gui/dunst/dunstrc.ini:~/.config/dunst
     {{ end }}
 
     {{ if (is_installed "rofi") }}
