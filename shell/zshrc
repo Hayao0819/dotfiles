@@ -108,9 +108,11 @@ fi
 #-- PROMPT --#
 if [[ "${TERM}" = "linux" ]]; then
     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
+else which starship 2> /dev/null 1>&2; then
+    eval "$(starship init zsh)"
 elif which powerline-go 2> /dev/null 1>&2; then
     function powerline_precmd() {
-        PS1="$(powerline-go -error $? -shell zsh)"
+        PS1="$(powerline-go -error $? -shell zsh )"
     }
 
     function install_powerline_precmd() {
