@@ -118,5 +118,13 @@
     {{ if and (is_installed "google-chrome-stable" ) (eq .OS "Arch Linux") }}
         ./linux/gui/chrome-flags.conf: ~/.config/chrome-flags.conf
     {{ end }}
+
+    {{ if (is_installed "nano") }}
+        ./editor/nanorc : ~/.nanorc
+    {{ end }}
+
+    {{ if is_installed "neovim" }}
+        ./editor/neovim/init.vim : ~/.config/nvim/init.vim
+    {{ end }}
 {{ end }}
 
