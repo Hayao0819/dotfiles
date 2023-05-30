@@ -125,6 +125,7 @@
 
     {{ if is_installed "nvim" }}
         ./editor/neovim/init.vim : ~/.config/nvim/init.vim
+        ./editor/neovim/dotvim   : ~/.vim
     {{ end }}
 {{ end }}
 
