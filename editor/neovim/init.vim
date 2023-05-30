@@ -1,11 +1,11 @@
 " set up the dein.vim directory
-let s:dein_dir = expand('~/.nvim/')
+let s:dein_dir = expand('~/.config/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 let g:rc_dir = expand('~/.vim')
 
 " automatic installation of dein.vim
 if !isdirectory(s:dein_repo_dir)
-    execute '!git clone <https://github.com/Shougo/dein.vim>' s:dein_repo_dir
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
 execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 
