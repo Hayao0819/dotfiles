@@ -139,9 +139,9 @@ case "$(uname -o)" in
         
         export QT_HOMEBREW=true
         export PATH="/Users/hayao/.bin/platform-tools:/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+        if [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]]; then
+            source "${HOME}/.iterm2_shell_integration.zsh"
+        fi
         ;;
 esac
-
-
-
-
