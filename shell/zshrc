@@ -106,6 +106,10 @@ fi
 
 
 #-- PROMPT --#
+if [[ "$TERM_PROGRAM" = "vscode" ]]; then
+    FORCE_POWERLINE_GO=true
+fi
+
 if [[ "${TERM}" = "linux" ]]; then
     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
 elif which starship 2> /dev/null 1>&2 && [[ "${FORCE_POWERLINE_GO-""}" != true ]]; then
