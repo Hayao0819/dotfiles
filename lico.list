@@ -119,8 +119,10 @@
         ./linux/gui/chrome-flags.conf: ~/.config/chrome-flags.conf
     {{ end }}
 
-    {{ if (is_installed "nano") }}
-        ./editor/nanorc : ~/.nanorc
+    {{ if isunix }}
+        {{ if (is_installed "nano") }}
+            ./editor/nano/nanorc-{{ .GOOS }} : ~/.config/nano/nanorc  : #template
+        {{ end }}
     {{ end }}
 
     {{ if is_installed "nvim" }}
