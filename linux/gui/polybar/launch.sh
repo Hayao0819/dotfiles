@@ -5,7 +5,12 @@ while pgrep -u "$UID" -x polybar > /dev/null; do
     sleep 0.5
 done
 
-for bar in "left" "right"; do
-    polybar -r "$bar" &
+BARNAME="main"
+
+for monitor in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+    #echo "Starting top bar on monitor '$monitor'"
+    #MONITOR="$monitor" polybar top &
+    #echo "Starting bottom bar on monitor '$monitor'"
+    MONITOR="$monitor" polybar "$BARNAME" &
 done
 
