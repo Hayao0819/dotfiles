@@ -129,5 +129,9 @@
         ./editor/neovim/init.vim : ~/.config/nvim/init.vim
         ./editor/neovim/dotvim   : ~/.vim
     {{ end }}
+
+    {{ if is_exist "/usr/share/xdg-desktop-portal/portals" }}
+        ./linux/xdg-autostart/fix-portal-timeout.desktop : ~/.config/autostart/fix-portal-timeout.desktop : 
+    {{ end }}
 {{ end }}
 
