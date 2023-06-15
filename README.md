@@ -4,7 +4,9 @@
 
 ### 導入
 
-[hayao0819/lico >= v0.4.0](https://github.com/Hayao0819/lico)を使う。
+[hayao0819/lico >= v0.6.0](https://github.com/Hayao0819/lico)を使う。
+
+(リリース前の機能を多用してる場合があるのでHEADのバージョンを入れないと動かないかもしれません)
 
 
 ```bash

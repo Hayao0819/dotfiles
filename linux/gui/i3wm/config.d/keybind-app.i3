@@ -11,8 +11,8 @@ bindsym $mod+d exec --no-startup-id rofi -show combi
 bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard
 
 # Volume Control
-set $VolumeUp_CMD "pactl set-sink-volume @DEFAULT_SINK@ +1%"
-set $VolumeDown_CMD "pactl set-sink-volume @DEFAULT_SINK@ -1%"
+set $VolumeUp_CMD "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+set $VolumeDown_CMD "pactl set-sink-volume @DEFAULT_SINK@ -5%"
 bindsym XF86AudioRaiseVolume exec --no-startup-id $VolumeUp_CMD
 bindsym XF86AudioLowerVolume exec --no-startup-id $VolumeDown_CMD
 bindsym Ctrl+Shift+Up exec --no-startup-id $VolumeUp_CMD

@@ -17,13 +17,13 @@ exec --no-startup-id nm-applet
 exec_always --no-startup-id "${HOME}/.config/polybar/launch.sh"
 
 # Set wallpaper
-exec --no-startup-id "feh --bg-scale ~/.wallpapers/Sayaka.jpg"
+exec --no-startup-id feh --bg-fill ~/.wallpapers/Sayaka.jpg
 
 # start clipboard manager
 exec --no-startup-id greenclip daemon > /dev/null
 
 # start keyring daemon
-exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=ssh,secrets,pkcs11
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start "--components=ssh,secrets,pkcs11"
 
 # xfce4-screenshooterでクリップボードを使うためにxfce4-clipmanを起動
 exec --no-startup-id xfce4-clipman &
@@ -36,3 +36,5 @@ exec_always --no-startup-id picom -b --config ~/.config/picom.conf --legacy-back
 
 # Discordで自動起動
 exec --no-startup-id discord --start-minimized
+
+exec_always --no-startup-id /usr/local/bin/configure-screen
