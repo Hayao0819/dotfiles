@@ -20,3 +20,7 @@ export UNZIPOPT=-OCP932
 #-- XDG --#
 export XDG_CONFIG_HOME="$HOME/.config"
 
+
+#-- Volta --#
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
