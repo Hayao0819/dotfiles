@@ -115,7 +115,11 @@ if printf "%s\n" "${POWERLINE_GO_TERMS[@]}" | grep -x "$TERM_PROGRAM" > /dev/nul
     FORCE_POWERLINE_GO=true
 fi
 
-if [[ "${TERM}" = "linux" ]]; then
+if [[ "$TERM_PROGRAM" = "Hyper" ]]; then
+    FORCE_POWERLINE_GO=true
+fi
+
+if [[ "${TERM}" = "linux" ]] || [[ "$TERM" = "xterm" ]]; then
     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
 elif which starship 2> /dev/null 1>&2 && [[ "${FORCE_POWERLINE_GO-""}" != true ]]; then
     eval "$(starship init zsh)"
