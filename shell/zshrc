@@ -110,7 +110,8 @@ fi
 
 
 #-- PROMPT --#
-if [[ "$TERM_PROGRAM" = "vscode" ]]; then
+POWERLINE_GO_TERMS=("vscode" "Apple_Terminal")
+if printf "%s\n" "${POWERLINE_GO_TERMS[@]}" | grep -x "$TERM_PROGRAM" > /dev/null; then
     FORCE_POWERLINE_GO=true
 fi
 
@@ -120,7 +121,11 @@ elif which starship 2> /dev/null 1>&2 && [[ "${FORCE_POWERLINE_GO-""}" != true ]
     eval "$(starship init zsh)"
 elif which powerline-go 2> /dev/null 1>&2; then
     function powerline_precmd() {
-        PS1="$(powerline-go -error $? -shell zsh )"
+        if [[ "$TERM_PROGRAM" = "vscode" ]]; then
+            eval "$(powerline-go -eval  -modules "venv,user,host,ssh,cwd,perms,git,hg,jobs,exit,root"  -error $? -shell zsh)"
+        else
+            eval "$(powerline-go -eval  -modules "venv,user,host,ssh,cwd,perms,newline,root" -modules-right "git,hg,jobs,exit" -error $? -shell zsh)"
+        fi
     }
 
     function install_powerline_precmd() {
@@ -132,9 +137,9 @@ elif which powerline-go 2> /dev/null 1>&2; then
         precmd_functions+=(powerline_precmd)
     }
 
+
     install_powerline_precmd
 fi
-
 
 #-- OS Config --#
 case "$(uname -o)" in 
