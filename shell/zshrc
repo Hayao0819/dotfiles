@@ -107,6 +107,12 @@ if [[ -e "$HOME/.local/share/flutter/bin" ]]; then
     export PATH="$HOME/.local/share/flutter/bin:${PATH}"
 fi
 
+# Pyenv
+if witch pyenv 2> /dev/null 1>&2; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
 
 
 #-- PROMPT --#
@@ -159,6 +165,6 @@ case "$(uname -o)" in
         ;;
 esac
 
-    if [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]]; then
-        source "${HOME}/.iterm2_shell_integration.zsh"
-    fi
+if [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]]; then
+    source "${HOME}/.iterm2_shell_integration.zsh"
+fi
