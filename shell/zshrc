@@ -126,15 +126,16 @@ if [[ "$TERM_PROGRAM" = "Hyper" ]]; then
 fi
 
 if [[ "${TERM}" = "linux" ]] || [[ "$TERM" = "xterm" ]]; then
-    PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
+    export PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
 elif which starship 2> /dev/null 1>&2 && [[ "${FORCE_POWERLINE_GO-""}" != true ]]; then
     eval "$(starship init zsh)"
 elif which powerline-go 2> /dev/null 1>&2; then
     function powerline_precmd() {
-        if [[ "$TERM_PROGRAM" = "vscode" ]]; then
-            eval "$(powerline-go -eval  -modules "venv,user,host,ssh,cwd,perms,git,hg,jobs,exit,root"  -error $? -shell zsh)"
+        local _exit="$?"
+        if [[ "$TERM_PROGRAM" = "vscode" ]] || [[ "$TERM_PROGRAM" = "Apple_Terminal" ]]; then
+            eval "$(powerline-go -eval  -modules "venv,user,host,ssh,cwd,perms,git,hg,jobs,exit,root"  -error $_exit -shell zsh)"
         else
-            eval "$(powerline-go -eval  -modules "venv,user,host,ssh,cwd,perms,newline,root" -modules-right "git,hg,jobs,exit" -error $? -shell zsh)"
+            eval "$(powerline-go -eval  -modules "venv,user,host,ssh,cwd,perms,newline,root" -modules-right "git,hg,jobs,exit" -error $_exit -shell zsh)"
         fi
     }
 
