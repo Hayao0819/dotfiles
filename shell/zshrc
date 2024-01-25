@@ -108,9 +108,9 @@ if [[ -e "$HOME/.local/share/flutter/bin" ]]; then
 fi
 
 # Pyenv
-if witch pyenv 2> /dev/null 1>&2; then
+if which pyenv 2> /dev/null 1>&2; then
     export PYENV_ROOT="$HOME/.pyenv"
-    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
 
