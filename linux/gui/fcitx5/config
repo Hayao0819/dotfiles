@@ -48,6 +48,8 @@ EnumerateSkipFirst=False
 [Behavior]
 # デフォルトで有効にする
 ActiveByDefault=False
+# フォーカス時に状態をリセット
+resetStateWhenFocusIn=No
 # 入力状態を共有する
 ShareInputState=No
 # アプリケーションにプリエディットを表示する
@@ -72,4 +74,10 @@ EnabledAddons=
 DisabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
+# パスワード欄に入力メソッドを許可する
+AllowInputMethodForPassword=False
+# パスワード入力時にプリエディットテキストを表示する
+ShowPreeditForPassword=False
+# ユーザーデータを保存する間隔（分）
+AutoSavePeriod=30
 

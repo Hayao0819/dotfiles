@@ -90,7 +90,8 @@
     {{ end }}
 
     {{ if (is_installed "i3") }}
-        ./linux/gui/i3wm : ~/.config/i3
+        ./linux/gui/i3wm/config.i3wm : ~/.config/i3/config
+        ./linux/gui/i3wm/config.d : ~/.config/i3/config.d
     {{ end }}
 
     {{ if (is_installed "sway") }}

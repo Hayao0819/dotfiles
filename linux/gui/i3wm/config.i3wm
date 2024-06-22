@@ -12,4 +12,4 @@ font pango:SauceCodePro Nerd Font Mono 8
 gaps inner 5
 
 # Include files
-Include ~/.config/i3/config.d/*
+Include ~/.config/i3/config.d/*.i3wm
