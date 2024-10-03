@@ -1,6 +1,0 @@
-[[plugins]]
-repo = 'Shougo/dein.vim'
-
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
