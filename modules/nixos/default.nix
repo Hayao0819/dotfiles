@@ -3,4 +3,7 @@
 {
   # List your module files here
   zsh = import ./zsh;
+  gnome = import ./gnome;
+  locale = import ./locale;
+  network = import ./network;
 }
