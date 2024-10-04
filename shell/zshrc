@@ -163,6 +163,17 @@ case "$(uname -o)" in
         
         export QT_HOMEBREW=true
         export PATH="/Users/hayao/.bin/platform-tools:/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+        # mactex
+        while read -r dir; do
+            export PATH="/usr/local/texlive/${dir}/bin/universal-darwin:$PATH"
+        done < <(printf "%s\n" /usr/local/texlive/*  | rev | cut -d "/" -f 1 | rev | grep -e '^[0-9]*$')
+
+        # homebrew google-cloud-sdk
+        # shellcheck source=/dev/null
+        source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+        # shellcheck source=/dev/null
+        source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
         ;;
 esac
 
