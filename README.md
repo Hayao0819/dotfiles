@@ -1,23 +1,9 @@
-## Dotfiles
+# Dotfiles
 
-個人用Dotfilesです。
+Nix入門しました。
 
-### 導入
-
-[hayao0819/lico >= v0.6.0](https://github.com/Hayao0819/lico)を使う。
-
-(リリース前の機能を多用してる場合があるのでHEADのバージョンを入れないと動かないかもしれません)
-
-
-```bash
-sudo sh -c "$(curl -L https://raw.githubusercontent.com/Hayao0819/lico/master/dl.sh)"
-lico init "https://github.com/Hayao0819/dotfiles.git"
-lico set
-```
-
-### Special Thanks
+## Special Thanks
 
 - [watasuke102/dotfiles](https://github.com/watasuke102/dotfiles) 非常に参考にさせていただいております
+- [orzklv/nix](https://github.com/orzklv/nix) 非常に参考にさせていただいております2️⃣
 - [watasuke102/mit-sushi-ware](https://github.com/watasuke102/mit-sushi-ware) MIT-SUSHI-WARE ライセンス
-
-
