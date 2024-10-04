@@ -21,7 +21,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-    # Supported systems for your flake packages, shell, etc.
+    # このFlakesでサポートするシステム
     systems = [
       "aarch64-linux"
       "i686-linux"
@@ -29,6 +29,7 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
+
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
@@ -42,9 +43,11 @@
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
+  
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
+  
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
@@ -53,7 +56,7 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       # Inspiron 5450
-      inspiron5450 = nixpkgs.lib.nixosSystem {
+      inspiron5490 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
@@ -65,13 +68,21 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      # FIXME replace with your username@hostname
-      "hayao@inspiron5450" = home-manager.lib.homeManagerConfiguration {
+      "hayao@Inspiron5490" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
-          ./home-manager/home.nix
+          ./home/linux.nix
+        ];
+      };
+
+      "hayao@MacBookProM1" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          # > Our main home-manager configuration file <
+          ./home/darwin.nix
         ];
       };
     };
