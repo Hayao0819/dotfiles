@@ -46,7 +46,13 @@
 
       # Development environment
       # Accessible through 'nix develop' or 'nix develop -c $SHELL' if you're zsh user
-      devShells = forAllSystems (system: import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; });
+      devShells = forAllSystems
+        (system: {
+          default = import ./shell.nix
+            {
+              pkgs = nixpkgs.legacyPackages.${system};
+            };
+        });
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };

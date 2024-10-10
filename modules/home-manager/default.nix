@@ -4,4 +4,5 @@
   # List your module files here
   git = import ./git;
   zsh = import ./zsh;
+  pkgs = import ./pkgs;
 }
