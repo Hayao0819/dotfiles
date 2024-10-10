@@ -41,18 +41,18 @@
       edit = "hx";
 
       # Made with Rust
-      # top = "btop";
-      # cat = "bat";
-      # ls = "eza";
-      # sl = "eza";
-      # ps = "procs";
-      # grep = "rg";
-      # search = "rg";
-      # look = "fd";
-      # find = "fd";
-      # ping = "gping";
-      # time = "hyperfine";
-      # korgi = "cargo";
+      top = "btop";
+      cat = "bat";
+      ls = "eza";
+      sl = "eza";
+      ps = "procs";
+      grep = "rg";
+      search = "rg";
+      look = "fd";
+      find = "fd";
+      ping = "gping";
+      time = "hyperfine";
+      korgi = "cargo";
 
       # Refresh
       refresh = "source ~/.zshrc";
