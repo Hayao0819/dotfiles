@@ -1,6 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   imports = [
-    ./zoxide.nix
     ./starship.nix
   ];
 
@@ -11,7 +10,7 @@
     enable = true;
 
     # ZSH Autosuggestions
-    # The option `programs.zsh.enableAutosuggestions' defined in config 
+    # The option `programs.zsh.enableAutosuggestions' defined in config
     # has been renamed to `programs.zsh.autosuggestion.enable'.
     autosuggestion.enable = true;
 
