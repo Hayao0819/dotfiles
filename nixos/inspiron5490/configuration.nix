@@ -7,13 +7,26 @@
 # - Import network module
 # - Import locale module
 
-{ config, pkgs, ... }:
+{ config, pkgs, outputs, inputs, ... }:
 
 {
   imports =
     [
+      # You can import other NixOS modules here
+      outputs.nixosModules.zsh
+      outputs.nixosModules.network
+      outputs.nixosModules.locale
+      outputs.nixosModules.gnome
+
+      # Or modules from other flakes (such as nixos-hardware):
+      # inputs.hardware.nixosModules.common-cpu-amd
+      # inputs.hardware.nixosModules.common-ssd
+
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      # Home Manager NixOS Module
+      inputs.home-manager.nixosModules.home-manager
     ];
 
   # Bootloader.
@@ -22,19 +35,6 @@
 
   networking.hostName = "Inspiron5490"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -63,17 +63,27 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       # Add GUI apps only here
+      # Add CLI apps at modules/home-manager/pkgs/*
+      # e.g: discord, telegram-desktop, spotify, firefox
+      firefox-bin
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
+  home-manager = {
+    extraSpecialArgs = { inherit inputs outputs; };
+    users = {
+      # Import your home-manager configuration
+      hayao = import ../../home/linux.nix;
+    };
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  # > Tip: Don't use unless your machine has multiple user
+  # > Instead, use modules/home-manager/pkgs to define pkgs
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget

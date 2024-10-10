@@ -27,7 +27,8 @@
       "...." = "cd ../..";
       "celar" = "clear";
       ":q" = "exit";
-      neofetch = "neofetch --source ~/.config/neofetch/logo.ascii";
+      neofetch = "fastfetch";
+      fetch = "fastfetch";
       ssh-hosts = "grep -P \"^Host ([^*]+)$\" $HOME/.ssh/config | sed 's/Host //'";
 
       # Polite motherfucker!
@@ -40,22 +41,23 @@
       edit = "hx";
 
       # Made with Rust
-      top = "btop";
-      cat = "bat";
-      ls = "eza";
-      sl = "eza";
-      ps = "procs";
-      grep = "rg";
-      search = "rg";
-      look = "fd";
-      find = "fd";
-      ping = "gping";
-      time = "hyperfine";
-      korgi = "cargo";
+      # top = "btop";
+      # cat = "bat";
+      # ls = "eza";
+      # sl = "eza";
+      # ps = "procs";
+      # grep = "rg";
+      # search = "rg";
+      # look = "fd";
+      # find = "fd";
+      # ping = "gping";
+      # time = "hyperfine";
+      # korgi = "cargo";
 
       # Refresh
       refresh = "source ~/.zshrc";
-      clean = "nix store gc && nix-collect-garbage -d";
+      clean-cache = "nix store gc";
+      clean-generations = "nix-collect-garbage -d";
 
       # Zellij
       hack = "zellij";
@@ -69,11 +71,12 @@
       dockfm = "docker ps --all --format \"NAME:   {{.Names}}\nSTATUS: {{.Status}}\nPORTS:  {{.Ports}}\n\"";
 
       # Updating system
-      update = "home-manager switch --flake github:orzklv/nix --upgrade";
-      update-all = "sudo nixos-rebuild switch --flake github:orzklv/nix --upgrade";
+      # TODO: Change Hayao0819/dotfiles/nix to Hayao0819/dotfiles after merging to master
+      update-home = "home-manager switch --flake github:Hayao0819/dotfiles/nix --upgrade";
+      update-system = "sudo nixos-rebuild switch --flake github:Hayao0819/dotfiles/nix --upgrade";
 
       nix-shell = "nix-shell --run zsh";
-      ndm = "nix develop -c \"$SHELL\"";
+      nix-develop = "nix develop -c \"$SHELL\"";
     };
 
     # Extra manually typed configs
