@@ -62,7 +62,7 @@
     description = "Hayao";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      git
+      # Add GUI apps only here
     ];
   };
 
