@@ -63,7 +63,7 @@
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         # Inspiron 5450
-        inspiron5490 = nixpkgs.lib.nixosSystem {
+        Inspiron5490 = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main nixos configuration file <

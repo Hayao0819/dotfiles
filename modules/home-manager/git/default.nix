@@ -49,9 +49,7 @@
       then ''
         pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
       ''
-      # TODO: Change kwallet to gnome keyring
       else ''
-        pinentry-program ${pkgs.kwalletcli}/bin/pinentry-kwallet
       '';
 
     home.file.".gnupg/gpg.conf".text =
