@@ -3,7 +3,7 @@ name: Test Home Manager
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-x86_64:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,26 @@ jobs:
 
       - name: Build the flake
         run: nix build .#homeConfigurations.hayao@unstable.activationPackage --show-trace
+
+      - name: Test installation
+        run: nix profile install --profile /tmp/test-profile .
+
+  build-arm64:
+    runs-on: macos-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Build the flake
+        run: nix build .#homeConfigurations.hayao@darwin-unstable.activationPackage --show-trace
 
       - name: Test installation
         run: nix profile install --profile /tmp/test-profile .

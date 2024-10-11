@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
 fi
 
 # Search for the argument
-figlet -f slant $1
+figlet -f slant "$1"
 
 if [[ "$(uname)" == "Linux" && -f /etc/nixos/configuration.nix ]]; then
   alias open="xdg-open"
