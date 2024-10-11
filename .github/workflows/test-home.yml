@@ -21,7 +21,8 @@ jobs:
         run: nix build .#homeConfigurations.hayao@unstable.activationPackage --show-trace
 
       - name: Test installation
-        run: nix profile install --profile /tmp/test-profile .
+        # run: nix profile install --profile /tmp/test-profile .
+        run: nix run github:nix-community/home-managner -- switch --flake .#hayao@unstable
 
   build-arm64:
     runs-on: macos-latest
@@ -41,4 +42,5 @@ jobs:
         run: nix build .#homeConfigurations.hayao@darwin-unstable.activationPackage --show-trace
 
       - name: Test installation
-        run: nix profile install --profile /tmp/test-profile .
+        # run: nix profile install --profile /tmp/test-profile .
+        run: nix run github:nix-community/home-managner -- switch --flake .#darwin-unstable
