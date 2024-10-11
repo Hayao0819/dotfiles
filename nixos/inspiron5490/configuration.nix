@@ -77,6 +77,9 @@
     };
   };
 
+  # Don't ask for password
+  security.sudo.wheelNeedsPassword = false;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
