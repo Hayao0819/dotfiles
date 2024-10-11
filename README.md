@@ -16,9 +16,9 @@ sudo nixos-rebuild boot --flake github:Hayao0819/dotfiles/nix#Inspiron5490 --upg
 ```shell
 # Any Linux
 ## Stable
-nix run github:nix-community/home-managner -- switch --flake github:Hayao0819/dotfiles/nix#hayao@stable
+nix run github:nix-community/home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@stable
 ## Unstable
-nix run github:nix-community/home-managner -- switch --flake github:Hayao0819/dotfiles/nix#hayao@unstable
+nix run github:nix-community/home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@unstable
 
 # MacBook
 ## Stable
