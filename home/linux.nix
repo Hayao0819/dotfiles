@@ -51,6 +51,7 @@
   home = {
     username = "hayao";
     homeDirectory = "/home/hayao";
+    enableNixpkgsReleaseCheck = false;
   };
 
   # Add stuff for your user as you see fit:
