@@ -22,7 +22,7 @@ jobs:
 
       - name: Test installation
         # run: nix profile install --profile /tmp/test-profile .
-        run: nix run github:nix-community/home-managner -- switch --flake .#hayao@unstable
+        run: nix run github:nix-community/home-manager -- switch --flake .#hayao@unstable
 
   build-arm64:
     runs-on: macos-latest
@@ -43,4 +43,4 @@ jobs:
 
       - name: Test installation
         # run: nix profile install --profile /tmp/test-profile .
-        run: nix run github:nix-community/home-managner -- switch --flake .#darwin-unstable
+        run: nix run github:nix-community/home-manager -- switch --flake .#darwin-unstable
