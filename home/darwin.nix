@@ -13,6 +13,7 @@
     # outputs.homeManagerModules.example
     outputs.homeManagerModules.git
     outputs.homeManagerModules.zsh
+    outputs.homeManagerModules.pkgs
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default

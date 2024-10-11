@@ -33,7 +33,7 @@
   pkgs.tealdeer
   pkgs.topgrade
 
-  # For Prismlauncher
+  # For Prismlauncher & Minecraft
   pkgs.jdk17
 
   # Media encode & decode
@@ -47,4 +47,6 @@
   pkgs.gnupg
 
   # Selfmade programs
+  pkgs.hello
+  pkgs.roulette
 ]

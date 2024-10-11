@@ -49,6 +49,7 @@
       then ''
         pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
       ''
+      # Linux should use whatever comes with DE
       else ''
       '';
 
