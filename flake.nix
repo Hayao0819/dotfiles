@@ -83,24 +83,24 @@
         Installer = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ({ pkgs, modulesPath, ... }: {
+            ({ pkgs, config, lib, modulesPath, ... }:
+              let
+                zfsCompatibleKernelPackages = lib.filterAttrs (
+                  name: kernelPackages:
+                  (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+                  && (builtins.tryEval kernelPackages).success
+                  && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+                ) pkgs.linuxKernel.packages;
+                latestKernelPackage = lib.last (
+                  lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
+                    builtins.attrValues zfsCompatibleKernelPackages
+                  )
+                );
+              in
+              {
               imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
-              boot.kernelPackages = pkgs.linuxPackages_latest;
 
-              nixpkgs.overlays = [
-                (final: prev: {
-                  linuxPackages_latest = prev.linuxPackages_latest // {
-                    zfs = prev.linuxPackages_latest.zfs.overrideAttrs (oldAttrs: rec {
-                      meta.broken = false;
-                      version = "2.3.0-rc2";
-                      src = prev.fetchurl {
-                        url = "https://github.com/openzfs/zfs/releases/download/zfs-${version}/zfs-${version}.tar.gz";
-                        hash = "sha256-JrMgwN3d475ZiFQUcPM2/097vDL0J1G8SG0ar5bYzj8=";
-                      };
-                    });
-                  };
-                })
-              ];
+              boot.kernelPackages = latestKernelPackage;
             })
           ];
         };
