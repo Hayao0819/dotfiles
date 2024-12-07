@@ -13,6 +13,7 @@
       outputs.nixosModules.locale
       outputs.nixosModules.gnome
       outputs.nixosModules.common
+      outputs.nixosModules.systemd-boot
 
       # Or modules from other flakes (such as nixos-hardware):
       # inputs.hardware.nixosModules.common-cpu-amd
@@ -25,9 +26,7 @@
       inputs.home-manager.nixosModules.home-manager
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+
 
   networking.hostName = "Inspiron5490"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

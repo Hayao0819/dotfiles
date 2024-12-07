@@ -7,4 +7,5 @@
   locale = import ./locale;
   network = import ./network;
   common = import ./common.nix;
+  systemd-boot = import ./systemd-boot
 }
