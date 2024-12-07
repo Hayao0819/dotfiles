@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   config = {
     # Enable the X11 windowing system.
     services = {
@@ -28,19 +30,26 @@
       enable32Bit = true;
     };
 
-    # Exclude some packages from the Gnome desktop environment.
-    environment.gnome.excludePackages =
-      (with pkgs; [
-        xterm
-        firefox
-      ])
-      ++ (with pkgs; [
-        tali # poker game
-        iagno # go game
-        hitori # sudoku game
-        atomix # puzzle game
-        # epiphany # web browser
-      ]);
+    environment.gnome.excludePackages = (with pkgs; [
+      xterm
+      firefox
+      gnome-photos
+      gnome-tour
+      gedit # text editor
+    ]) ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gnome-terminal
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
 
     # Setting daemons
     services = {
