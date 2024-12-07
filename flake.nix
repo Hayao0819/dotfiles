@@ -85,7 +85,7 @@
           modules = [
             ({ pkgs, modulesPath, ... }: {
               imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
-              boot.kernelPackages = pkgs.linuxPackages_latest;
+              boot.kernelPackages = pkgs.linuxPackages_latest_hardened;
             })
           ];
         };
