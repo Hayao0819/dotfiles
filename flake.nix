@@ -80,6 +80,15 @@
             ./nixos/inspiron5490/configuration.nix
           ];
         };
+        Installer = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ({ pkgs, modulesPath, ... }: {
+              imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
+              boot.kernelPackages = pkgs.linuxKernel.kernels.linux_6_11;
+            })
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
