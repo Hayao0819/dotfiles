@@ -1,7 +1,7 @@
 {...}:
 
 {
-  home-manager.users.myuser = {
+  home-manager.users.hayao = {
     dconf = {
       enable = true;
       settings."org/gnome/shell" = {
