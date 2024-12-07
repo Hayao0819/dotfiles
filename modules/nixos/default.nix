@@ -6,4 +6,5 @@
   gnome = import ./gnome;
   locale = import ./locale;
   network = import ./network;
+  common = import ./common;
 }
