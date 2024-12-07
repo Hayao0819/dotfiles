@@ -87,20 +87,31 @@
               imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
               boot.kernelPackages = pkgs.linuxPackages_latest;
 
-              nixpkgs.overlays = [
-                (final: prev: {
-                  linuxPackages_latest = prev.linuxPackages_latest // {
-                    zfs = prev.linuxPackages_latest.zfs.overrideAttrs (oldAttrs: rec {
-                      meta.broken = false;
-                      version = "2.3.0-rc2";
-                      src = prev.fetchurl {
-                        url = "https://github.com/openzfs/zfs/releases/download/zfs-${version}/zfs-${version}.tar.gz";
-                        hash = "sha256-JrMgwN3d475ZiFQUcPM2/097vDL0J1G8SG0ar5bYzj8=";
-                      };
-                    });
+              boot.extraModulePackages = [
+                (pkgs.linuxPackages_latest.zfs.overrideAttrs (oldAttrs: rec {
+                  meta.broken = false;
+                  version = "2.3.0-rc2";
+                  src = pkgs.fetchurl {
+                    url = "https://github.com/openzfs/zfs/releases/download/zfs-${version}/zfs-${version}.tar.gz";
+                    hash = "sha256-JrMgwN3d475ZiFQUcPM2/097vDL0J1G8SG0ar5bYzj8=";
                   };
-                })
+                }))
               ];
+
+              # nixpkgs.overlays = [
+              #   (final: prev: {
+              #     linuxPackages_latest = prev.linuxPackages_latest // {
+              #       zfs = prev.linuxPackages_latest.zfs.overrideAttrs (oldAttrs: rec {
+              #         meta.broken = false;
+              #         version = "2.3.0-rc2";
+              #         src = prev.fetchurl {
+              #           url = "https://github.com/openzfs/zfs/releases/download/zfs-${version}/zfs-${version}.tar.gz";
+              #           hash = "sha256-JrMgwN3d475ZiFQUcPM2/097vDL0J1G8SG0ar5bYzj8=";
+              #         };
+              #       });
+              #     };
+              #   })
+              # ];
             })
           ];
         };
