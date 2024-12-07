@@ -23,10 +23,9 @@
     };
 
     # Make sure opengl is enabled
-    hardware.opengl = {
+    hardware.graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
     };
 
     # Exclude some packages from the Gnome desktop environment.
@@ -35,7 +34,7 @@
         xterm
         firefox
       ])
-      ++ (with pkgs.gnome; [
+      ++ (with pkgs; [
         tali # poker game
         iagno # go game
         hitori # sudoku game
@@ -46,7 +45,7 @@
     # Setting daemons
     services = {
       # Udev daemon management
-      udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+      udev.packages = with pkgs; [ gnome-settings-daemon ];
     };
 
     programs.gnupg.agent = {
@@ -64,8 +63,8 @@
 
     # Enable the Gnome Tweaks tool.
     environment.systemPackages = with pkgs; [
-      gnome.dconf-editor
-      gnome.gnome-tweaks
+      dconf-editor
+      gnome-tweaks
       gnomeExtensions.appindicator
       gnomeExtensions.dash-to-dock
       gnomeExtensions.gsconnect
