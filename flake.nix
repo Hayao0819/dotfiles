@@ -88,7 +88,7 @@
               imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
 
               boot.supportedFilesystems = [ "zfs" ];
-              boot.kernelPackages = pkgs.linuxPackages_6_10;
+              boot.kernelPackages = pkgs.linuxPackages_6_11;
             })
           ];
         };
