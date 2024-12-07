@@ -83,10 +83,24 @@
         Installer = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ({ pkgs, config, modulesPath, ... }: {
+            ({ pkgs, config, lib, modulesPath, ... }:
+              let
+                zfsCompatibleKernelPackages = lib.filterAttrs (
+                  name: kernelPackages:
+                  (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+                  && (builtins.tryEval kernelPackages).success
+                  && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+                ) pkgs.linuxKernel.packages;
+                latestKernelPackage = lib.last (
+                  lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
+                    builtins.attrValues zfsCompatibleKernelPackages
+                  )
+                );
+              in
+              {
               imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
 
-              boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+              boot.kernelPackages = latestKernelPackage;
             })
           ];
         };
