@@ -8,12 +8,12 @@
   imports =
     [
       # You can import other NixOS modules here
-      outputs.nixosModules.zsh
-      outputs.nixosModules.network
-      outputs.nixosModules.locale
-      outputs.nixosModules.gnome
-      outputs.nixosModules.common
-      outputs.nixosModules.systemd-boot
+      outputs.modules.nixos.zsh
+      outputs.modules.nixos.network
+      outputs.modules.nixos.locale
+      outputs.modules.nixos.gnome
+      outputs.modules.nixos.common
+      outputs.modules.nixos.systemd-boot
       # outputs.nixosModules.grub
       # { device = "/dev/nvme0n1"; }
 
@@ -53,7 +53,7 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      hayao = import ../../home/linux.nix;
+      hayao = import ../../home/linux;
     };
   };
 
