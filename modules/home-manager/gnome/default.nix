@@ -11,6 +11,7 @@
         gsconnect.extensionUuid
         arcmenu.extensionUuid
         dash-to-panel.extensionUuid
+        appindicator.extensionUuid
       ];
     };
 

@@ -70,13 +70,15 @@
       enable = true;
     };
 
-    # Enable the Gnome Tweaks tool.
+    # Install packages
+    # TODO: Move to user-wide configuration
     environment.systemPackages = with pkgs; [
       dconf-editor
       gnome-tweaks
       gnomeExtensions.appindicator
-      gnomeExtensions.dash-to-dock
       gnomeExtensions.gsconnect
+      gnomeExtensions.arcmenu
+      gnomeExtensions.dash-to-panel
     ];
   };
 }
