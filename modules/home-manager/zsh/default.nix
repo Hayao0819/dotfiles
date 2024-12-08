@@ -1,6 +1,8 @@
 { pkgs, ... }: {
+
   imports = [
-    ./starship.nix
+    ./sheldon.nix
+    ./powerline-go.nix
   ];
 
   # I use zsh, but bash and fish work just as well here. This will setup
@@ -21,54 +23,9 @@
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      # General aliases
-      down = "cd ~/Downloads";
+
       ".." = "cd ..";
       "...." = "cd ../..";
-      "celar" = "clear";
-      ":q" = "exit";
-      neofetch = "fastfetch";
-      fetch = "fastfetch";
-      ssh-hosts = "grep -P \"^Host ([^*]+)$\" $HOME/.ssh/config | sed 's/Host //'";
-
-      # Polite motherfucker!
-      # Do you speak it?!
-      please = "sudo";
-      move = "mv";
-      copy = "cp";
-      remove = "rm";
-      list = "ls";
-      edit = "hx";
-
-      # Made with Rust
-      top = "btop";
-      cat = "bat";
-      ls = "eza";
-      sl = "eza";
-      ps = "procs";
-      grep = "rg";
-      search = "rg";
-      look = "fd";
-      find = "fd";
-      ping = "gping";
-      time = "hyperfine";
-      korgi = "cargo";
-
-      # Refresh
-      refresh = "source ~/.zshrc";
-      clean-cache = "nix store gc";
-      clean-generations = "nix-collect-garbage -d";
-
-      # Zellij
-      hack = "zellij";
-
-      # Others (Developer)
-      ports = "sudo lsof -PiTCP -sTCP:LISTEN";
-      rit = "gitui";
-      dotenv = "eval export $(cat .env)";
-      xclip = "xclip -selection c";
-      speedtest = "curl -o /dev/null cachefly.cachefly.net/100mb.test";
-      dockfm = "docker ps --all --format \"NAME:   {{.Names}}\nSTATUS: {{.Status}}\nPORTS:  {{.Ports}}\n\"";
 
       # Updating system
       # TODO: Change Hayao0819/dotfiles/nix to Hayao0819/dotfiles after merging to master
