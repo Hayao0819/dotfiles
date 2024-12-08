@@ -26,6 +26,7 @@
     , nixpkgs
     , home-manager
     , nixpkgs-unstable
+    , nix-darwin
     , ...
     } @ inputs:
     let
@@ -78,7 +79,7 @@
       # Darwin configuration entrypoint
       # Available through 'darwin-rebuild build --flake .#your-hostname'
       # Stored at/as root/darwin/<alias name for machine>/*.nix
-      darwinConfigurations = import ./darwin { inherit inputs outputs; };
+      darwinConfigurations = import ./darwin { inherit inputs outputs nix-darwin; };
 
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
