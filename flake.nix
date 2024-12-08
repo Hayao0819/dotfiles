@@ -1,18 +1,29 @@
 {
   description = "Your new nix config";
 
-  inputs = {
-    # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+  inputs =
+    {
+      # Nixpkgs
+      nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
-    # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  };
+      # You can access packages and modules from different nixpkgs revs
+      # at the same time. Here's an working example:
+      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+      # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+
+
+
+      # Nix-darwin for macOS systems management
+      nix-darwin = {
+        url = "github:LnL7/nix-darwin";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      # Home manager
+      home-manager.url = "github:nix-community/home-manager/release-24.11";
+      home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    };
+
 
   outputs =
     { self
@@ -61,84 +72,34 @@
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
 
-      # Reusable nixos modules you might want to export
-      # These are usually stuff you would upstream into nixpkgs
-      nixosModules = import ./modules/nixos;
-
-      # Reusable home-manager modules you might want to export
-      # These are usually stuff you would upstream into home-manager
-      homeModules = import ./modules/home-manager;
+      # My nix modules
+      modules = import ./modules; #{ inherit inputs; };
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
-      nixosConfigurations = {
-        # Inspiron 5450
-        Inspiron5490 = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main nixos configuration file <
-            ./nixos/inspiron5490/configuration.nix
-          ];
-        };
-        Installer = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ({ pkgs, modulesPath, ... }:
-              {
-              imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
+      nixosConfigurations = import ./nixos { inherit inputs outputs; };
 
-              boot.supportedFilesystems = [ "zfs" ];
-              boot.kernelPackages = pkgs.linuxPackages_6_11;
-            })
-          ];
-        };
+
+      # Darwin configuration entrypoint
+      # Available through 'darwin-rebuild build --flake .#your-hostname'
+      # Stored at/as root/darwin/<alias name for machine>/*.nix
+      darwinConfigurations = self.lib.config.attrSystem {
+        inherit inputs outputs;
+        type = "darwin";
+        list = [
+          {
+            name = "Sokhibjons-MacBook-Pro";
+            alias = "macbook-pro";
+          }
+          {
+            name = "Sokhibjons-Mac-Studio";
+            alias = "mac-studio";
+          }
+        ];
       };
 
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
-      homeConfigurations = {
-        # Stable Home Manager for Non NixOS
-        "hayao@stable" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main home-manager configuration file <
-            ./home/linux.nix
-          ];
-        };
-
-        # Unstable latest rolling Home Manager for Non NixOS
-        "hayao@unstable" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main home-manager configuration file <
-            ./home/linux.nix
-          ];
-        };
-
-        # Stabel darwin Home Manager
-        "hayao@darwin-stable" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main home-manager configuration file <
-            ./home/darwin.nix
-          ];
-        };
-
-        # Unstabel darwin Home Manager
-        "hayao@darwin-unstable" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main home-manager configuration file <
-            ./home/darwin.nix
-          ];
-        };
-
-        # Alias to darwin-unstable for Personal MacBook for autodetection
-        "hayao@MacBookProM1" = self.homeConfigurations."hayao@darwin-stable"; # MacBook Pro M1
-      };
+      homeConfigurations = ./home; # { inherit inputs outputs; };
     };
 }
