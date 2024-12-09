@@ -28,6 +28,18 @@
           boot.supportedFilesystems.zfs = lib.mkForce false;
           boot.kernelPackages = pkgs.linuxPackages_latest;
 
+          nixpkgs = {
+            config = {
+              # Disable if you don't want unfree packages
+              allowUnfree = true;
+              allowUnsupportedSystem = true;
+            };
+          };
+
+          nix.settings = {
+            # Enable flakes and new 'nix' command
+            experimental-features = "nix-command flakes";
+          };
         })
     ];
   };
