@@ -19,12 +19,15 @@
   Installer = nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
-      ({ pkgs, modulesPath, ... }:
+      ({ pkgs, lib, modulesPath, ... }:
         {
-          imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix") ];
+          imports = [
+            (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix")
+          ];
 
-          boot.supportedFilesystems = [ "zfs" ];
-          boot.kernelPackages = pkgs.linuxPackages_6_11;
+          boot.supportedFilesystems.zfs = lib.mkForce false;
+          boot.kernelPackages = pkgs.linuxPackages_latest;
+
         })
     ];
   };
