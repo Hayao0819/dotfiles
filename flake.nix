@@ -74,6 +74,7 @@
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
+
       nixosConfigurations = import ./nixos { inherit inputs outputs nixpkgs; };
 
       # Darwin configuration entrypoint
