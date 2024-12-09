@@ -28,9 +28,7 @@
       inputs.home-manager.nixosModules.home-manager
     ];
 
-
-
-  networking.hostName = "Inspiron5490"; # Define your hostname.
+  networking.hostName = "XPS9350"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable touchpad support (enabled default in most desktopManager).
