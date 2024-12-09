@@ -7,6 +7,15 @@
       ./inspiron5490/configuration.nix
     ];
   };
+
+  XPS9350 = nixpkgs.lib.nixosSystem {
+    specialArgs = { inherit inputs outputs; };
+    modules = [
+      # > Our main nixos configuration file <
+      ./xps9350/configuration.nix
+    ];
+  };
+
   Installer = nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
