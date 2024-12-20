@@ -14,7 +14,7 @@
       outputs.modules.nixos.gnome
       outputs.modules.nixos.common
       #outputs.modules.nixos.systemd-boot
-      outputs.nixosModules.grub
+      outputs.modules.nixos.grub
 
       # Or modules from other flakes (such as nixos-hardware):
       # inputs.hardware.nixosModules.common-cpu-amd
