@@ -19,5 +19,12 @@
     settings."org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
+
+    # Power management
+    settings."org/gnome/settings-daemon/plugins/power" = {
+      power-saver-profile-on-low-battery = false;
+      sleep-inactive-ac-timeout = 0;
+      sleep-inactive-battery-timeout = 0;
+    };
   };
 }
