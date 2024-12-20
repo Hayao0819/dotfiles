@@ -1,4 +1,4 @@
-{ device or "nodev", ... }:
+{ device = "nodev", ... }:
 {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = true;
