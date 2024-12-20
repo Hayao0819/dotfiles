@@ -13,9 +13,8 @@
       outputs.modules.nixos.locale
       outputs.modules.nixos.gnome
       outputs.modules.nixos.common
-      outputs.modules.nixos.systemd-boot
-      # outputs.nixosModules.grub
-      # { device = "/dev/nvme0n1"; }
+      #outputs.modules.nixos.systemd-boot
+      outputs.nixosModules.grub
 
       # Or modules from other flakes (such as nixos-hardware):
       # inputs.hardware.nixosModules.common-cpu-amd
