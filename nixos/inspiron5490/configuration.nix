@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, outputs, inputs, ... }:
+{ pkgs, outputs, inputs, ... }:
 
 {
   imports =
@@ -56,15 +56,6 @@
       hayao = import ../../home/linux;
     };
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # > Tip: Don't use unless your machine has multiple user
-  # > Instead, use modules/home-manager/pkgs to define pkgs
-  environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-  ];
 
 
   # This value determines the NixOS release from which the default

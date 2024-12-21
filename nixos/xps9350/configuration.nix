@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, outputs, inputs, ... }:
+{ pkgs, outputs, inputs, ... }:
 
 {
   imports =
@@ -40,9 +40,11 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       # Add GUI apps only here
-      # Add CLI apps at modules/home-manager/pkgs/*
-      # e.g: discord, telegram-desktop, spotify, firefox
+
       firefox-bin
+
+
+
     ];
   };
 
@@ -58,10 +60,11 @@
   # $ nix search wget
   # > Tip: Don't use unless your machine has multiple user
   # > Instead, use modules/home-manager/pkgs to define pkgs
-  environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-  ];
+  environment.systemPackages = #with pkgs; 
+    [
+      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      #  wget
+    ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 

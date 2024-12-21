@@ -30,13 +30,7 @@
       enable32Bit = true;
     };
 
-    environment.gnome.excludePackages = (with pkgs; [
-      xterm
-      firefox
-      gnome-photos
-      gnome-tour
-      gedit # text editor
-    ]) ++ (with pkgs; [
+    environment.gnome.excludePackages = with pkgs; [
       cheese # webcam tool
       gnome-music
       gnome-terminal
@@ -49,7 +43,13 @@
       iagno # go game
       hitori # sudoku game
       atomix # puzzle game
-    ]);
+      xterm
+      firefox
+      gnome-photos
+      gnome-tour
+      gedit # text editor
+      gnome.yelp
+    ];
 
     # Setting daemons
     services = {
@@ -71,7 +71,6 @@
     };
 
     # Install packages
-    # TODO: Move to user-wide configuration
     environment.systemPackages = with pkgs; [
       dconf-editor
       gnome-tweaks
