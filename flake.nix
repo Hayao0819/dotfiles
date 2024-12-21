@@ -82,7 +82,7 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
 
-      nixosConfigurations = import ./nixos { inherit inputs outputs nixpkgs; };
+      nixosConfigurations = import ./nixos { inherit inputs outputs nixpkgs nixpkgs-unstable; };
 
       # Darwin configuration entrypoint
       # Available through 'darwin-rebuild build --flake .#your-hostname'
