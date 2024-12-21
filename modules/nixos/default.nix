@@ -6,6 +6,7 @@
   gnome = import ./gnome;
   locale = import ./locale;
   network = import ./network;
+  nixpkgs = import ./nixpkgs;
   common = import ./common.nix;
   systemd-boot = import ./systemd-boot;
   grub = import ./grub;

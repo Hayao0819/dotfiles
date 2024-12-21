@@ -12,6 +12,7 @@
       outputs.modules.nixos.network
       outputs.modules.nixos.locale
       outputs.modules.nixos.gnome
+      outputs.modules.nixos.nixpkgs
       outputs.modules.nixos.common
       #outputs.modules.nixos.systemd-boot
       outputs.modules.nixos.grub
@@ -60,7 +61,7 @@
   # $ nix search wget
   # > Tip: Don't use unless your machine has multiple user
   # > Instead, use modules/home-manager/pkgs to define pkgs
-  environment.systemPackages = #with pkgs; 
+  environment.systemPackages = #with pkgs;
     [
       #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       #  wget

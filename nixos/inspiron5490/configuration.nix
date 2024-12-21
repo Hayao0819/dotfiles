@@ -11,6 +11,7 @@
       outputs.modules.nixos.zsh
       outputs.modules.nixos.network
       outputs.modules.nixos.locale
+      outputs.modules.nixos.nixpkgs
       outputs.modules.nixos.gnome
       outputs.modules.nixos.common
       outputs.modules.nixos.systemd-boot

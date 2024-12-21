@@ -48,7 +48,7 @@
       gnome-photos
       gnome-tour
       gedit # text editor
-      gnome.yelp
+      yelp
     ];
 
     # Setting daemons
@@ -77,7 +77,7 @@
       gnomeExtensions.appindicator
       gnomeExtensions.gsconnect
       gnomeExtensions.dash-to-panel
-    ]) ++ (with pkgs-unstable; [
+    ]) ++ (with pkgs.unstable; [
       gnomeExtensions.arcmenu
     ]);
   };
