@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   config = {
@@ -71,13 +71,14 @@
     };
 
     # Install packages
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = (with pkgs; [
       dconf-editor
       gnome-tweaks
       gnomeExtensions.appindicator
       gnomeExtensions.gsconnect
-      gnomeExtensions.arcmenu
       gnomeExtensions.dash-to-panel
-    ];
+    ]) ++ (with pkgs-unstable; [
+      gnomeExtensions.arcmenu
+    ]);
   };
 }
