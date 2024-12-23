@@ -29,7 +29,7 @@
 
     settings."org/gnome/shell/extensions/arcmenu" ={
       hide-overview-on-startup = true;
-    }
+    };
 
     settings."ca/desrt/dconf-editor" = {
       show-warning-dialog = false;
