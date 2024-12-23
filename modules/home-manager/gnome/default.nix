@@ -26,5 +26,13 @@
       sleep-inactive-ac-timeout = 0;
       sleep-inactive-battery-timeout = 0;
     };
+
+    settings."org/gnome/shell/extensions/arcmenu" ={
+      hide-overview-on-startup = true;
+    }
+
+    settings."ca/desrt/dconf-editor" = {
+      show-warning-dialog = false;
+    };
   };
 }

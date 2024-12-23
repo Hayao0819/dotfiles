@@ -6,4 +6,5 @@
   zsh = import ./zsh;
   pkgs = import ./pkgs;
   gnome = import ./gnome;
+  vscode = import ./vscode;
 }

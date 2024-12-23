@@ -15,6 +15,7 @@
     outputs.modules.home.zsh
     outputs.modules.home.pkgs
     outputs.modules.home.gnome
+    outputs.modules.home.vscode
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
