@@ -24,6 +24,9 @@
   pkgs.gnupg
 
   # Selfmade programs
-  pkgs.hello
-  pkgs.roulette
+  # pkgs.hello
+  # pkgs.roulette
+
+  pkgs.nil
+  pkgs.nixpkgs-fmt
 ]
