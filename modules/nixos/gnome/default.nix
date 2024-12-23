@@ -18,6 +18,8 @@
 
         # Enable the Gnome desktop environment.
         displayManager.gdm.enable = true;
+        # Disable fucking wayland
+        .displayManager.gdm.wayland = false;
         desktopManager.gnome = {
           enable = true;
         };
