@@ -4,4 +4,5 @@
   # Add new packages here
   pkgs.docker-compose
   pkgs.pinentry
+  pkgs.dconf2nix
 ]
