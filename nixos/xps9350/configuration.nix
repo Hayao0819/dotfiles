@@ -41,11 +41,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       # Add GUI apps only here
-
       firefox-bin
-
-
-
     ];
   };
 
@@ -67,7 +63,7 @@
       #  wget
     ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.unstable.linuxPackages_latest;
 
 
   # This value determines the NixOS release from which the default
