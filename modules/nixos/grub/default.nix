@@ -6,5 +6,6 @@
     device = "nodev";
     useOSProber = true;
     efiSupport = true;
+    backgroundColor = "black";
   };
 }
