@@ -7,5 +7,6 @@
     useOSProber = true;
     efiSupport = true;
     backgroundColor = "black";
+    default = "saved";
   };
 }
