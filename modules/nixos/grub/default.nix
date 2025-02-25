@@ -8,5 +8,6 @@
     efiSupport = true;
     backgroundColor = "black";
     default = "saved";
+    splashImage = null;
   };
 }
