@@ -1,41 +1,29 @@
 {
-  description = "Your new nix config";
+  description = "Hayao Nix Dotfiles";
 
   inputs = {
-    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
-
-    # Nix-darwin for macOS systems management
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Disko for easier partition management
-    # disko = {
-    #   url = "github:nix-community/disko";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , nixpkgs-unstable
-    , nix-darwin
-    , disko
-    , ...
-    } @ inputs:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nixpkgs-unstable,
+      nix-darwin,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       # このFlakesでサポートするシステム
@@ -62,11 +50,12 @@
       # Formatter for your nix files, available through 'nix fmt'
       # Other options beside 'nixpkgs-fmt' include 'alejandra'
       # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
-      # formatter.x86_64-linux = import inputs.nixpkgs {
-      #   system = "x86_64-linux";
-      # }.nixfmt;
-
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+      formatter.x86_64-linux =
+        import inputs.nixpkgs
+          {
+            system = "x86_64-linux";
+          }
+          .nixfmt;
 
       # Development environment
       # Accessible through 'nix develop' or 'nix develop -c $SHELL' if you're zsh user
@@ -81,20 +70,23 @@
       # Your custom packages and modifications, exported as overlays
       # overlays = import ./overlays { inherit inputs; };
 
-      # My nix modules
-      modules = import ./modules; #{ inherit inputs; };
+      # modules
+      modules = import ./modules; # { inherit inputs; };
 
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
-      # nixosConfigurations = import ./nixos { inherit inputs outputs nixpkgs nixpkgs-unstable; };
+      # nix os
+      nixosConfigurations = import ./nixos {
+        inherit
+          inputs
+          outputs
+          nixpkgs
+          nixpkgs-unstable
+          ;
+      };
 
-      # Darwin configuration entrypoint
-      # Available through 'darwin-rebuild build --flake .#your-hostname'
-      # Stored at/as root/darwin/<alias name for machine>/*.nix
-      # darwinConfigurations = import ./darwin { inherit inputs outputs nix-darwin; };
+      # nix-darwin
+      darwinConfigurations = import ./darwin { inherit inputs outputs nix-darwin; };
 
-      # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
+      # home-manager
       homeConfigurations = import ./home { inherit inputs outputs; };
     };
 }
