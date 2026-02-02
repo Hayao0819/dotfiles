@@ -1,4 +1,10 @@
-{ nix-darwin, inputs, outputs, ... }: {
+{
+  nix-darwin,
+  inputs,
+  outputs,
+  ...
+}:
+{
 
   MacBook = nix-darwin.lib.darwinSystem {
     system = "aarch64-darwin";

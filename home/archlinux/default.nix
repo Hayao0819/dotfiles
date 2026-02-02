@@ -6,7 +6,7 @@
   imports = [
     outputs.modules.home.git
     outputs.modules.home.zsh
-    # outputs.modules.home.pkgs
+    outputs.modules.home.pkgs
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default

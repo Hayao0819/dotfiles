@@ -2,6 +2,22 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## IMPORTANT: Mandatory Syntax Check After Every Change
+
+**ALWAYS** run the following command after making ANY changes to Nix files to ensure syntax validity:
+
+```bash
+nix flake check --extra-experimental-features 'nix-command flakes'
+```
+
+This command MUST be executed:
+- After editing any `.nix` file
+- After adding new modules or configurations
+- Before committing any changes
+- As the final step of any task involving Nix files
+
+If the check fails, immediately fix the syntax errors before proceeding. The output "all checks passed!" indicates success.
+
 ## Repository Overview
 
 This is a Nix-based dotfiles repository that manages system configurations for NixOS, macOS (via nix-darwin), and other Linux distributions through Home Manager. The repository uses Nix Flakes for declarative and reproducible system management.
@@ -220,6 +236,36 @@ in {
 - Applied with `home-manager switch`
 
 ## Common Issues and Troubleshooting
+
+### Syntax Validation Commands
+
+Always validate changes using these commands:
+
+1. **Full flake check** (MANDATORY after every change):
+   ```bash
+   nix flake check --extra-experimental-features 'nix-command flakes'
+   ```
+
+2. **Specific configuration validation**:
+   ```bash
+   # Validate NixOS configuration without building
+   nix eval --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.Inspiron5490.config.system.build.toplevel --apply 'x: null'
+
+   # Validate Home Manager configuration
+   nix eval --extra-experimental-features 'nix-command flakes' .#homeConfigurations.archlinux.activationPackage --apply 'x: null'
+
+   # Dry-run build (checks derivation without building)
+   nix build --dry-run --extra-experimental-features 'nix-command flakes' .#homeConfigurations.archlinux.activationPackage
+   ```
+
+3. **Format check**:
+   ```bash
+   # Check formatting (doesn't modify files)
+   nix fmt --extra-experimental-features 'nix-command flakes' -- --check
+
+   # Auto-format files
+   nix fmt --extra-experimental-features 'nix-command flakes'
+   ```
 
 ### Infinite Recursion
 

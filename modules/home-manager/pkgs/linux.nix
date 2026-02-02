@@ -5,4 +5,10 @@
   pkgs.docker-compose
   pkgs.pinentry
   pkgs.dconf2nix
+
+  # JavaScript tool manager
+  pkgs.volta
+
+  # Claude Code CLI - AI coding assistant
+  pkgs.claude-code
 ]
