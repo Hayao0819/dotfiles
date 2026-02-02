@@ -28,7 +28,6 @@
       "...." = "cd ../..";
 
       # Updating system
-      # TODO: Change Hayao0819/dotfiles/nix to Hayao0819/dotfiles after merging to master
       update-home = "home-manager switch --flake github:Hayao0819/dotfiles/nix --upgrade";
       update-system = "sudo nixos-rebuild switch --flake github:Hayao0819/dotfiles/nix --upgrade";
 

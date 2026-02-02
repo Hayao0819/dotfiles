@@ -2,21 +2,72 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## IMPORTANT: Mandatory Syntax Check After Every Change
+## IMPORTANT: Mandatory Validation After Every Change
 
-**ALWAYS** run the following command after making ANY changes to Nix files to ensure syntax validity:
+**ALWAYS** perform comprehensive validation after making ANY changes to Nix files to ensure both syntax validity and runtime correctness:
 
+### Quick Validation (Minimum Required)
 ```bash
 nix flake check --extra-experimental-features 'nix-command flakes'
 ```
 
-This command MUST be executed:
+### Comprehensive Validation (Recommended)
+For thorough validation that catches runtime errors like non-existent package references:
+
+```bash
+# 1. Basic syntax and structure check
+nix flake check --extra-experimental-features 'nix-command flakes' --show-trace
+
+# 2. Validate all NixOS configurations can be evaluated (catches package errors)
+for config in $(nix flake show . --json 2>/dev/null | jq -r '.nixosConfigurations | keys[]?' 2>/dev/null); do
+    echo "Checking $config..."
+    nix eval --extra-experimental-features 'nix-command flakes' \
+        .#nixosConfigurations.$config.config.system.build.toplevel \
+        --apply 'x: null' 2>&1 | grep -q error && echo "ERROR in $config" || echo "OK"
+done
+
+# 3. Validate Home Manager configurations
+for config in $(nix flake show . --json 2>/dev/null | jq -r '.homeConfigurations | keys[]?' 2>/dev/null); do
+    echo "Checking $config..."
+    nix eval --extra-experimental-features 'nix-command flakes' \
+        .#homeConfigurations.$config.activationPackage \
+        --apply 'x: null' 2>&1 | grep -q error && echo "ERROR in $config" || echo "OK"
+done
+
+# 4. Dry-run build to check all package dependencies
+nix build --dry-run --extra-experimental-features 'nix-command flakes' \
+    .#nixosConfigurations.XPS9350.config.system.build.toplevel
+```
+
+### When to Run Validation
+
+These validations MUST be executed:
 - After editing any `.nix` file
 - After adding new modules or configurations
+- After adding or changing package references
 - Before committing any changes
 - As the final step of any task involving Nix files
 
-If the check fails, immediately fix the syntax errors before proceeding. The output "all checks passed!" indicates success.
+### What the Validation Checks
+
+1. **Syntax Validation**: Basic Nix syntax correctness
+2. **Configuration Evaluation**: All NixOS/Home Manager/Darwin configs can be evaluated
+3. **Package Resolution**: All referenced packages exist in nixpkgs
+4. **Derivation Building**: All derivations can be instantiated (dry-run)
+5. **Common Issues**: Infinite recursion patterns, typos in package names
+
+### Understanding Validation Output
+
+- `[SUCCESS]` - Check passed completely
+- `[WARNING]` - Potential issue detected but not blocking
+- `[ERROR]` - Critical error that must be fixed
+- Exit codes:
+  - 0: All checks passed
+  - 1: Syntax errors found
+  - 2: Runtime errors found
+  - 3: Package resolution errors found
+
+If validation fails, immediately fix the errors before proceeding. The script provides detailed error messages to help identify issues.
 
 ## Repository Overview
 
@@ -33,14 +84,46 @@ nix-shell
 nix fmt
 ```
 
+### Task Runner (Quick Deploy)
+```bash
+# Deploy all configurations (auto-detect: NixOS + Home Manager)
+nix run .
+
+# Same as above but explicit
+nix run . -- deploy
+
+# Deploy with specific configuration
+nix run . -- deploy XPS9350       # For NixOS system
+nix run . -- deploy archlinux     # For Arch Linux (Home Manager only)
+
+# NixOS only operations
+nix run . -- nixos                 # Apply NixOS changes (auto-detect host)
+nix run . -- nixos XPS9350         # Apply specific NixOS configuration
+nix run . -- nixos --boot          # Apply on next boot (safer for kernel changes)
+
+# Home Manager only operations
+nix run . -- home                  # Apply Home Manager (auto-detect)
+nix run . -- home archlinux        # Apply specific Home Manager config
+
+# Maintenance commands
+nix run . -- update                # Update all flake inputs
+nix run . -- check                 # Run flake syntax checks
+nix run . -- clean                 # Clean old generations (7 days)
+nix run . -- status                # Show system status and info
+
+# Advanced options
+nix run . -- deploy --dry-run      # Preview changes without applying
+nix run . -- deploy --show-trace   # Debug mode with detailed traces
+nix run . -- help                  # Show all available commands
+```
+
 ### NixOS System Management
 ```bash
 # First time installation (creates new boot entry)
-sudo nixos-rebuild boot --flake .#Inspiron5490
 sudo nixos-rebuild boot --flake .#XPS9350
 
 # Apply configuration changes (current session)
-sudo nixos-rebuild switch --flake .#Inspiron5490
+sudo nixos-rebuild switch --flake .#XPS9350
 
 # Build ISO installer
 nix build .#nixosConfigurations.Installer.config.system.build.isoImage
@@ -72,7 +155,6 @@ nix run github:nix-community/home-manager -- switch --flake .#darwin-unstable
   - `home-manager/`: Home Manager modules (packages, shell, Git, VS Code, wallpapers)
   - `darwin/`: macOS-specific modules
 - **`nixos/`**: Machine-specific NixOS configurations
-  - `inspiron5490/`: Dell Inspiron 5490 configuration
   - `xps9350/`: Dell XPS 9350 configuration
 - **`home/`**: Home Manager configurations by platform
   - `linux/`: Generic Linux home configuration
@@ -237,34 +319,60 @@ in {
 
 ## Common Issues and Troubleshooting
 
-### Syntax Validation Commands
+### Validation Commands
 
-Always validate changes using these commands:
+Always validate changes using these commands to catch both syntax and runtime errors:
 
-1. **Full flake check** (MANDATORY after every change):
+1. **Comprehensive validation** (RECOMMENDED - catches all error types):
    ```bash
+   # Run the validation script that performs all checks
+   ./scripts/validate-nix.sh
+   ```
+
+2. **Basic flake check** (MINIMUM required):
+   ```bash
+   # Basic syntax and structure validation
    nix flake check --extra-experimental-features 'nix-command flakes'
+
+   # With detailed error traces
+   nix flake check --extra-experimental-features 'nix-command flakes' --show-trace
    ```
 
-2. **Specific configuration validation**:
+3. **Configuration-specific validation** (for debugging specific issues):
    ```bash
-   # Validate NixOS configuration without building
-   nix eval --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.Inspiron5490.config.system.build.toplevel --apply 'x: null'
+   # Validate NixOS configuration evaluation (catches undefined packages)
+   nix eval --extra-experimental-features 'nix-command flakes' \
+     .#nixosConfigurations.XPS9350.config.system.build.toplevel --apply 'x: null'
 
-   # Validate Home Manager configuration
-   nix eval --extra-experimental-features 'nix-command flakes' .#homeConfigurations.archlinux.activationPackage --apply 'x: null'
+   # Validate Home Manager configuration evaluation
+   nix eval --extra-experimental-features 'nix-command flakes' \
+     .#homeConfigurations.archlinux.activationPackage --apply 'x: null'
 
-   # Dry-run build (checks derivation without building)
-   nix build --dry-run --extra-experimental-features 'nix-command flakes' .#homeConfigurations.archlinux.activationPackage
+   # Dry-run build (validates all package dependencies exist)
+   nix build --dry-run --extra-experimental-features 'nix-command flakes' \
+     .#homeConfigurations.archlinux.activationPackage
+
+   # Check if a specific package exists in nixpkgs
+   nix eval --extra-experimental-features 'nix-command flakes' \
+     --impure --expr "with import <nixpkgs> {}; pkgs.packageName"
    ```
 
-3. **Format check**:
+4. **Format validation**:
    ```bash
    # Check formatting (doesn't modify files)
    nix fmt --extra-experimental-features 'nix-command flakes' -- --check
 
    # Auto-format files
    nix fmt --extra-experimental-features 'nix-command flakes'
+   ```
+
+5. **Package existence validation**:
+   ```bash
+   # Check if packages exist before adding them
+   nix search nixpkgs packageName
+
+   # Check package in specific channel
+   nix search github:NixOS/nixpkgs/nixos-25.11 packageName
    ```
 
 ### Infinite Recursion

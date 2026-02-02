@@ -8,7 +8,7 @@ Nix入門しました。
 
 ```shell
 # Use boot if it's first time, else switch
-sudo nixos-rebuild boot --flake github:Hayao0819/dotfiles/nix#Inspiron5490 --upgrade
+sudo nixos-rebuild boot --flake github:Hayao0819/dotfiles/nix#XPS9350 --upgrade
 ```
 
 ## Home Manager

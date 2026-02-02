@@ -8,9 +8,10 @@
   # You can import other Darwin modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
-    outputs.darwinModules.nixpkgs
-    outputs.darwinModules.homebrew
-    outputs.darwinModules.users.sakhib
+    # NOTE: These modules are not yet defined in flake.nix
+    # outputs.darwinModules.nixpkgs
+    # outputs.darwinModules.homebrew
+    # outputs.darwinModules.users.sakhib
 
     # Home Manager Darwin Module
     inputs.home-manager.darwinModules.home-manager
