@@ -15,7 +15,9 @@
       "WebFetch(domain:discourse.nixos.org)",
       "WebFetch(domain:nixos.wiki)",
       "WebFetch(domain:github.com)",
-      "Bash(nix search:*)"
+      "Bash(nix search:*)",
+      "Bash(mkdir:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
