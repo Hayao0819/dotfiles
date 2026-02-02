@@ -2,7 +2,7 @@
 # both MacOS and Linux.
 { pkgs, ... }: [
   # Downloader
-  pkgs.aria
+  pkgs.aria2
 
   # Developer Mode
   pkgs.jq
