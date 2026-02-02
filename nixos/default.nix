@@ -8,7 +8,6 @@
   };
 
   Installer = nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
     modules = [
       ({ pkgs, lib, modulesPath, ... }:
         {
@@ -20,6 +19,7 @@
           boot.kernelPackages = pkgs.linuxPackages_latest;
 
           nixpkgs = {
+            hostPlatform = "x86_64-linux";
             config = {
               # Disable if you don't want unfree packages
               allowUnfree = true;

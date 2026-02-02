@@ -18,6 +18,25 @@ This command MUST be executed:
 
 If the check fails, immediately fix the syntax errors before proceeding. The output "all checks passed!" indicates success.
 
+## IMPORTANT: Auto-Update Documentation When Learning New Nix Information
+
+When you discover new or updated information about Nix through web searches, official documentation, or problem-solving during this session, you MUST automatically update this CLAUDE.md file without being asked. This includes:
+
+- New Nix commands, options, or flags
+- Updated best practices or recommended patterns
+- New module options or deprecations
+- Fixes for common issues not yet documented here
+- New tools or workflows in the Nix ecosystem
+- Corrections to any outdated information in this document
+
+**How to update:**
+1. Add the new information to the appropriate section of this document
+2. If no suitable section exists, create a new one
+3. Include the date of the update as a comment if the information is time-sensitive
+4. Ensure the information is accurate and verified before adding
+
+This ensures the documentation stays current and useful for future sessions.
+
 ## Repository Overview
 
 This is a Nix-based dotfiles repository that manages system configurations for NixOS, macOS (via nix-darwin), and other Linux distributions through Home Manager. The repository uses Nix Flakes for declarative and reproducible system management.
@@ -321,6 +340,62 @@ nixos-rebuild switch --flake .#hostname --option eval-cache false
   };
 }
 ```
+
+## File System Mounts
+
+### Basic Mount Configuration
+
+Use `fileSystems` to mount partitions at boot:
+```nix
+fileSystems."/mnt/data" = {
+  device = "/dev/disk/by-uuid/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  fsType = "ext4";  # or btrfs, ntfs, exfat, etc.
+};
+```
+
+### Device Identification Best Practices
+
+Always use topology-independent device paths to avoid issues when hardware changes:
+- `/dev/disk/by-uuid/` - Most reliable, doesn't change
+- `/dev/disk/by-label/` - Uses filesystem label
+
+Find UUIDs with: `lsblk -f` or `ls -la /dev/disk/by-uuid/`
+
+### Common Mount Options
+
+```nix
+fileSystems."/mnt/external" = {
+  device = "/dev/disk/by-uuid/...";
+  fsType = "btrfs";
+  options = [
+    "nofail"       # Don't fail boot if mount fails (recommended for external/optional drives)
+    "users"        # Allow any user to mount/unmount
+    "x-gvfs-show"  # Show in file managers like GNOME Nautilus
+  ];
+};
+```
+
+### Btrfs Subvolumes
+
+```nix
+fileSystems."/" = {
+  device = "/dev/disk/by-uuid/...";
+  fsType = "btrfs";
+  options = [ "subvol=@" ];
+};
+
+fileSystems."/home" = {
+  device = "/dev/disk/by-uuid/...";
+  fsType = "btrfs";
+  options = [ "subvol=@home" ];
+};
+```
+
+### Important Notes
+
+- Mount points are created automatically if they don't exist
+- System startup fails if any mount fails (use `nofail` option for non-critical mounts)
+- Changes require `nixos-rebuild switch` to take effect
 
 ## Important Gotchas
 

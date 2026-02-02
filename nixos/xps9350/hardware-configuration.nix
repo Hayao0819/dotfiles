@@ -31,6 +31,12 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/archlinux" =
+    { device = "/dev/disk/by-uuid/889a598f-9c2d-4c07-be12-e3afcb7fbde2";
+      fsType = "btrfs";
+      options = [ "nofail" ];  # Prevent boot failure if partition is unavailable
+    };
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
