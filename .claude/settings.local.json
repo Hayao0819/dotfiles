@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(lsblk:*)",
+      "Bash(nix flake check:*)",
+      "Bash(DCONF_PROFILE=/mnt/archlinux/home/hayao/.config/dconf/user dconf dump:*)",
+      "Bash(cat:*)",
+      "Bash(sqlite3:*)",
+      "Bash(nix-shell -p dconf --run:*)",
+      "Bash(XDG_CONFIG_HOME=/mnt/archlinux/home/hayao/.config dconf dump:*)",
+      "WebFetch(domain:mynixos.com)",
+      "Bash(/tmp/arch-dconf.dump:*)",
+      "Bash(nix-shell:*)",
+      "WebFetch(domain:discourse.nixos.org)",
+      "WebFetch(domain:nixos.wiki)",
+      "WebFetch(domain:github.com)",
+      "Bash(nix search:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -67,6 +67,9 @@
     # Enable the DConf configuration system.
     programs.dconf.enable = true;
 
+    # Enable GNOME Keyring (required for VS Code Settings Sync)
+    services.gnome.gnome-keyring.enable = true;
+
     # Enabling seahorse keyring
     programs.seahorse = {
       enable = true;
@@ -74,11 +77,22 @@
 
     # Install packages
     environment.systemPackages = (with pkgs; [
+      # GNOME tools
       dconf-editor
       gnome-tweaks
+
+      # Icon theme
+      papirus-icon-theme
+
+      # GNOME Shell extensions
       gnomeExtensions.appindicator
       gnomeExtensions.gsconnect
       gnomeExtensions.dash-to-panel
+      gnomeExtensions.kimpanel
+      gnomeExtensions.status-icons
+      gnomeExtensions.user-themes
+      gnomeExtensions.pano
+      gnomeExtensions.desktop-icons-ng-ding
     ]) ++ (with pkgs.unstable; [
       gnomeExtensions.arcmenu
     ]);
