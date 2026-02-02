@@ -1,13 +1,4 @@
 { nixpkgs, inputs, outputs, ... }: {
-  # Inspiron 5450
-  Inspiron5490 = nixpkgs.lib.nixosSystem {
-    specialArgs = { inherit inputs outputs; };
-    modules = [
-      # > Our main nixos configuration file <
-      ./inspiron5490/configuration.nix
-    ];
-  };
-
   XPS9350 = nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs outputs; };
     modules = [

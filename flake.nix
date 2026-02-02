@@ -51,11 +51,9 @@
       # Other options beside 'nixpkgs-fmt' include 'alejandra'
       # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       formatter.x86_64-linux =
-        import inputs.nixpkgs
-          {
-            system = "x86_64-linux";
-          }
-          .nixfmt;
+        (import inputs.nixpkgs {
+          system = "x86_64-linux";
+        }).nixfmt-rfc-style;
 
       # Development environment
       # Accessible through 'nix develop' or 'nix develop -c $SHELL' if you're zsh user
