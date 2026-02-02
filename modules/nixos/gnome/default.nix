@@ -15,14 +15,14 @@
 
         # Exclude some defautl packages
         excludePackages = [ pkgs.xterm ];
+      };
 
-        # Enable the Gnome desktop environment.
-        displayManager.gdm.enable = true;
-        # Disable fucking wayland
-        displayManager.gdm.wayland = false;
-        desktopManager.gnome = {
-          enable = true;
-        };
+      # Enable the Gnome desktop environment.
+      displayManager.gdm.enable = true;
+      # Disable fucking wayland
+      displayManager.gdm.wayland = false;
+      desktopManager.gnome = {
+        enable = true;
       };
     };
 
