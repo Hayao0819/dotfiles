@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # IPU7 camera support (PR #479283) - remove once merged into nixpkgs
+    nixpkgs-ipu7.url = "github:NixOS/nixpkgs/pull/479283/head";
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +29,7 @@
       nixpkgs,
       home-manager,
       nixpkgs-unstable,
+      nixpkgs-ipu7,
       nix-darwin,
       ...
     }@inputs:

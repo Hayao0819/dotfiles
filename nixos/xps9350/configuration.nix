@@ -27,7 +27,17 @@
 
       # Home Manager NixOS Module
       inputs.home-manager.nixosModules.home-manager
+
+      # IPU7 camera support module (from PR #479283)
+      ./ipu7.nix
     ];
+
+  # Intel IPU7 (Lunar Lake) camera support
+  # Platform options: "ipu7x" or "ipu75xa" - check your hardware
+  hardware.ipu7 = {
+    enable = true;
+    platform = "ipu7x";  # Lunar Lake default
+  };
 
   networking.hostName = "XPS9350"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

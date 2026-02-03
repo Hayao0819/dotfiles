@@ -9,6 +9,7 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
+      outputs.overlays.ipu7-packages  # IPU7 camera support (PR #479283)
     ];
 
     # Configure nixpkgs
