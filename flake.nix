@@ -13,6 +13,11 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -88,14 +93,22 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
 
-          # Path to the task runner script
-          taskRunnerScript = ./scripts/task-runner.sh;
+          # Copy scripts to a derivation so they can find each other
+          scriptsDir = pkgs.stdenvNoCC.mkDerivation {
+            name = "dotfiles-scripts";
+            src = ./scripts;
+            installPhase = ''
+              mkdir -p $out
+              cp -r $src/* $out/
+              chmod +x $out/*.sh
+            '';
+          };
 
           # Create a wrapper that provides necessary tools
           taskRunner = pkgs.writeShellScript "dotfiles-task-runner" ''
             #!/usr/bin/env bash
             export PATH="${pkgs.jq}/bin:${pkgs.git}/bin:${home-manager.packages.${system}.default}/bin:$PATH"
-            exec ${pkgs.bash}/bin/bash ${taskRunnerScript} "$@"
+            exec ${pkgs.bash}/bin/bash ${scriptsDir}/task-runner.sh "$@"
           '';
 
         in {

@@ -5,6 +5,7 @@
   nixpkgs = import ./nixpkgs;
   git = import ./git;
   zsh = import ./zsh;
+  fish = import ./fish;
   pkgs = import ./pkgs;
   gnome = import ./gnome;
   vscode = import ./vscode;

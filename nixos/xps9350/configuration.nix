@@ -43,6 +43,27 @@
       # Add GUI apps only here
       firefox-bin
       vesktop  # Discord client with Vencord built-in
+
+      # Browsers
+      brave
+      google-chrome
+
+      # Communication
+      slack
+
+      # Media
+      vlc
+      spotify
+
+      # Development
+      gitkraken
+      vscode-fhs  # VS Code with FHS environment for extension compatibility
+
+      # System tools
+      mission-center  # System monitor like Windows Task Manager
+
+      # Gaming/Wine
+      bottles  # Wine prefix manager
     ];
   };
 

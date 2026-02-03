@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/hayao/dotfiles add modules/home-manager/fish/default.nix)",
+      "Bash(find:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(git add:*)",
+      "Bash(nix develop:*)",
+      "Bash(nix run:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

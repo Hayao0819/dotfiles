@@ -20,8 +20,6 @@
       # Enable the GDM display manager
       displayManager.gdm = {
         enable = true;
-        # Disable wayland
-        wayland = false;
       };
 
       # Enable the GNOME desktop environment
@@ -53,6 +51,15 @@
       gnome-tour
       gedit # text editor
       yelp
+      gnome-logs # system log viewer
+      gnome-calculator # calculator
+      gnome-disk-utility # disk management tool
+      gnome-weather # 天気
+      gnome-maps # 地図
+      gnome-contacts # 連絡先
+      gnome-connections # 接続
+      decibels # audio player
+      showtime # video player
     ];
 
     # Setting daemons

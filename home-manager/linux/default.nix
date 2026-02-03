@@ -5,11 +5,12 @@
   ...
 }:
 {
-  imports = [
-    outputs.modules.home-manager.nixpkgs
-    outputs.modules.home-manager.git
-    outputs.modules.home-manager.zsh
-    outputs.modules.home-manager.pkgs
+  imports = with outputs.modules.home-manager; [
+    nixpkgs
+    git
+    zsh
+    fish
+    pkgs
   ];
 
   home = {

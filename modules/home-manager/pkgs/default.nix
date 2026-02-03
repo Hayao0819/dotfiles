@@ -1,6 +1,7 @@
 { config
 , pkgs
 , lib
+, inputs
 , ...
 }:
 let
@@ -8,6 +9,9 @@ let
   macos = import ./osx.nix { inherit pkgs; };
   linux = import ./linux.nix { inherit pkgs; };
   globals = import ./global.nix { inherit pkgs; };
+
+  # llm-agents packages (ccstatusline, etc.)
+  llm-agents-pkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 
   # Check if the target is MacOS or Linux
   isMacOS =
@@ -28,8 +32,12 @@ in
   config = {
     # Packages to be installed on my machine
     home.packages =
-      if config.packages.isMacOS
+      (if config.packages.isMacOS
       then globals ++ macos
-      else globals ++ linux;
+      else globals ++ linux)
+      ++ [
+        # Claude Code statusline
+        llm-agents-pkgs.ccstatusline
+      ];
   };
 }

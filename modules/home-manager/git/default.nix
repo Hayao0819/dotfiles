@@ -19,11 +19,10 @@
       enable = true;
       lfs.enable = true;
 
-      # User credentials
-      userName = "hayao";
-      userEmail = "shun819.mail@gmail.com";
-
-      extraConfig = {
+      # Settings (replaces deprecated userName, userEmail, extraConfig)
+      settings = {
+        user.name = "hayao";
+        user.email = "shun819.mail@gmail.com";
         http.sslVerify = false;
       };
 

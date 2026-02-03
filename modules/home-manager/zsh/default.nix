@@ -35,8 +35,8 @@
       nix-develop = "nix develop -c \"$SHELL\"";
     };
 
-    # Extra manually typed configs
-    initExtra = ''
+    # Extra manually typed configs (renamed from initExtra)
+    initContent = ''
       # Global settings
       setopt AUTO_CD
       setopt BEEP
