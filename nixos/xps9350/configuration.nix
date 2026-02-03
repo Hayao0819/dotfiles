@@ -42,6 +42,7 @@
     packages = with pkgs; [
       # Add GUI apps only here
       firefox-bin
+      vesktop  # Discord client with Vencord built-in
     ];
   };
 
