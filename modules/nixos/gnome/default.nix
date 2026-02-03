@@ -17,13 +17,15 @@
         excludePackages = [ pkgs.xterm ];
       };
 
-      # Enable the Gnome desktop environment.
-      displayManager.gdm.enable = true;
-      # Disable fucking wayland
-      displayManager.gdm.wayland = false;
-      desktopManager.gnome = {
+      # Enable the GDM display manager
+      displayManager.gdm = {
         enable = true;
+        # Disable wayland
+        wayland = false;
       };
+
+      # Enable the GNOME desktop environment
+      desktopManager.gnome.enable = true;
     };
 
     # Make sure opengl is enabled
