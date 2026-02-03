@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z "$1" ]; then
+if [[ -z "$1" ]]; then
 	figlet -f slant "No args?"
 	exit 1
 fi

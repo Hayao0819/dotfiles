@@ -3,55 +3,27 @@
 # Comprehensive Nix Flake Validation Script
 # This script performs both syntax and runtime validation of Nix configurations
 
-set -euo pipefail
+set -eEuo pipefail
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Exit codes
-EXIT_SUCCESS=0
-EXIT_SYNTAX_ERROR=1
-EXIT_RUNTIME_ERROR=2
-EXIT_PACKAGE_ERROR=3
+# Source common functions
+source "${SCRIPT_DIR}/common.sh"
 
-# Tracking variables
+# Exit codes are exported from common.sh (uppercase for constants)
+# EXIT_SUCCESS, EXIT_SYNTAX_ERROR, EXIT_RUNTIME_ERROR, EXIT_PACKAGE_ERROR
+
+# Initialize error counters (uppercase for script-wide state variables)
 TOTAL_ERRORS=0
 SYNTAX_ERRORS=0
 RUNTIME_ERRORS=0
 PACKAGE_ERRORS=0
 
-# Helper functions
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
-}
-
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
-
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
+# Override log_error to track errors
 log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-    ((TOTAL_ERRORS++))
-}
-
-print_separator() {
-    echo "────────────────────────────────────────────────────────"
-}
-
-# Check if we're in a flake directory
-check_flake_exists() {
-    if [[ ! -f "flake.nix" ]]; then
-        log_error "No flake.nix found in current directory"
-        exit $EXIT_SYNTAX_ERROR
-    fi
+    print_error "$1"
+    track_error "TOTAL"
 }
 
 # 1. Basic syntax validation
@@ -61,11 +33,11 @@ validate_syntax() {
     print_separator
 
     log_info "Running basic flake check..."
-    if nix flake check --extra-experimental-features 'nix-command flakes' 2>&1 | tee /tmp/nix-check.log; then
+    if nix_cmd flake check 2>&1 | tee /tmp/nix-check.log; then
         log_success "Basic syntax check passed"
     else
         log_error "Basic syntax check failed"
-        ((SYNTAX_ERRORS++))
+        track_error "SYNTAX"
         return 1
     fi
 
@@ -86,63 +58,66 @@ validate_configurations() {
     local config_types=("nixosConfigurations" "homeConfigurations" "darwinConfigurations")
 
     for config_type in "${config_types[@]}"; do
-        log_info "Checking $config_type..."
+        log_info "Checking ${config_type}..."
 
         # Check if configuration type exists
-        if ! nix eval --quiet --extra-experimental-features 'nix-command flakes' ".#$config_type" 2>/dev/null; then
-            log_info "No $config_type defined, skipping"
+        if ! nix_cmd eval --quiet ".#${config_type}" 2> /dev/null; then
+            log_info "No ${config_type} defined, skipping"
             continue
         fi
 
         # Get list of configurations
         local configs
         # Try different methods to get configuration names
-        configs=$(nix flake show . --extra-experimental-features 'nix-command flakes' --json 2>/dev/null | jq -r ".$config_type | keys[]?" 2>/dev/null || echo "")
+        configs=$(nix_cmd flake show . --json 2> /dev/null | jq -r ".${config_type} | keys[]?" 2> /dev/null || echo "")
 
         # Fallback to parsing text output if JSON doesn't work
-        if [[ -z "$configs" ]]; then
-            configs=$(nix flake show . --extra-experimental-features 'nix-command flakes' 2>&1 | grep -A20 "$config_type" | grep "│.*├\|│.*└" | sed 's/.*─//g' | sed 's/:.*//' | tr -d ' ' || echo "")
+        if [[ -z "${configs}" ]]; then
+            configs=$(nix_cmd flake show . 2>&1 | grep -A20 "${config_type}" | grep "│.*├\|│.*└" | sed 's/.*─//g' | sed 's/:.*//' | tr -d ' ' || echo "")
         fi
 
-        if [[ -z "$configs" ]]; then
-            log_warning "Could not enumerate $config_type"
+        if [[ -z "${configs}" ]]; then
+            log_warning "Could not enumerate ${config_type}"
             continue
         fi
 
         # Validate each configuration
         while IFS= read -r config; do
-            log_info "  Validating $config_type.$config..."
+            log_info "  Validating ${config_type}.${config}..."
 
-            case "$config_type" in
+            case "${config_type}" in
                 nixosConfigurations)
-                    if nix eval --quiet ".#$config_type.$config.config.system.build.toplevel" --apply 'x: null' 2>/tmp/nix-eval-error.log; then
-                        log_success "  ✓ $config"
+                    if nix_cmd eval --quiet ".#${config_type}.${config}.config.system.build.toplevel" --apply 'x: null' 2> /tmp/nix-eval-error.log; then
+                        log_success "  ✓ ${config}"
                     else
-                        log_error "  ✗ $config - Failed to evaluate"
+                        log_error "  ✗ ${config} - Failed to evaluate"
                         cat /tmp/nix-eval-error.log
-                        ((RUNTIME_ERRORS++))
+                        track_error "RUNTIME"
                     fi
                     ;;
                 homeConfigurations)
-                    if nix eval --quiet ".#$config_type.$config.activationPackage" --apply 'x: null' 2>/tmp/nix-eval-error.log; then
-                        log_success "  ✓ $config"
+                    if nix_cmd eval --quiet ".#${config_type}.${config}.activationPackage" --apply 'x: null' 2> /tmp/nix-eval-error.log; then
+                        log_success "  ✓ ${config}"
                     else
-                        log_error "  ✗ $config - Failed to evaluate"
+                        log_error "  ✗ ${config} - Failed to evaluate"
                         cat /tmp/nix-eval-error.log
-                        ((RUNTIME_ERRORS++))
+                        track_error "RUNTIME"
                     fi
                     ;;
                 darwinConfigurations)
-                    if nix eval --quiet ".#$config_type.$config.system" --apply 'x: null' 2>/tmp/nix-eval-error.log; then
-                        log_success "  ✓ $config"
+                    if nix_cmd eval --quiet ".#${config_type}.${config}.system" --apply 'x: null' 2> /tmp/nix-eval-error.log; then
+                        log_success "  ✓ ${config}"
                     else
-                        log_error "  ✗ $config - Failed to evaluate"
+                        log_error "  ✗ ${config} - Failed to evaluate"
                         cat /tmp/nix-eval-error.log
-                        ((RUNTIME_ERRORS++))
+                        track_error "RUNTIME"
                     fi
                     ;;
+                *)
+                    log_warning "Unknown configuration type: ${config_type}"
+                    ;;
             esac
-        done <<< "$configs"
+        done <<< "${configs}"
     done
 }
 
@@ -156,57 +131,57 @@ validate_packages() {
 
     for config_type in "${config_types[@]}"; do
         # Check if configuration type exists
-        if ! nix eval --quiet --extra-experimental-features 'nix-command flakes' ".#$config_type" 2>/dev/null; then
+        if ! nix_cmd eval --quiet ".#${config_type}" 2> /dev/null; then
             continue
         fi
 
         local configs
         # Try different methods to get configuration names
-        configs=$(nix flake show . --extra-experimental-features 'nix-command flakes' --json 2>/dev/null | jq -r ".$config_type | keys[]?" 2>/dev/null || echo "")
+        configs=$(nix_cmd flake show . --json 2> /dev/null | jq -r ".${config_type} | keys[]?" 2> /dev/null || echo "")
 
         # Fallback to parsing text output if JSON doesn't work
-        if [[ -z "$configs" ]]; then
-            configs=$(nix flake show . --extra-experimental-features 'nix-command flakes' 2>&1 | grep -A20 "$config_type" | grep "│.*├\|│.*└" | sed 's/.*─//g' | sed 's/:.*//' | tr -d ' ' || echo "")
+        if [[ -z "${configs}" ]]; then
+            configs=$(nix_cmd flake show . 2>&1 | grep -A20 "${config_type}" | grep "│.*├\|│.*└" | sed 's/.*─//g' | sed 's/:.*//' | tr -d ' ' || echo "")
         fi
 
         while IFS= read -r config; do
-            if [[ -z "$config" ]]; then
+            if [[ -z "${config}" ]]; then
                 continue
             fi
 
-            log_info "Dry-run build for $config_type.$config..."
+            log_info "Dry-run build for ${config_type}.${config}..."
 
-            case "$config_type" in
+            case "${config_type}" in
                 nixosConfigurations)
-                    if nix build --dry-run --extra-experimental-features 'nix-command flakes' \
-                        ".#$config_type.$config.config.system.build.toplevel" 2>&1 | tee /tmp/nix-dry-run.log | grep -q "will be built"; then
-                        log_success "  ✓ All packages resolvable for $config"
+                    if nix_cmd build --dry-run \
+                        ".#${config_type}.${config}.config.system.build.toplevel" 2>&1 | tee /tmp/nix-dry-run.log | grep -q "will be built"; then
+                        log_success "  ✓ All packages resolvable for ${config}"
                     else
                         if grep -q "error:" /tmp/nix-dry-run.log; then
-                            log_error "  ✗ Package resolution failed for $config"
+                            log_error "  ✗ Package resolution failed for ${config}"
                             grep "error:" /tmp/nix-dry-run.log | head -5
-                            ((PACKAGE_ERRORS++))
+                            track_error "PACKAGE"
                         else
-                            log_success "  ✓ All packages cached for $config"
+                            log_success "  ✓ All packages cached for ${config}"
                         fi
                     fi
                     ;;
                 homeConfigurations)
-                    if nix build --dry-run --extra-experimental-features 'nix-command flakes' \
-                        ".#$config_type.$config.activationPackage" 2>&1 | tee /tmp/nix-dry-run.log | grep -q "will be built"; then
-                        log_success "  ✓ All packages resolvable for $config"
+                    if nix_cmd build --dry-run \
+                        ".#${config_type}.${config}.activationPackage" 2>&1 | tee /tmp/nix-dry-run.log | grep -q "will be built"; then
+                        log_success "  ✓ All packages resolvable for ${config}"
                     else
                         if grep -q "error:" /tmp/nix-dry-run.log; then
-                            log_error "  ✗ Package resolution failed for $config"
+                            log_error "  ✗ Package resolution failed for ${config}"
                             grep "error:" /tmp/nix-dry-run.log | head -5
-                            ((PACKAGE_ERRORS++))
+                            track_error "PACKAGE"
                         else
-                            log_success "  ✓ All packages cached for $config"
+                            log_success "  ✓ All packages cached for ${config}"
                         fi
                     fi
                     ;;
             esac
-        done <<< "$configs"
+        done <<< "${configs}"
     done
 }
 
@@ -218,7 +193,7 @@ check_common_issues() {
 
     # Check for infinite recursion patterns
     log_info "Checking for potential infinite recursion..."
-    if grep -r "config\." --include="*.nix" . 2>/dev/null | grep -v "mkIf" | grep -v "^#" | head -5 > /tmp/recursion-check.txt; then
+    if grep -r "config\." --include="*.nix" . 2> /dev/null | grep -v "mkIf" | grep -v "^#" | head -5 > /tmp/recursion-check.txt; then
         if [[ -s /tmp/recursion-check.txt ]]; then
             log_warning "Found config references without mkIf (potential infinite recursion):"
             cat /tmp/recursion-check.txt
@@ -227,7 +202,7 @@ check_common_issues() {
 
     # Check for unknown package references
     log_info "Scanning for suspicious package references..."
-    if grep -r "pkgs\.\w\+" --include="*.nix" . 2>/dev/null | grep -E "pkgs\.[a-z0-9_-]{20,}" | head -5 > /tmp/suspicious-pkgs.txt; then
+    if grep -r "pkgs\.\w\+" --include="*.nix" . 2> /dev/null | grep -E "pkgs\.[a-z0-9_-]{20,}" | head -5 > /tmp/suspicious-pkgs.txt; then
         if [[ -s /tmp/suspicious-pkgs.txt ]]; then
             log_warning "Found unusually long package names (might be typos):"
             cat /tmp/suspicious-pkgs.txt
@@ -249,21 +224,19 @@ validate_specific_packages() {
     )
 
     for pkg in "${test_packages[@]}"; do
-        log_info "Testing $pkg..."
-        if nix eval --quiet --extra-experimental-features 'nix-command flakes' \
-            --impure --expr "with import <nixpkgs> {}; $pkg" 2>/dev/null; then
-            log_success "  ✓ $pkg is available"
+        log_info "Testing ${pkg}..."
+        if nix_cmd eval --quiet \
+            --impure --expr "with import <nixpkgs> {}; ${pkg}" 2> /dev/null; then
+            log_success "  ✓ ${pkg} is available"
         else
-            log_warning "  ⚠ $pkg might not be available in current nixpkgs"
+            log_warning "  ⚠ ${pkg} might not be available in current nixpkgs"
         fi
     done
 }
 
 # Main execution
 main() {
-    echo "╔══════════════════════════════════════════════════════╗"
-    echo "║     Comprehensive Nix Flake Validation Tool         ║"
-    echo "╚══════════════════════════════════════════════════════╝"
+    print_box_header "Comprehensive Nix Flake Validation Tool"
     echo
 
     check_flake_exists
@@ -277,27 +250,22 @@ main() {
     # Final report
     print_separator
     echo
-    echo "╔══════════════════════════════════════════════════════╗"
-    echo "║                  VALIDATION SUMMARY                   ║"
-    echo "╚══════════════════════════════════════════════════════╝"
+    print_box_header "VALIDATION SUMMARY"
     echo
-    echo "  Syntax Errors:  $SYNTAX_ERRORS"
-    echo "  Runtime Errors: $RUNTIME_ERRORS"
-    echo "  Package Errors: $PACKAGE_ERRORS"
-    echo "  Total Errors:   $TOTAL_ERRORS"
+    print_error_summary
     echo
 
-    if [[ $TOTAL_ERRORS -eq 0 ]]; then
+    if [[ ${TOTAL_ERRORS} -eq 0 ]]; then
         log_success "✨ All validation checks passed!"
-        exit $EXIT_SUCCESS
+        exit ${EXIT_SUCCESS}
     else
-        log_error "❌ Validation failed with $TOTAL_ERRORS error(s)"
-        if [[ $SYNTAX_ERRORS -gt 0 ]]; then
-            exit $EXIT_SYNTAX_ERROR
-        elif [[ $PACKAGE_ERRORS -gt 0 ]]; then
-            exit $EXIT_PACKAGE_ERROR
+        log_error "❌ Validation failed with ${TOTAL_ERRORS} error(s)"
+        if [[ ${SYNTAX_ERRORS} -gt 0 ]]; then
+            exit ${EXIT_SYNTAX_ERROR}
+        elif [[ ${PACKAGE_ERRORS} -gt 0 ]]; then
+            exit ${EXIT_PACKAGE_ERROR}
         else
-            exit $EXIT_RUNTIME_ERROR
+            exit ${EXIT_RUNTIME_ERROR}
         fi
     fi
 }

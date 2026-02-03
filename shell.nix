@@ -19,10 +19,12 @@
   name = "hayanix";
 
   nativeBuildInputs = with pkgs; [
-    nil # language server for vscode
-    nixd # language server for zed
-    nixpkgs-fmt # nix formatter
-    git # for git commit/push
+    nil
+    nixpkgs-fmt
+    git
+    markdownlint-cli
+    shfmt
+    shellcheck
   ];
 
   NIX_CONFIG = "extra-experimental-features = nix-command flakes";

@@ -9,6 +9,11 @@
   pkgs.wget
   pkgs.git-lfs
 
+  # Code linters and formatters
+  pkgs.markdownlint-cli
+  pkgs.shfmt
+  pkgs.shellcheck
+
   # Environment
   pkgs.fd
   pkgs.bat

@@ -1,58 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-NC='\033[0m' # No Color
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Get current hostname
-HOSTNAME=$(hostname)
+# Source common functions
+source "${SCRIPT_DIR}/common.sh"
 
-# Function to print colored messages
-print_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
-print_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
-print_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
-print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
-print_task() { echo -e "${BOLD}>>> $1${NC}"; }
-
-# Function to check if running on NixOS
-is_nixos() {
-  [ -f /etc/nixos/configuration.nix ] || [ -d /etc/nixos ]
-}
-
-# Function to check if running on Darwin
-is_darwin() {
-  [[ "$OSTYPE" == "darwin"* ]]
-}
-
-# Function to detect configuration name
-detect_config() {
-  if is_nixos; then
-    # Try to find matching NixOS configuration
-    case "$HOSTNAME" in
-      *XPS* | *xps* | *9350*)
-        echo "XPS9350"
-        ;;
-      *)
-        print_warning "Unknown NixOS host: $HOSTNAME"
-        echo "XPS9350" # Default fallback
-        ;;
-    esac
-  elif is_darwin; then
-    echo "darwin"
-  else
-    # Non-NixOS Linux (Arch, etc.)
-    echo "archlinux"
-  fi
-}
+# Get current hostname (local variable)
+hostname=$(get_hostname)
 
 # Function to show help
 show_help() {
-  cat <<EOF
+    cat << EOF
 
 ${BOLD}Nix Dotfiles Task Runner${NC}
 
@@ -94,184 +54,193 @@ EOF
 
 # Function to apply NixOS configuration
 apply_nixos() {
-  local config="${1:-$(detect_config)}"
-  local action="${2:-switch}"
-  local extra_args="${3:-}"
+    local config="${1:-$(detect_config)}"
+    local action="${2:-switch}"
+    local extra_args="${3:-}"
 
-  if ! is_nixos; then
-    print_error "Not running on NixOS!"
-    return 1
-  fi
+    if ! is_nixos; then
+        print_error "Not running on NixOS!"
+        return 1
+    fi
 
-  print_task "Applying NixOS configuration: $config"
-  print_info "Action: $action"
+    print_task "Applying NixOS configuration: ${config}"
+    print_info "Action: ${action}"
 
-  # Check if configuration exists
-  if ! nix eval --quiet ".#nixosConfigurations.$config" 2>/dev/null; then
-    print_error "Configuration '$config' not found!"
-    print_info "Available configurations:"
-    nix eval --quiet --json '.#nixosConfigurations' | jq -r 'keys[]' 2>/dev/null || true
-    return 1
-  fi
+    # Check if configuration exists
+    if ! config_exists "nixosConfigurations" "${config}"; then
+        print_error "Configuration '${config}' not found!"
+        print_info "Available configurations:"
+        get_nix_configs "nixosConfigurations"
+        return 1
+    fi
 
-  # Build and apply
-  sudo nixos-rebuild "$action" --flake ".#$config" $extra_args
-  print_success "NixOS configuration applied!"
+    # Build and apply
+    sudo nixos-rebuild "${action}" --flake ".#${config}" ${extra_args:+${extra_args}}
+    print_success "NixOS configuration applied!"
 }
 
 # Function to apply Home Manager configuration
 apply_home() {
-  local config="${1:-$(detect_config)}"
-  local extra_args="${2:-}"
+    local config="${1:-$(detect_config)}"
+    local extra_args="${2:-}"
 
-  print_task "Applying Home Manager configuration: $config"
+    print_task "Applying Home Manager configuration: ${config}"
 
-  # Check if configuration exists
-  if ! nix eval --quiet ".#homeConfigurations.$config" 2>/dev/null; then
-    print_error "Configuration '$config' not found!"
-    print_info "Available configurations:"
-    nix eval --quiet --json '.#homeConfigurations' | jq -r 'keys[]' 2>/dev/null || true
-    return 1
-  fi
+    # Check if configuration exists
+    if ! config_exists "homeConfigurations" "${config}"; then
+        print_error "Configuration '${config}' not found!"
+        print_info "Available configurations:"
+        get_nix_configs "homeConfigurations"
+        return 1
+    fi
 
-  # Apply Home Manager
-  home-manager switch --flake ".#$config" $extra_args
-  print_success "Home Manager configuration applied!"
+    # Apply Home Manager
+    if command_exists home-manager; then
+        home-manager switch --flake ".#${config}" ${extra_args:+${extra_args}}
+        print_success "Home Manager configuration applied!"
+    else
+        print_error "home-manager command not found. Please install it first."
+        return 1
+    fi
 }
 
 # Function to deploy all
 deploy_all() {
-  local config="${1:-$(detect_config)}"
-  local nixos_action="switch"
-  local extra_args=""
+    local config="${1:-$(detect_config)}"
+    local nixos_action="switch"
+    local extra_args=""
 
-  # Parse additional options
-  shift || true
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      --boot)
-        nixos_action="boot"
-        shift
-        ;;
-      --dry-run)
-        extra_args="$extra_args --dry-run"
-        shift
-        ;;
-      --show-trace)
-        extra_args="$extra_args --show-trace"
-        shift
-        ;;
-      *)
-        shift
-        ;;
-    esac
-  done
+    # Parse additional options
+    shift || true
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --boot)
+                nixos_action="boot"
+                shift
+                ;;
+            --dry-run)
+                extra_args="${extra_args} --dry-run"
+                shift
+                ;;
+            --show-trace)
+                extra_args="${extra_args} --show-trace"
+                shift
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
 
-  print_task "Full deployment for: $config"
-  echo ""
-
-  # Apply NixOS if applicable
-  if is_nixos; then
-    apply_nixos "$config" "$nixos_action" "$extra_args"
+    print_task "Full deployment for: ${config}"
     echo ""
-  fi
 
-  # Apply Home Manager
-  apply_home "$config" "$extra_args"
+    # Apply NixOS if applicable
+    if is_nixos; then
+        apply_nixos "${config}" "${nixos_action}" "${extra_args}"
+        echo ""
+    fi
 
-  echo ""
-  print_success "Full deployment complete!"
+    # Apply Home Manager
+    apply_home "${config}" "${extra_args}"
+
+    echo ""
+    print_success "Full deployment complete!"
 }
 
 # Function to update flake inputs
 update_flake() {
-  print_task "Updating flake inputs"
-  nix flake update
-  print_success "Flake inputs updated!"
-  echo ""
-  print_info "Run 'deploy' to apply the updates"
+    print_task "Updating flake inputs"
+    nix_cmd flake update
+    print_success "Flake inputs updated!"
+    echo ""
+    print_info "Run 'deploy' to apply the updates"
 }
 
 # Function to check flake
 check_flake() {
-  print_task "Running flake checks"
-  nix flake check --extra-experimental-features 'nix-command flakes'
-  print_success "All checks passed!"
+    print_task "Running flake checks"
+    nix_cmd flake check
+    print_success "All checks passed!"
 }
 
 # Function to clean old generations
 clean_old() {
-  print_task "Cleaning old generations"
+    print_task "Cleaning old generations"
 
-  if is_nixos; then
-    print_info "Cleaning NixOS generations older than 7 days..."
-    sudo nix-collect-garbage --delete-older-than 7d
-  fi
+    if is_nixos; then
+        print_info "Cleaning NixOS generations older than 7 days..."
+        sudo nix-collect-garbage --delete-older-than 7d
+    fi
 
-  print_info "Cleaning Home Manager generations..."
-  home-manager expire-generations "-7 days"
+    if command_exists home-manager; then
+        print_info "Cleaning Home Manager generations..."
+        home-manager expire-generations "-7 days"
+    fi
 
-  print_info "Cleaning user profile..."
-  nix-collect-garbage --delete-older-than 7d
+    print_info "Cleaning user profile..."
+    nix-collect-garbage --delete-older-than 7d
 
-  print_success "Cleanup complete!"
+    print_success "Cleanup complete!"
 }
 
 # Function to show system status
 show_status() {
-  print_task "System Status"
-  echo ""
-
-  print_info "Hostname: $HOSTNAME"
-  print_info "Detected config: $(detect_config)"
-
-  if is_nixos; then
+    print_task "System Status"
     echo ""
-    print_info "NixOS Generation:"
-    nixos-rebuild list-generations | head -3
-  fi
 
-  echo ""
-  print_info "Home Manager Generation:"
-  home-manager generations | head -3
+    print_info "Hostname: ${hostname}"
+    print_info "Detected config: $(detect_config)"
 
-  echo ""
-  print_info "Flake inputs:"
-  nix flake metadata --json | jq -r '.locks.nodes.root.inputs | keys[]' | sed 's/^/  - /'
+    if is_nixos; then
+        echo ""
+        print_info "NixOS Generation:"
+        nixos-rebuild list-generations | head -3
+    fi
+
+    if command_exists home-manager; then
+        echo ""
+        print_info "Home Manager Generation:"
+        home-manager generations | head -3
+    fi
+
+    echo ""
+    print_info "Flake inputs:"
+    nix_cmd flake metadata --json | jq -r '.locks.nodes.root.inputs | keys[]' | sed 's/^/  - /'
 }
 
 # Main command dispatcher
 case "${1:-deploy}" in
-  deploy)
-    shift || true
-    deploy_all "$@"
-    ;;
-  nixos)
-    shift || true
-    apply_nixos "$@"
-    ;;
-  home)
-    shift || true
-    apply_home "$@"
-    ;;
-  update)
-    update_flake
-    ;;
-  check)
-    check_flake
-    ;;
-  clean)
-    clean_old
-    ;;
-  status)
-    show_status
-    ;;
-  help|--help|-h)
-    show_help
-    ;;
-  *)
-    print_error "Unknown command: $1"
-    show_help
-    exit 1
-    ;;
+    deploy)
+        shift || true
+        deploy_all "$@"
+        ;;
+    nixos)
+        shift || true
+        apply_nixos "$@"
+        ;;
+    home)
+        shift || true
+        apply_home "$@"
+        ;;
+    update)
+        update_flake
+        ;;
+    check)
+        check_flake
+        ;;
+    clean)
+        clean_old
+        ;;
+    status)
+        show_status
+        ;;
+    help | --help | -h)
+        show_help
+        ;;
+    *)
+        print_error "Unknown command: ${1}"
+        show_help
+        exit 1
+        ;;
 esac

@@ -1,0 +1,50 @@
+# Markdownlint configuration
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Default state for all rules
+default: true
+
+# Line length
+MD013:
+  line_length: 120
+  code_blocks: false
+  tables: false
+
+# Inline HTML
+MD033:
+  allowed_elements:
+    - br
+    - details
+    - summary
+    - img
+
+# First line in file should be a heading
+MD041: false
+
+# Fenced code blocks should have a language specified
+MD040: true
+
+# Lists should be surrounded by blank lines
+MD032: true
+
+# Multiple consecutive blank lines
+MD012:
+  maximum: 2
+
+# Trailing punctuation in heading
+MD026:
+  punctuation: ".,;:!"
+
+# Multiple spaces after blockquote symbol
+MD027: true
+
+# Ordered list item prefix
+MD029:
+  style: "ordered"
+
+# Spaces after list markers
+MD030:
+  ul_single: 1
+  ol_single: 1
+  ul_multi: 1
+  ol_multi: 1
