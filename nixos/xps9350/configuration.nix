@@ -50,7 +50,7 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      hayao = import ../../home/linux;
+      hayao = import ../../home-manager/linux;
     };
   };
 

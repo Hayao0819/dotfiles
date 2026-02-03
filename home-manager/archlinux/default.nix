@@ -4,9 +4,10 @@
 }:
 {
   imports = [
-    outputs.modules.home.git
-    outputs.modules.home.zsh
-    outputs.modules.home.pkgs
+    outputs.modules.home-manager.nixpkgs
+    outputs.modules.home-manager.git
+    outputs.modules.home-manager.zsh
+    outputs.modules.home-manager.pkgs
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
@@ -18,8 +19,6 @@
     enableNixpkgsReleaseCheck = false;
   };
 
-  # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
 
   programs.home-manager.enable = true;
 

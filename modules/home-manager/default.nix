@@ -2,6 +2,7 @@
 # These should be stuff you would like to share with others, not your personal configurations.
 {
   # List your module files here
+  nixpkgs = import ./nixpkgs;
   git = import ./git;
   zsh = import ./zsh;
   pkgs = import ./pkgs;

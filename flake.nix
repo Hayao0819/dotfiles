@@ -81,7 +81,7 @@
       darwinConfigurations = import ./darwin { inherit inputs outputs nix-darwin; };
 
       # home-manager
-      homeConfigurations = import ./home { inherit inputs outputs; };
+      homeConfigurations = import ./home-manager { inherit inputs outputs; };
 
       # Task runner applications
       apps = forAllSystems (system:

@@ -8,7 +8,10 @@
   };
 
   Installer = nixpkgs.lib.nixosSystem {
+    specialArgs = { inherit inputs outputs; };
     modules = [
+      # Import common nixpkgs configuration
+      ../modules/common/nixpkgs.nix
       ({ pkgs, lib, modulesPath, ... }:
         {
           imports = [
@@ -18,14 +21,7 @@
           boot.supportedFilesystems.zfs = lib.mkForce false;
           boot.kernelPackages = pkgs.linuxPackages_latest;
 
-          nixpkgs = {
-            hostPlatform = "x86_64-linux";
-            config = {
-              # Disable if you don't want unfree packages
-              allowUnfree = true;
-              allowUnsupportedSystem = true;
-            };
-          };
+          nixpkgs.hostPlatform = "x86_64-linux";
 
           nix.settings = {
             # Enable flakes and new 'nix' command

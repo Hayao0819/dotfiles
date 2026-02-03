@@ -1,5 +1,5 @@
 {
   nixos = import ./nixos;
-  home = import ./home-manager;
+  home-manager = import ./home-manager;
   darwin = import ./darwin;
 }
