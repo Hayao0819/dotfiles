@@ -9,4 +9,5 @@
   pkgs = import ./pkgs;
   gnome = import ./gnome;
   vscode = import ./vscode;
+  gh = import ./gh;
 }

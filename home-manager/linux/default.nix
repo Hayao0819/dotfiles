@@ -8,6 +8,7 @@
   imports = with outputs.modules.home-manager; [
     nixpkgs
     git
+    gh
     zsh
     fish
     pkgs

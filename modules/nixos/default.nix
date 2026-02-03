@@ -10,4 +10,5 @@
   common = import ./common.nix;
   systemd-boot = import ./systemd-boot;
   grub = import ./grub;
+  docker = import ./docker;
 }

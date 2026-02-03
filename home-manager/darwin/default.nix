@@ -14,6 +14,7 @@
 
     # If you want to use modules your own flake exports (from modules/home-manager):
     outputs.modules.home-manager.git
+    outputs.modules.home-manager.gh
     outputs.modules.home-manager.zsh
     outputs.modules.home-manager.pkgs
 

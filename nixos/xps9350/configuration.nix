@@ -16,6 +16,7 @@
       outputs.modules.nixos.common
       #outputs.modules.nixos.systemd-boot
       outputs.modules.nixos.grub
+      outputs.modules.nixos.docker
 
       # Or modules from other flakes (such as nixos-hardware):
       # inputs.hardware.nixosModules.common-cpu-amd
@@ -38,7 +39,7 @@
   users.users.hayao = {
     isNormalUser = true;
     description = "Hayao";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       # Add GUI apps only here
       firefox-bin
