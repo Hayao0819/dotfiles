@@ -5,6 +5,7 @@
 #   2. Paste the output below (replace everything after this comment block)
 #
 # Note: This file is imported by default.nix with `lib.hm.gvariant` in scope
+{ mkUint32, mkTuple }:
 
 {
   # === GNOME Shell ===
@@ -28,6 +29,19 @@
       "org.gnome.Console.desktop"
       "io.missioncenter.MissionCenter.desktop"
     ];
+  };
+
+  # === Desktop Background ===
+  "org/gnome/desktop/background" = {
+    color-shading-type = "solid";
+    picture-options = "zoom";
+    picture-uri = "file:///home/hayao/.wallpapers/venti.png";
+    picture-uri-dark = "file:///home/hayao/.wallpapers/venti.png";
+  };
+
+  # === Desktop Screensaver ===
+  "org/gnome/desktop/screensaver" = {
+    picture-uri = "file:///home/hayao/.wallpapers/venti.png";
   };
 
   # === Desktop Interface ===
@@ -141,11 +155,7 @@
 
   # === Extension: Dash to Panel ===
   "org/gnome/shell/extensions/dash-to-panel" = {
-    animate-appicon-hover-animation-extent = {
-      RIPPLE = 4;
-      PLANK = 4;
-      SIMPLE = 1;
-    };
+    animate-appicon-hover-animation-extent = ''{"RIPPLE":4,"PLANK":4,"SIMPLE":1}'';
     dot-position = "BOTTOM";
     hotkeys-overlay-combo = "TEMPORARILY";
     window-preview-title-position = "TOP";

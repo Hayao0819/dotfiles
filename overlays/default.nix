@@ -23,4 +23,27 @@
       };
     };
   };
+
+  # IPU7 camera packages from PR #479283
+  # Remove this overlay once the PR is merged into nixpkgs
+  ipu7-packages = final: prev:
+    let
+      ipu7-pkgs = import inputs.nixpkgs-ipu7 {
+        system = final.stdenv.hostPlatform.system;
+        config = {
+          allowUnfree = true;
+        };
+      };
+    in {
+      inherit (ipu7-pkgs)
+        ipu7-camera-bins
+        ipu7-camera-hal-ipu7x
+        ipu7-camera-hal-ipu75xa
+        ;
+      # icamerasrc is in gst_all_1 namespace
+      inherit (ipu7-pkgs.gst_all_1)
+        icamerasrc-ipu7x
+        icamerasrc-ipu75xa
+        ;
+    };
 }

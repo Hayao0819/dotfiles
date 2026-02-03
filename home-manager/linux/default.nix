@@ -12,6 +12,8 @@
     zsh
     fish
     pkgs
+    gnome
+    wallpapers
   ];
 
   home = {

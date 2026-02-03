@@ -10,4 +10,5 @@
   gnome = import ./gnome;
   vscode = import ./vscode;
   gh = import ./gh;
+  wallpapers = import ./wallpapers;
 }
