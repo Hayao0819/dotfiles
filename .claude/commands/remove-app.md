@@ -13,6 +13,7 @@ Expected format: `<app-name> <system-name>` (e.g., `gnome-logs XPS9350`)
 ## Step 1: Parse Arguments
 
 Extract from $ARGUMENTS:
+
 - **App name**: The application to remove
 - **System name**: Target system (e.g., XPS9350, archlinux)
 
@@ -22,7 +23,7 @@ Use web search to understand the application:
 
 1. Search: "<app-name> nixos package" to find the exact package name
 2. Search: "<app-name> what is" to understand its purpose and dependencies
-3. Check https://mynixos.com for the package details
+3. Check <https://mynixos.com> for the package details
 
 ## Step 3: Locate the Application in the Codebase
 
@@ -46,21 +47,26 @@ Search for where the application is defined:
 Before removing, determine the scope of changes:
 
 ### Scenario A: Single Location
+
 The app is only in one place (e.g., just in configuration.nix packages list)
 → Safe to remove directly
 
 ### Scenario B: Part of a Shared Module
+
 The app is in a module used by multiple systems (e.g., `modules/home-manager/gnome/`)
 → **ASK THE USER**: "This app is part of the <module-name> module which is used by: <list systems>. How would you like to proceed?"
 
 Options to present:
+
 1. Remove from the module (affects all systems using it)
 2. Create a system-specific override to exclude it
 3. Move the app to system-specific config and remove from module
 
 ### Scenario C: Dependency of Other Package
+
 The app is pulled in by another package or module
 → **INFORM THE USER**: "This app is a dependency of <parent>. Removing it may break <parent>. Options:"
+
 1. Remove the parent package/module instead
 2. Cannot remove (hard dependency)
 3. Check if there's a minimal variant without this dependency
@@ -81,6 +87,7 @@ Based on the assessment:
 ## Step 6: Validate
 
 Run validation after making changes:
+
 ```bash
 nix flake check --extra-experimental-features 'nix-command flakes'
 ```

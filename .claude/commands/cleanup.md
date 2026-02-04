@@ -23,6 +23,7 @@ nix flake check --extra-experimental-features 'nix-command flakes'
 Search for and fix these common Nix anti-patterns:
 
 #### 2.1 Avoid `rec` (Infinite Recursion Risk)
+
 **Problem**: `rec { }` can cause hard-to-debug infinite recursion when names are shadowed.
 **Solution**: Use `let ... in` instead.
 
@@ -43,6 +44,7 @@ in {
 ```
 
 #### 2.2 Avoid Top-Level `with`
+
 **Problem**: `with` makes code harder to analyze and scoping unclear.
 **Solution**: Use explicit `inherit` or qualified names.
 
@@ -59,6 +61,7 @@ inherit (pkgs) git vim nodejs;  # Better for bindings
 ```
 
 #### 2.3 Avoid Lookup Paths `<...>`
+
 **Problem**: `<nixpkgs>` depends on `$NIX_PATH`, breaking reproducibility.
 **Solution**: Use flake inputs or explicit pinning.
 
@@ -71,6 +74,7 @@ inputs.nixpkgs.legacyPackages.${system}
 ```
 
 #### 2.4 Always Quote URLs
+
 **Problem**: Bare URLs are deprecated (RFC 45).
 **Solution**: Always use quoted strings.
 
@@ -85,28 +89,36 @@ url = "https://example.com";
 ### Phase 3: Code Quality Improvements
 
 #### 3.1 Dead Code Detection
+
 Look for:
+
 - Unused `let` bindings
 - Unused function arguments
 - Commented-out code blocks
 - Unreachable code paths
 
 #### 3.2 Redundancy Removal
+
 Look for:
+
 - Duplicate package declarations across files
 - Repeated configuration blocks that could be abstracted
 - Identical imports in multiple files
 - Redundant conditionals (e.g., `if true then x else y`)
 
 #### 3.3 Consistency Checks
+
 Ensure:
+
 - Consistent naming conventions (camelCase for variables, kebab-case for derivations)
 - Consistent formatting and indentation (2 spaces standard)
 - Consistent use of `lib` vs inline functions
 - Consistent module structure across similar files
 
 #### 3.4 Simplification Opportunities
+
 Look for:
+
 - `if x == true` → `if x`
 - `if x == false` → `if !x`
 - `if x then true else false` → `x`
@@ -118,19 +130,25 @@ Look for:
 ### Phase 4: Module Structure Review
 
 #### 4.1 File Organization
+
 Check for:
+
 - Large files that should be split
 - Related options scattered across files
 - Missing `default.nix` in directories
 
 #### 4.2 Import Hygiene
+
 Verify:
+
 - No circular imports
 - Minimal import depth
 - Clear dependency direction (modules → lib, not lib → modules)
 
 #### 4.3 Option Definitions
+
 Ensure:
+
 - Proper option types (`lib.types.*`)
 - Meaningful default values
 - Documentation strings for public options
@@ -138,6 +156,7 @@ Ensure:
 ### Phase 5: Attribute Set Best Practices
 
 #### 5.1 Proper Merging
+
 ```nix
 # Bad (shallow merge loses nested attrs)
 a // b
@@ -150,6 +169,7 @@ lib.mkMerge [ config1 config2 ]
 ```
 
 #### 5.2 Explicit Config/Overlays
+
 ```nix
 # Bad (inherits global config)
 import nixpkgs {}
@@ -191,6 +211,7 @@ nix eval .#nixosConfigurations.xps9350.config.system.build.toplevel --extra-expe
 ## Output Format
 
 Provide a summary of:
+
 - Files modified
 - Issues found and fixed (categorized)
 - Remaining warnings or suggestions

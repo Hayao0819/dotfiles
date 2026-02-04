@@ -13,7 +13,7 @@ You are adding the application: **$ARGUMENTS**
 Search for how to install and configure "$ARGUMENTS" on NixOS or Home Manager:
 
 1. Search Google for: "$ARGUMENTS nixos home-manager install configuration"
-2. Check https://mynixos.com for the package and available options
+2. Check <https://mynixos.com> for the package and available options
 3. Determine:
    - Package name in nixpkgs (e.g., `pkgs.google-chrome`, `pkgs.firefox`)
    - Whether it has a Home Manager module (e.g., `programs.git`, `programs.vscode`)
@@ -24,22 +24,27 @@ Search for how to install and configure "$ARGUMENTS" on NixOS or Home Manager:
 Based on your research, categorize the application:
 
 ### Category A: NixOS System-Level (bootloader, services, hardware)
+
 Examples: grub, systemd-boot, docker daemon, nvidia drivers, networking
 → Add to: `modules/nixos/<module-name>/default.nix` or `nixos/xps9350/configuration.nix`
 
 ### Category B: GUI Desktop Applications (user-scoped)
+
 Examples: Chrome, Firefox, Slack, VS Code, Discord
 → Add to: `nixos/xps9350/configuration.nix` in `users.users.hayao.packages`
 
 ### Category C: CLI Tools (cross-platform)
+
 Examples: ripgrep, jq, git, nodejs
 → Add to: `modules/home-manager/pkgs/global.nix`
 
 ### Category D: CLI Tools (Linux-only)
+
 Examples: docker-compose, dconf2nix
 → Add to: `modules/home-manager/pkgs/linux.nix`
 
 ### Category E: Configured Applications (with Home Manager module)
+
 Examples: git (with config), zsh (with plugins), neovim (with settings)
 → Create: `modules/home-manager/<app-name>/default.nix`
 → Add import to: `modules/home-manager/default.nix`
@@ -56,6 +61,7 @@ Examples: git (with config), zsh (with plugins), neovim (with settings)
 ## Step 4: Validate
 
 Run validation after making changes:
+
 ```bash
 nix flake check --extra-experimental-features 'nix-command flakes'
 ```
