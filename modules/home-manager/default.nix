@@ -11,4 +11,5 @@
   vscode = import ./vscode;
   gh = import ./gh;
   wallpapers = import ./wallpapers;
+  claude = import ./claude;
 }

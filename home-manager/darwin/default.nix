@@ -14,6 +14,7 @@
     outputs.modules.home-manager.gh
     outputs.modules.home-manager.zsh
     outputs.modules.home-manager.pkgs
+    outputs.modules.home-manager.claude
   ];
 
   home = {

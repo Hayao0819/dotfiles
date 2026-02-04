@@ -14,6 +14,7 @@
     pkgs
     gnome
     wallpapers
+    claude
   ];
 
   home = {
