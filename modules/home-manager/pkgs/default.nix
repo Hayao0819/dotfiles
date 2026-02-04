@@ -1,17 +1,13 @@
 { config
 , pkgs
 , lib
-, inputs
 , ...
 }:
 let
-  # llm-agents packages (ccstatusline, etc.)
-  llm-agents-pkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
-
   # Package sets for different targets
   macos = import ./osx.nix { inherit pkgs; };
   linux = import ./linux.nix { inherit pkgs; };
-  globals = import ./global.nix { inherit pkgs llm-agents-pkgs; };
+  globals = import ./global.nix { inherit pkgs; };
 
   # Check if the target is MacOS or Linux
   isMacOS =

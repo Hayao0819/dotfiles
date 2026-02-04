@@ -1,6 +1,6 @@
 # Centralized nixpkgs configuration
 # This module provides unified nixpkgs settings for all systems
-{ inputs, outputs, ... }:
+{ outputs, ... }:
 {
   # Common nixpkgs configuration
   nixpkgs = {
@@ -10,6 +10,7 @@
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
       outputs.overlays.ipu7-packages  # IPU7 camera support (PR #479283)
+      outputs.overlays.llm-agents     # llm-agents packages (ccstatusline, etc.)
     ];
 
     # Configure nixpkgs

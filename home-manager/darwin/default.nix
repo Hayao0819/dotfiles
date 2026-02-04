@@ -6,8 +6,8 @@
 }:
 {
   imports = [
-    # Import centralized nixpkgs configuration
-    outputs.modules.home-manager.nixpkgs
+    # Centralized nixpkgs configuration
+    ../../modules/common/nixpkgs.nix
 
     # Import modules from this flake
     outputs.modules.home-manager.git

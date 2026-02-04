@@ -60,6 +60,8 @@
       gnome-connections # 接続
       decibels # audio player
       showtime # video player
+      papers # document viewer (evince successor)
+      gnome-calendar # calendar
     ];
 
     # Setting daemons

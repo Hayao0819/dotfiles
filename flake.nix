@@ -24,15 +24,7 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      nixpkgs-unstable,
-      nixpkgs-ipu7,
-      nix-darwin,
-      ...
-    }@inputs:
+    { self, ... }@inputs:
     let
       inherit (self) outputs;
       # このFlakesでサポートするシステム
@@ -45,14 +37,12 @@
 
       # This is a function that generates an attribute by calling a function you
       # pass to it, with each system as an argument
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+      forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
     in
     {
       # Formatter for your nix files, available through 'nix fmt'
       formatter.x86_64-linux =
-        (import inputs.nixpkgs {
-          system = "x86_64-linux";
-        }).nixfmt-rfc-style;
+        (import inputs.nixpkgs { system = "x86_64-linux"; }).nixfmt-rfc-style;
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
@@ -61,17 +51,10 @@
       modules = import ./modules; # { inherit inputs; };
 
       # nix os
-      nixosConfigurations = import ./nixos {
-        inherit
-          inputs
-          outputs
-          nixpkgs
-          nixpkgs-unstable
-          ;
-      };
+      nixosConfigurations = import ./nixos { inherit inputs outputs; };
 
       # nix-darwin
-      darwinConfigurations = import ./darwin { inherit inputs outputs nix-darwin; };
+      darwinConfigurations = import ./darwin { inherit inputs outputs; };
 
       # home-manager
       homeConfigurations = import ./home-manager { inherit inputs outputs; };
@@ -79,7 +62,7 @@
       # Task runner applications
       apps = forAllSystems (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = inputs.nixpkgs.legacyPackages.${system};
 
           # Copy scripts to a derivation so they can find each other
           scriptsDir = pkgs.stdenvNoCC.mkDerivation {
@@ -95,7 +78,7 @@
           # Create a wrapper that provides necessary tools
           taskRunner = pkgs.writeShellScript "dotfiles-task-runner" ''
             #!/usr/bin/env bash
-            export PATH="${pkgs.jq}/bin:${pkgs.git}/bin:${home-manager.packages.${system}.default}/bin:$PATH"
+            export PATH="${pkgs.jq}/bin:${pkgs.git}/bin:${inputs.home-manager.packages.${system}.default}/bin:$PATH"
             exec ${pkgs.bash}/bin/bash ${scriptsDir}/task-runner.sh "$@"
           '';
 

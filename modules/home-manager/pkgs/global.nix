@@ -1,8 +1,8 @@
 # List of packages to be available in PATH for
 # both MacOS and Linux.
-{ pkgs, llm-agents-pkgs, ... }: [
+{ pkgs, ... }: [
   # Claude Code statusline
-  llm-agents-pkgs.ccstatusline
+  pkgs.llm-agents.ccstatusline
   # Downloader
   pkgs.aria2
 

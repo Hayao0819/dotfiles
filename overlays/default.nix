@@ -20,6 +20,9 @@
     };
   };
 
+  # llm-agents packages (ccstatusline, etc.)
+  llm-agents = inputs.llm-agents.overlays.default;
+
   # IPU7 camera packages from PR #479283
   # Remove this overlay once the PR is merged into nixpkgs
   ipu7-packages = final: prev:

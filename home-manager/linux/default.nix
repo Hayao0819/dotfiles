@@ -5,8 +5,10 @@
   ...
 }:
 {
-  imports = with outputs.modules.home-manager; [
-    nixpkgs
+  imports = [
+    # Centralized nixpkgs configuration
+    ../../modules/common/nixpkgs.nix
+  ] ++ (with outputs.modules.home-manager; [
     git
     gh
     zsh
@@ -15,7 +17,7 @@
     gnome
     wallpapers
     claude
-  ];
+  ]);
 
   home = {
     username = "hayao";

@@ -1,5 +1,5 @@
-{ nixpkgs, inputs, outputs, ... }: {
-  XPS9350 = nixpkgs.lib.nixosSystem {
+{ inputs, outputs, ... }: {
+  XPS9350 = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs outputs; };
     modules = [
       # > Our main nixos configuration file <
@@ -7,7 +7,7 @@
     ];
   };
 
-  Installer = nixpkgs.lib.nixosSystem {
+  Installer = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs outputs; };
     modules = [
       # Import common nixpkgs configuration
