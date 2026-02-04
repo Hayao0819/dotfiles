@@ -62,6 +62,7 @@
       showtime # video player
       papers # document viewer (evince successor)
       gnome-calendar # calendar
+      loupe # image viewer
     ];
 
     # Setting daemons
@@ -102,10 +103,11 @@
       gnomeExtensions.kimpanel
       gnomeExtensions.status-icons
       gnomeExtensions.user-themes
-      gnomeExtensions.pano
+      # gnomeExtensions.pano # Archived, doesn't support GNOME 49
       gnomeExtensions.desktop-icons-ng-ding
     ]) ++ (with pkgs.unstable; [
       gnomeExtensions.arcmenu
+      gnomeExtensions.copyous # Pano successor - supports images, links, colors
     ]);
   };
 }
