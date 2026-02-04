@@ -32,11 +32,6 @@
         key = "";
       };
 
-      # Aliases
-      #aliases = {
-      #  ch = "checkout";
-      #};
-
       # Git ignores
       ignores = [
         ".DS_Store"

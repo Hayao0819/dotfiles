@@ -157,8 +157,6 @@
       export GOPATH="$HOME/.go"
       export PATH="$PATH:$HOME/.go/bin"
 
-      # Extra services
-      # here...
     '';
   };
 }

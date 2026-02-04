@@ -48,27 +48,11 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      # Your custom packages
-      # Accessible through 'nix build', 'nix shell', etc
-      # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-
       # Formatter for your nix files, available through 'nix fmt'
-      # Other options beside 'nixpkgs-fmt' include 'alejandra'
-      # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       formatter.x86_64-linux =
         (import inputs.nixpkgs {
           system = "x86_64-linux";
         }).nixfmt-rfc-style;
-
-      # Development environment
-      # Accessible through 'nix develop' or 'nix develop -c $SHELL' if you're zsh user
-      # devShells = forAllSystems
-      #   (system: {
-      #     default = import ./shell.nix
-      #       {
-      #         pkgs = nixpkgs.legacyPackages.${system};
-      #       };
-      #   });
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };

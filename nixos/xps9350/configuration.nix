@@ -89,18 +89,7 @@
     };
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # > Tip: Don't use unless your machine has multiple user
-  # > Instead, use modules/home-manager/pkgs to define pkgs
-  environment.systemPackages = #with pkgs;
-    [
-      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      #  wget
-    ];
-
   boot.kernelPackages = pkgs.unstable.linuxPackages_latest;
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
