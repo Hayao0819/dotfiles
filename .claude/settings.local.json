@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git -C /home/hayao/dotfiles rm:*)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}

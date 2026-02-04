@@ -11,4 +11,7 @@
   systemd-boot = import ./systemd-boot;
   grub = import ./grub;
   docker = import ./docker;
+  fonts = import ./fonts;
+  virtualization = import ./virtualization;
+  archfornixos = import ./archfornixos;
 }
