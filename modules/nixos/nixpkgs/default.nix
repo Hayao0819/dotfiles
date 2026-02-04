@@ -1,9 +1,10 @@
-{ outputs
-, lib
-, config
-, inputs
-, ...
-}: {
+{
+  lib,
+  config,
+  inputs,
+  ...
+}:
+{
   # Import common nixpkgs configuration
   imports = [
     ../../common/nixpkgs.nix

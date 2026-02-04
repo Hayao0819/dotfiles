@@ -9,8 +9,8 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-      outputs.overlays.ipu7-packages  # IPU7 camera support (PR #479283)
-      outputs.overlays.llm-agents     # llm-agents packages (ccstatusline, etc.)
+      outputs.overlays.ipu7-packages # IPU7 camera support (PR #479283)
+      outputs.overlays.llm-agents # llm-agents packages (ccstatusline, etc.)
     ];
 
     # Configure nixpkgs
