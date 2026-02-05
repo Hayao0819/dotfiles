@@ -11,4 +11,5 @@
   gh = import ./gh;
   wallpapers = import ./wallpapers;
   claude = import ./claude;
+  xdg = import ./xdg;
 }

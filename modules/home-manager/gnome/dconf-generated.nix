@@ -28,9 +28,11 @@
       "code.desktop"
       "gitkraken.desktop"
       "virtualbox.desktop"
-      "vesktop.desktop"
       "org.gnome.Console.desktop"
+      "slack.desktop"
+      "vesktop.desktop"
       "io.missioncenter.MissionCenter.desktop"
+      "steam.desktop"
     ];
   };
 

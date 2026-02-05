@@ -17,6 +17,7 @@
     gnome
     wallpapers
     claude
+    xdg
   ]);
 
   home = {
