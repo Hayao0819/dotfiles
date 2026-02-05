@@ -20,6 +20,7 @@
   pkgs.fd
   pkgs.bat
   pkgs.btop
+  pkgs.htop
   pkgs.gping
   pkgs.fastfetch
   pkgs.procs

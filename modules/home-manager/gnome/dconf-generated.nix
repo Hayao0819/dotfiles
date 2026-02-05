@@ -16,15 +16,18 @@
       "arcmenu@arcmenu.com"
       "dash-to-panel@jderose9.github.com"
       "ding@rastersoft.com"
-      "pano@elhan.io"
       "status-icons@gnome-shell-extensions.gcampax.github.com"
       "kimpanel@kde.org"
       "gsconnect@andyholmes.github.io"
       "appindicatorsupport@rgcjonas.gmail.com"
+      "copyous@boerdereinar.dev"
     ];
     favorite-apps = [
       "brave-browser.desktop"
       "org.gnome.Nautilus.desktop"
+      "code.desktop"
+      "gitkraken.desktop"
+      "virtualbox.desktop"
       "vesktop.desktop"
       "org.gnome.Console.desktop"
       "io.missioncenter.MissionCenter.desktop"
@@ -41,7 +44,13 @@
 
   # === Desktop Screensaver ===
   "org/gnome/desktop/screensaver" = {
+    lock-enabled = false;
     picture-uri = "file:///home/hayao/.wallpapers/venti.png";
+  };
+
+  # === Desktop Notifications ===
+  "org/gnome/desktop/notifications" = {
+    show-in-lock-screen = false;
   };
 
   # === Desktop Interface ===
@@ -68,6 +77,7 @@
   # === Input Sources ===
   "org/gnome/desktop/input-sources" = {
     sources = [ (mkTuple [ "xkb" "us" ]) ];
+    xkb-options = [ "terminate:ctrl_alt_bksp" ];
   };
 
   # === Touchpad ===
@@ -95,6 +105,7 @@
   # === GNOME Console ===
   "org/gnome/Console" = {
     custom-font = "JetBrainsMonoNL Nerd Font Mono 10";
+    ignore-scrollback-limit = true;
     use-system-font = false;
   };
 
@@ -149,6 +160,7 @@
     menu-height = 700;
     menu-layout = "Whisker";
     multi-monitor = true;
+    # Note: pinned-apps uses complex GVariant format - configure manually via dconf-editor
     search-entry-border-radius = mkTuple [ true 25 ];
     searchbar-default-top-location = "Bottom";
   };
@@ -174,13 +186,14 @@
   "org/gnome/shell/extensions/gsconnect" = {
     devices = [ ];
     missing-openssl = false;
+    name = "XPS9350";
   };
 
-  # === Extension: Pano (Clipboard Manager) ===
-  "org/gnome/shell/extensions/pano" = {
-    global-shortcut = [ "<Super>v" ];
-    paste-on-select = false;
-    play-audio-on-copy = false;
-    send-notification-on-copy = false;
+  # === Extension: Copyous (Pano successor) ===
+  # Note: Pano is archived and doesn't support GNOME 49, using Copyous instead
+  "org/gnome/shell/extensions/copyous" = {
+    clipboard-position-vertical = "bottom";
+    disable-hljs-dialog = false;
+    open-clipboard-dialog-shortcut = [ "<Super>v" ];
   };
 }

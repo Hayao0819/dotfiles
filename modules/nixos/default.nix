@@ -14,4 +14,6 @@
   fonts = import ./fonts;
   virtualization = import ./virtualization;
   archfornixos = import ./archfornixos;
+  steam = import ./steam;
+  tuned = import ./tuned;
 }

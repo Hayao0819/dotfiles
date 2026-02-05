@@ -20,6 +20,8 @@
       outputs.modules.nixos.fonts
       outputs.modules.nixos.virtualization
       outputs.modules.nixos.archfornixos
+      outputs.modules.nixos.steam
+      outputs.modules.nixos.tuned
 
       # Or modules from other flakes (such as nixos-hardware):
       # inputs.hardware.nixosModules.common-cpu-amd
@@ -78,6 +80,16 @@
 
       # Gaming/Wine
       bottles  # Wine prefix manager
+
+      # Video conferencing
+      zoom-us
+
+      # Disk utilities
+      gparted
+      baobab  # GNOME disk usage analyzer
+
+      # VPN
+      globalprotect-openconnect  # GlobalProtect VPN client with GUI
     ];
   };
 

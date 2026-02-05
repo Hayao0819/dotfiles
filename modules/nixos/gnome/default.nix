@@ -63,6 +63,7 @@
       papers # document viewer (evince successor)
       gnome-calendar # calendar
       loupe # image viewer
+      simple-scan # scanner tool
     ];
 
     # Setting daemons
@@ -108,6 +109,10 @@
     ]) ++ (with pkgs.unstable; [
       gnomeExtensions.arcmenu
       gnomeExtensions.copyous # Pano successor - supports images, links, colors
+
+      # Copyous runtime dependencies (loaded via GObject Introspection)
+      libgda6 # SQLite database access for clipboard history
+      gsound # Sound playback (optional)
     ]);
   };
 }

@@ -21,7 +21,11 @@
       # Allow unsupported system (for cross-compilation, etc.)
       allowUnsupportedSystem = true;
 
-      # Additional package configuration can go here
+      # Allow specific insecure packages
+      # qtwebengine is required by globalprotect-openconnect
+      permittedInsecurePackages = [
+        "qtwebengine-5.15.19"
+      ];
     };
   };
 }
