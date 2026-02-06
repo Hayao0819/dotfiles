@@ -19,5 +19,6 @@ in {
       templates = "${homeDir}/Templates";
       videos = "${homeDir}/Videos";
     };
+    configFile."user-dirs.dirs".force = true;
   };
 }

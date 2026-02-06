@@ -22,6 +22,10 @@
       outputs.modules.nixos.archfornixos
       outputs.modules.nixos.steam
       outputs.modules.nixos.tuned
+      outputs.modules.nixos.nix-ld
+
+      # nm-vpngate - VPN Gate client for NetworkManager
+      inputs.nm-vpngate.nixosModules.default
 
       # Or modules from other flakes (such as nixos-hardware):
       # inputs.hardware.nixosModules.common-cpu-amd
@@ -42,6 +46,12 @@
   hardware.ipu7 = {
     enable = true;
     platform = "ipu7x";  # Lunar Lake default
+  };
+
+  # VPN Gate client for NetworkManager
+  services.nm-vpngate = {
+    enable = true;
+    autoConnect = false;  # Manual connection only
   };
 
   networking.hostName = "XPS9350"; # Define your hostname.

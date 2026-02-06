@@ -7,5 +7,6 @@
   # Docker CLI and related tools
   environment.systemPackages = with pkgs; [
     docker-compose
+    docker-buildx
   ];
 }

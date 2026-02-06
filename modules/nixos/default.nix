@@ -16,4 +16,5 @@
   archfornixos = import ./archfornixos;
   steam = import ./steam;
   tuned = import ./tuned;
+  nix-ld = import ./nix-ld;
 }

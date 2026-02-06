@@ -37,6 +37,12 @@
       options = [ "nofail" ];  # Prevent boot failure if partition is unavailable
     };
 
+  fileSystems."/mnt/windows11" =
+    { device = "/dev/disk/by-uuid/EEAA025CAA0221A7";
+      fsType = "ntfs3";
+      options = [ "nofail" "rw" "uid=1000" "gid=100" ];
+    };
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

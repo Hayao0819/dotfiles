@@ -21,6 +21,8 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nm-vpngate.url = "github:Hayao0819/nm-vpngate";
   };
 
   outputs =

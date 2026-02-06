@@ -16,6 +16,9 @@
   pkgs.shfmt
   pkgs.shellcheck
 
+  # Node.js version manager
+  pkgs.volta
+
   # Environment
   pkgs.fd
   pkgs.bat
