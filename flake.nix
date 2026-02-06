@@ -43,8 +43,7 @@
     in
     {
       # Formatter for your nix files, available through 'nix fmt'
-      formatter.x86_64-linux =
-        (import inputs.nixpkgs { system = "x86_64-linux"; }).nixfmt-rfc-style;
+      formatter.x86_64-linux = (import inputs.nixpkgs { system = "x86_64-linux"; }).nixfmt-rfc-style;
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
@@ -62,7 +61,8 @@
       homeConfigurations = import ./home-manager { inherit inputs outputs; };
 
       # Task runner applications
-      apps = forAllSystems (system:
+      apps = forAllSystems (
+        system:
         let
           pkgs = inputs.nixpkgs.legacyPackages.${system};
 
@@ -80,11 +80,14 @@
           # Create a wrapper that provides necessary tools
           taskRunner = pkgs.writeShellScript "dotfiles-task-runner" ''
             #!/usr/bin/env bash
-            export PATH="${pkgs.jq}/bin:${pkgs.git}/bin:${inputs.home-manager.packages.${system}.default}/bin:$PATH"
+            export PATH="${pkgs.jq}/bin:${pkgs.git}/bin:${
+              inputs.home-manager.packages.${system}.default
+            }/bin:$PATH"
             exec ${pkgs.bash}/bin/bash ${scriptsDir}/task-runner.sh "$@"
           '';
 
-        in {
+        in
+        {
           # Default app - the main task runner
           default = {
             type = "app";
@@ -100,30 +103,38 @@
           # Quick access apps for specific tasks
           update = {
             type = "app";
-            program = toString (pkgs.writeShellScript "update" ''
-              ${taskRunner} update
-            '');
+            program = toString (
+              pkgs.writeShellScript "update" ''
+                ${taskRunner} update
+              ''
+            );
           };
 
           check = {
             type = "app";
-            program = toString (pkgs.writeShellScript "check" ''
-              ${taskRunner} check
-            '');
+            program = toString (
+              pkgs.writeShellScript "check" ''
+                ${taskRunner} check
+              ''
+            );
           };
 
           clean = {
             type = "app";
-            program = toString (pkgs.writeShellScript "clean" ''
-              ${taskRunner} clean
-            '');
+            program = toString (
+              pkgs.writeShellScript "clean" ''
+                ${taskRunner} clean
+              ''
+            );
           };
 
           status = {
             type = "app";
-            program = toString (pkgs.writeShellScript "status" ''
-              ${taskRunner} status
-            '');
+            program = toString (
+              pkgs.writeShellScript "status" ''
+                ${taskRunner} status
+              ''
+            );
           };
         }
       );

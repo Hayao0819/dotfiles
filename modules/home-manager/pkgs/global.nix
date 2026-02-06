@@ -1,6 +1,7 @@
 # List of packages to be available in PATH for
 # both MacOS and Linux.
-{ pkgs, ... }: [
+{ pkgs, ... }:
+[
   # Claude Code statusline
   pkgs.llm-agents.ccstatusline
   # Downloader
@@ -39,5 +40,6 @@
   # pkgs.roulette
 
   pkgs.nil
-  pkgs.nixpkgs-fmt
+  pkgs.nixfmt-rfc-style
+  pkgs.nixfmt-tree
 ]

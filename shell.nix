@@ -5,17 +5,20 @@
 # ```shell
 # nix-shell
 # ```
-{ pkgs ? let # if pkgs not provided
-    # Keep synced with flake not use host's nixpkgs version
-    lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
-    nixpkgs = fetchTarball {
-      url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
-      sha256 = lock.narHash;
-    };
-  in
-  import nixpkgs { overlays = [ ]; }
-, ...
-}: pkgs.stdenv.mkDerivation {
+{
+  pkgs ?
+    let # if pkgs not provided
+      # Keep synced with flake not use host's nixpkgs version
+      lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
+      nixpkgs = fetchTarball {
+        url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
+        sha256 = lock.narHash;
+      };
+    in
+    import nixpkgs { overlays = [ ]; },
+  ...
+}:
+pkgs.stdenv.mkDerivation {
   name = "hayanix";
 
   nativeBuildInputs = with pkgs; [

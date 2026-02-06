@@ -1,4 +1,5 @@
-{ inputs, outputs, ... }: {
+{ inputs, outputs, ... }:
+{
   XPS9350 = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs outputs; };
     modules = [
@@ -12,7 +13,13 @@
     modules = [
       # Import common nixpkgs configuration
       ../modules/common/nixpkgs.nix
-      ({ pkgs, lib, modulesPath, ... }:
+      (
+        {
+          pkgs,
+          lib,
+          modulesPath,
+          ...
+        }:
         {
           imports = [
             (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix")
@@ -27,7 +34,8 @@
             # Enable flakes and new 'nix' command
             experimental-features = "nix-command flakes";
           };
-        })
+        }
+      )
     ];
   };
 }

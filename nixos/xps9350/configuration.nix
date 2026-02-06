@@ -2,56 +2,60 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, outputs, inputs, ... }:
+{
+  pkgs,
+  outputs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [
-      # You can import other NixOS modules here
-      outputs.modules.nixos.zsh
-      outputs.modules.nixos.network
-      outputs.modules.nixos.locale
-      outputs.modules.nixos.gnome
-      outputs.modules.nixos.nixpkgs
-      outputs.modules.nixos.common
-      #outputs.modules.nixos.systemd-boot
-      outputs.modules.nixos.grub
-      outputs.modules.nixos.docker
-      outputs.modules.nixos.fonts
-      outputs.modules.nixos.virtualization
-      outputs.modules.nixos.archfornixos
-      outputs.modules.nixos.steam
-      outputs.modules.nixos.tuned
-      outputs.modules.nixos.nix-ld
+  imports = [
+    # You can import other NixOS modules here
+    outputs.modules.nixos.zsh
+    outputs.modules.nixos.network
+    outputs.modules.nixos.locale
+    outputs.modules.nixos.gnome
+    outputs.modules.nixos.nixpkgs
+    outputs.modules.nixos.common
+    #outputs.modules.nixos.systemd-boot
+    outputs.modules.nixos.grub
+    outputs.modules.nixos.docker
+    outputs.modules.nixos.fonts
+    outputs.modules.nixos.virtualization
+    outputs.modules.nixos.archfornixos
+    outputs.modules.nixos.steam
+    outputs.modules.nixos.tuned
+    outputs.modules.nixos.nix-ld
 
-      # nm-vpngate - VPN Gate client for NetworkManager
-      inputs.nm-vpngate.nixosModules.default
+    # nm-vpngate - VPN Gate client for NetworkManager
+    inputs.nm-vpngate.nixosModules.default
 
-      # Or modules from other flakes (such as nixos-hardware):
-      # inputs.hardware.nixosModules.common-cpu-amd
-      # inputs.hardware.nixosModules.common-ssd
+    # Or modules from other flakes (such as nixos-hardware):
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-ssd
 
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      # Home Manager NixOS Module
-      inputs.home-manager.nixosModules.home-manager
+    # Home Manager NixOS Module
+    inputs.home-manager.nixosModules.home-manager
 
-      # IPU7 camera support module (from PR #479283)
-      ./ipu7.nix
-    ];
+    # IPU7 camera support module (from PR #479283)
+    ./ipu7.nix
+  ];
 
   # Intel IPU7 (Lunar Lake) camera support
   # Platform options: "ipu7x" or "ipu75xa" - check your hardware
   hardware.ipu7 = {
     enable = true;
-    platform = "ipu7x";  # Lunar Lake default
+    platform = "ipu7x"; # Lunar Lake default
   };
 
   # VPN Gate client for NetworkManager
   services.nm-vpngate = {
     enable = true;
-    autoConnect = false;  # Manual connection only
+    autoConnect = false; # Manual connection only
   };
 
   networking.hostName = "XPS9350"; # Define your hostname.
@@ -64,11 +68,17 @@
   users.users.hayao = {
     isNormalUser = true;
     description = "Hayao";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "vboxusers" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+      "vboxusers"
+    ];
     packages = with pkgs; [
       # Add GUI apps only here
       firefox-bin
-      vesktop  # Discord client with Vencord built-in
+      vesktop # Discord client with Vencord built-in
 
       # Browsers
       brave
@@ -83,23 +93,23 @@
 
       # Development
       gitkraken
-      vscode-fhs  # VS Code with FHS environment for extension compatibility
+      vscode-fhs # VS Code with FHS environment for extension compatibility
 
       # System tools
-      mission-center  # System monitor like Windows Task Manager
+      mission-center # System monitor like Windows Task Manager
 
       # Gaming/Wine
-      bottles  # Wine prefix manager
+      bottles # Wine prefix manager
 
       # Video conferencing
       zoom-us
 
       # Disk utilities
       gparted
-      baobab  # GNOME disk usage analyzer
+      baobab # GNOME disk usage analyzer
 
       # VPN
-      globalprotect-openconnect  # GlobalProtect VPN client with GUI
+      globalprotect-openconnect # GlobalProtect VPN client with GUI
     ];
   };
 

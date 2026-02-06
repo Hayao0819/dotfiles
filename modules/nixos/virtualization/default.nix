@@ -9,7 +9,7 @@
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
-      swtpm.enable = true;  # TPM emulation support
+      swtpm.enable = true; # TPM emulation support
       # OVMF is included by default with QEMU in NixOS
     };
   };
@@ -17,7 +17,7 @@
   # VirtualBox
   virtualisation.virtualbox.host = {
     enable = true;
-    enableExtensionPack = true;  # USB 2.0/3.0, VirtualBox RDP, etc.
+    enableExtensionPack = true; # USB 2.0/3.0, VirtualBox RDP, etc.
   };
 
   # Spice agent for VM clipboard sharing and display optimization
@@ -26,15 +26,15 @@
   # Virtualization management tools
   environment.systemPackages = with pkgs; [
     # QEMU/KVM
-    virt-manager      # GUI for libvirt
-    virt-viewer       # VM display viewer
-    virtiofsd         # VirtIO filesystem daemon for file sharing
+    virt-manager # GUI for libvirt
+    virt-viewer # VM display viewer
+    virtiofsd # VirtIO filesystem daemon for file sharing
 
     # Utilities
-    qemu-utils        # QEMU disk image utilities (qemu-img, etc.)
+    qemu-utils # QEMU disk image utilities (qemu-img, etc.)
 
     # Container tools (LXC)
-    lxc               # Linux Containers
+    lxc # Linux Containers
   ];
 
   # Enable dconf for virt-manager settings persistence

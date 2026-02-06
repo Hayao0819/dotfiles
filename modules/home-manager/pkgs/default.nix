@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 let
   # Package sets for different targets
@@ -27,9 +28,6 @@ in
 
   config = {
     # Packages to be installed on my machine
-    home.packages =
-      if config.packages.isMacOS
-      then globals ++ macos
-      else globals ++ linux;
+    home.packages = if config.packages.isMacOS then globals ++ macos else globals ++ linux;
   };
 }

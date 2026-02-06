@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   homeDir = config.home.homeDirectory;
-in {
+in
+{
   xdg = {
     enable = true;
     userDirs = {

@@ -20,5 +20,14 @@
     "editor.defaultFormatter": "jnoortheen.nix-ide",
     "editor.tabSize": 2,
     "editor.insertSpaces": true
+  },
+  "nix.serverSettings": {
+    "nixd": {
+      "formatting": {
+        "command": [
+          "nixfmt"
+        ],
+      },
+    },
   }
 }

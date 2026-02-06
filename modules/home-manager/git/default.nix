@@ -1,8 +1,10 @@
-{ config
-, pkgs
-, lib
-, ...
-}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   options = {
     git = {
       isMacOS = lib.mkOption {
@@ -39,23 +41,23 @@
     };
 
     home.file.".gnupg/gpg-agent.conf".text =
-      if config.git.isMacOS
-      then ''
-        pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
-      ''
+      if config.git.isMacOS then
+        ''
+          pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
+        ''
       # Linux should use whatever comes with DE
-      else ''
-      '';
+      else
+        "";
 
     home.file.".gnupg/gpg.conf".text =
-      if config.git.isMacOS
-      then ''
-        no-tty
-        use-agent
-        auto-key-retrieve
-        no-emit-version
-      ''
-      else ''
-      '';
+      if config.git.isMacOS then
+        ''
+          no-tty
+          use-agent
+          auto-key-retrieve
+          no-emit-version
+        ''
+      else
+        "";
   };
 }

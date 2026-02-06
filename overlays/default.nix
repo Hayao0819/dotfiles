@@ -1,5 +1,6 @@
 # This file defines overlays
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs final.pkgs;
 
@@ -25,7 +26,8 @@
 
   # IPU7 camera packages from PR #479283
   # Remove this overlay once the PR is merged into nixpkgs
-  ipu7-packages = final: prev:
+  ipu7-packages =
+    final: prev:
     let
       ipu7-pkgs = import inputs.nixpkgs-ipu7 {
         system = final.stdenv.hostPlatform.system;
@@ -33,7 +35,8 @@
           allowUnfree = true;
         };
       };
-    in {
+    in
+    {
       inherit (ipu7-pkgs)
         ipu7-camera-bins
         ipu7-camera-hal-ipu7x

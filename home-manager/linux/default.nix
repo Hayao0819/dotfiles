@@ -8,7 +8,8 @@
   imports = [
     # Centralized nixpkgs configuration
     ../../modules/common/nixpkgs.nix
-  ] ++ (with outputs.modules.home-manager; [
+  ]
+  ++ (with outputs.modules.home-manager; [
     git
     gh
     zsh

@@ -4,11 +4,13 @@
   ...
 }:
 let
-  mkHomeConfig = { system, modules }: inputs.home-manager.lib.homeManagerConfiguration {
-    pkgs = import inputs.nixpkgs { inherit system; };
-    extraSpecialArgs = { inherit inputs outputs; };
-    inherit modules;
-  };
+  mkHomeConfig =
+    { system, modules }:
+    inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs { inherit system; };
+      extraSpecialArgs = { inherit inputs outputs; };
+      inherit modules;
+    };
 in
 {
   "archlinux" = mkHomeConfig {

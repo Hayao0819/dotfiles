@@ -20,7 +20,10 @@ in
     exec = "brave %U";
     icon = "brave-browser";
     terminal = false;
-    categories = [ "Network" "WebBrowser" ];
+    categories = [
+      "Network"
+      "WebBrowser"
+    ];
     settings = {
       NoDisplay = "true";
     };

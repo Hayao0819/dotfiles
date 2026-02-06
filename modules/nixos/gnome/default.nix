@@ -89,30 +89,32 @@
     };
 
     # Install packages
-    environment.systemPackages = (with pkgs; [
-      # GNOME tools
-      dconf-editor
-      gnome-tweaks
+    environment.systemPackages =
+      (with pkgs; [
+        # GNOME tools
+        dconf-editor
+        gnome-tweaks
 
-      # Icon theme
-      papirus-icon-theme
+        # Icon theme
+        papirus-icon-theme
 
-      # GNOME Shell extensions
-      gnomeExtensions.appindicator
-      gnomeExtensions.gsconnect
-      gnomeExtensions.dash-to-panel
-      gnomeExtensions.kimpanel
-      gnomeExtensions.status-icons
-      gnomeExtensions.user-themes
-      # gnomeExtensions.pano # Archived, doesn't support GNOME 49
-      gnomeExtensions.desktop-icons-ng-ding
-    ]) ++ (with pkgs.unstable; [
-      gnomeExtensions.arcmenu
-      gnomeExtensions.copyous # Pano successor - supports images, links, colors
+        # GNOME Shell extensions
+        gnomeExtensions.appindicator
+        gnomeExtensions.gsconnect
+        gnomeExtensions.dash-to-panel
+        gnomeExtensions.kimpanel
+        gnomeExtensions.status-icons
+        gnomeExtensions.user-themes
+        # gnomeExtensions.pano # Archived, doesn't support GNOME 49
+        gnomeExtensions.desktop-icons-ng-ding
+      ])
+      ++ (with pkgs.unstable; [
+        gnomeExtensions.arcmenu
+        gnomeExtensions.copyous # Pano successor - supports images, links, colors
 
-      # Copyous runtime dependencies (loaded via GObject Introspection)
-      libgda6 # SQLite database access for clipboard history
-      gsound # Sound playback (optional)
-    ]);
+        # Copyous runtime dependencies (loaded via GObject Introspection)
+        libgda6 # SQLite database access for clipboard history
+        gsound # Sound playback (optional)
+      ]);
   };
 }

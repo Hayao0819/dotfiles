@@ -1,5 +1,7 @@
-{ ...
-}: {
+{
+  ...
+}:
+{
   # Allow nixos-rebuild without password
   security.sudo.extraRules = [
     {

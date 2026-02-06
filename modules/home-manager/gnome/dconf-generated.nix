@@ -78,7 +78,12 @@
 
   # === Input Sources ===
   "org/gnome/desktop/input-sources" = {
-    sources = [ (mkTuple [ "xkb" "us" ]) ];
+    sources = [
+      (mkTuple [
+        "xkb"
+        "us"
+      ])
+    ];
     xkb-options = [ "terminate:ctrl_alt_bksp" ];
   };
 
@@ -163,7 +168,10 @@
     menu-layout = "Whisker";
     multi-monitor = true;
     # Note: pinned-apps uses complex GVariant format - configure manually via dconf-editor
-    search-entry-border-radius = mkTuple [ true 25 ];
+    search-entry-border-radius = mkTuple [
+      true
+      25
+    ];
     searchbar-default-top-location = "Bottom";
   };
 
