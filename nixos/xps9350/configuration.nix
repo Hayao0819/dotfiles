@@ -27,6 +27,7 @@
     outputs.modules.nixos.steam
     outputs.modules.nixos.tuned
     outputs.modules.nixos.nix-ld
+    outputs.modules.nixos.audio
 
     # nm-vpngate - VPN Gate client for NetworkManager
     inputs.nm-vpngate.nixosModules.default
@@ -57,6 +58,9 @@
     enable = true;
     autoConnect = false; # Manual connection only
   };
+
+  # Enable audio with PipeWire
+  audio.enable = true;
 
   networking.hostName = "XPS9350"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

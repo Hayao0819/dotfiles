@@ -19,6 +19,8 @@
     wallpapers
     claude
     xdg
+    theme
+    audio
   ]);
 
   home = {
@@ -26,6 +28,9 @@
     homeDirectory = "/home/hayao";
     enableNixpkgsReleaseCheck = false;
   };
+
+  # Enable audio with PipeWire and EasyEffects
+  audio.enable = true;
 
   programs.home-manager.enable = true;
   systemd.user.startServices = "sd-switch";

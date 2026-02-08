@@ -59,6 +59,7 @@
   "org/gnome/desktop/interface" = {
     color-scheme = "prefer-dark";
     enable-hot-corners = false;
+    gtk-theme = "Colloid-Dark-Nord";
     icon-theme = "Papirus-Dark";
     show-battery-percentage = true;
     toolkit-accessibility = false;

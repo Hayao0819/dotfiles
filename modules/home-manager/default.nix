@@ -12,4 +12,6 @@
   wallpapers = import ./wallpapers;
   claude = import ./claude;
   xdg = import ./xdg;
+  theme = import ./theme;
+  audio = import ./audio;
 }

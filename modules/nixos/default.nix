@@ -17,4 +17,5 @@
   steam = import ./steam;
   tuned = import ./tuned;
   nix-ld = import ./nix-ld;
+  audio = import ./audio;
 }
