@@ -51,19 +51,13 @@ in
       # Digitalone1 presets (Loudness Equalizer)
       "easyeffects/output/LoudnessEqualizer.json".source =
         "${digitalone1Presets}/Loudness Equalizer.json";
+
+      # Custom preset
+      "easyeffects/output/ドンシャリマシマシベースチョモランマボーカル.json".source =
+        ./presets + "/ドンシャリマシマシベースチョモランマボーカル.json";
     };
 
-    # Autostart EasyEffects with the session
-    xdg.configFile."autostart/easyeffects.desktop".text = ''
-      [Desktop Entry]
-      Name=Easy Effects
-      Comment=Easy Effects audio effects
-      Exec=easyeffects --gapplication-service
-      Icon=com.github.wwmm.easyeffects
-      Type=Application
-      Categories=AudioVideo;Audio;
-      StartupNotify=false
-      X-GNOME-Autostart-enabled=true
-    '';
+    # Enable EasyEffects service (autostart)
+    services.easyeffects.enable = true;
   };
 }

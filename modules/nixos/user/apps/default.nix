@@ -75,13 +75,10 @@ in
           spotify
         ]
       )
-      ++ lib.optionals cfg.development (
-        with pkgs;
-        [
-          gitkraken
-          vscode-fhs # VS Code with FHS environment for extension compatibility
-        ]
-      )
+      ++ lib.optionals cfg.development [
+        pkgs.gitkraken
+        pkgs.unstable.vscode-fhs # VS Code with FHS environment for extension compatibility
+      ]
       ++ lib.optionals cfg.gaming (
         with pkgs;
         [
