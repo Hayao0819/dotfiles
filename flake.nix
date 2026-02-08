@@ -23,6 +23,8 @@
     };
 
     nm-vpngate.url = "github:Hayao0819/nm-vpngate";
+
+    minegrub-theme.url = "github:Lxtharia/minegrub-theme";
   };
 
   outputs =

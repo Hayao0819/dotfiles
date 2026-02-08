@@ -1,25 +1,30 @@
 # Font configuration for NixOS
-# Migrated from Arch Linux package list
+# Consolidated from Arch Linux package list and locale settings
 { pkgs, ... }:
 
 {
-  # Enable fontconfig
   fonts = {
+    fontDir.enable = true;
+
     fontconfig = {
       enable = true;
       defaultFonts = {
         serif = [
           "Noto Serif CJK JP"
           "Noto Serif"
+          "Noto Color Emoji"
         ];
         sansSerif = [
           "Noto Sans CJK JP"
           "Noto Sans"
+          "Noto Color Emoji"
         ];
         monospace = [
+          "JetBrainsMono Nerd Font"
           "SauceCodePro Nerd Font Mono"
           "Source Han Code JP"
           "Noto Sans Mono CJK JP"
+          "Noto Color Emoji"
         ];
         emoji = [ "Noto Color Emoji" ];
       };
@@ -47,6 +52,7 @@
       open-sans # Open Sans
 
       # Nerd Fonts (programming fonts with icons)
+      nerd-fonts.jetbrains-mono # JetBrains Mono with Nerd Font icons
       nerd-fonts.sauce-code-pro # Source Code Pro with Nerd Font icons
     ];
   };

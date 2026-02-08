@@ -9,16 +9,16 @@ let
   jackHack96Presets = pkgs.fetchFromGitHub {
     owner = "JackHack96";
     repo = "EasyEffects-Presets";
-    rev = "master";
-    sha256 = "sha256-Fo5Dj9jY8gXotyNWDYsMSKabQ3nZsm7tQEm5dRNq3OQ=";
+    rev = "d77a61eb01c36e2c794bddc25423445331e99915";
+    sha256 = "sha256-or5kH/vTwz7IO0Vz7W4zxK2ZcbL/P3sO9p5+EdcC2DA=";
   };
 
   # Digitalone1/EasyEffects-Presets - Loudness Equalizer
   digitalone1Presets = pkgs.fetchFromGitHub {
     owner = "Digitalone1";
     repo = "EasyEffects-Presets";
-    rev = "master";
-    sha256 = "sha256-PvPa0G+RZFEmx+7R7vFks1zSzzl4Y8bL1C5g7GNJA/8=";
+    rev = "347dc4dd0ada677a15db2676cd9a5082e2f0033a";
+    sha256 = "sha256-DHuYj9IynIhjdEdISiBObauvVPbahcmzSmwhdr6puUU=";
   };
 in
 {

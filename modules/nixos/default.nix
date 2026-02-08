@@ -1,21 +1,10 @@
-# Add your reusable NixOS modules to this directory, on their own file (https://nixos.wiki/ wiki/Module).
-# These should be stuff you would like to share with others, not your personal configurations.
+# NixOS modules organized by category
+# - system: OS-level configuration (boot, networking, services)
+# - user: User-facing applications and desktop environments
 {
-  # List your module files here
-  zsh = import ./zsh;
-  gnome = import ./gnome;
-  locale = import ./locale;
-  network = import ./network;
-  nixpkgs = import ./nixpkgs;
-  common = import ./common.nix;
-  systemd-boot = import ./systemd-boot;
-  grub = import ./grub;
-  docker = import ./docker;
-  fonts = import ./fonts;
-  virtualization = import ./virtualization;
-  archfornixos = import ./archfornixos;
-  steam = import ./steam;
-  tuned = import ./tuned;
-  nix-ld = import ./nix-ld;
-  audio = import ./audio;
+  # System-level modules
+  system = import ./system;
+
+  # User-level modules
+  user = import ./user;
 }

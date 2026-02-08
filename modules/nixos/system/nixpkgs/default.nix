@@ -7,7 +7,7 @@
 {
   # Import common nixpkgs configuration
   imports = [
-    ../../common/nixpkgs.nix
+    ../../../common/nixpkgs.nix
   ];
 
   config = {
