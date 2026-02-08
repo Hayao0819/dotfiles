@@ -29,6 +29,7 @@
       "gitkraken.desktop"
       "virtualbox.desktop"
       "org.gnome.Console.desktop"
+      "spotify.desktop"
       "slack.desktop"
       "vesktop.desktop"
       "io.missioncenter.MissionCenter.desktop"
@@ -113,6 +114,7 @@
   # === GNOME Console ===
   "org/gnome/Console" = {
     custom-font = "JetBrainsMonoNL Nerd Font Mono 10";
+    font-scale = 0.9;
     ignore-scrollback-limit = true;
     use-system-font = false;
   };
@@ -124,7 +126,7 @@
   };
 
   "org/gnome/nautilus/compression" = {
-    default-compression-format = "zip";
+    default-compression-format = "7z";
   };
 
   # === GNOME Text Editor ===
@@ -150,7 +152,7 @@
 
   # === GTK File Chooser Settings ===
   "org/gtk/gtk4/settings/file-chooser" = {
-    show-hidden = true;
+    show-hidden = false;
     sort-directories-first = false;
     view-type = "list";
   };
@@ -180,7 +182,14 @@
   "org/gnome/shell/extensions/dash-to-panel" = {
     animate-appicon-hover-animation-extent = ''{"RIPPLE":4,"PLANK":4,"SIMPLE":1}'';
     dot-position = "BOTTOM";
+    hide-overview-on-startup = true;
     hotkeys-overlay-combo = "TEMPORARILY";
+    isolate-monitors = true;
+    isolate-workspaces = true;
+    overview-click-to-exit = true;
+    show-favorites-all-monitors = false;
+    stockgs-keep-dash = false;
+    stockgs-keep-top-panel = false;
     window-preview-title-position = "TOP";
   };
 
@@ -204,6 +213,7 @@
   # Note: Pano is archived and doesn't support GNOME 49, using Copyous instead
   "org/gnome/shell/extensions/copyous" = {
     clipboard-position-vertical = "bottom";
+    disable-gda-warning = true;
     disable-hljs-dialog = false;
     open-clipboard-dialog-shortcut = [ "<Super>v" ];
   };

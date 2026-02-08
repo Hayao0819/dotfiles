@@ -25,6 +25,11 @@
     nm-vpngate.url = "github:Hayao0819/nm-vpngate";
 
     minegrub-theme.url = "github:Lxtharia/minegrub-theme";
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

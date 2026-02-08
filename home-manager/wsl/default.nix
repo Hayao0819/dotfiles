@@ -1,5 +1,9 @@
-# Home Manager configuration for standalone Arch Linux
-{ outputs, ... }:
+# Home Manager configuration for WSL
+# Reuses common modules, excludes GUI-specific ones (gnome, wallpapers, audio, theme)
+{
+  outputs,
+  ...
+}:
 {
   imports = [
     # Centralized nixpkgs configuration
@@ -11,11 +15,8 @@
     zsh
     fish
     pkgs
-    gnome
-    wallpapers
     claude
     xdg
-    theme
   ]);
 
   home = {

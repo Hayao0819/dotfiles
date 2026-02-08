@@ -8,6 +8,14 @@
     ];
   };
 
+  WSL = inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = { inherit inputs outputs; };
+    modules = [
+      # NixOS-WSL configuration
+      ./wsl/configuration.nix
+    ];
+  };
+
   Installer = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs outputs; };
     modules = [

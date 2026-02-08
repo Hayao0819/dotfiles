@@ -16,7 +16,6 @@ in
   "archlinux" = mkHomeConfig {
     system = "x86_64-linux";
     modules = [
-      ./linux
       ./archlinux
     ];
   };
@@ -25,6 +24,13 @@ in
     system = "x86_64-linux";
     modules = [
       ./linux
+    ];
+  };
+
+  "wsl" = mkHomeConfig {
+    system = "x86_64-linux";
+    modules = [
+      ./wsl
     ];
   };
 }
