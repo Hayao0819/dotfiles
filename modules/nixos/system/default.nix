@@ -4,9 +4,9 @@
   audio = import ./audio;
   boot = import ./boot;
   common = import ./common;
-  docker = import ./docker;
   fonts = import ./fonts;
   locale = import ./locale;
+  logind = import ./logind;
   network = import ./network;
   nix-ld = import ./nix-ld;
   nixpkgs = import ./nixpkgs;

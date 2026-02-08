@@ -1,6 +1,6 @@
 # nix-ld module for running unpatched dynamic binaries
 # Required for tools like volta that download pre-built binaries
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   programs.nix-ld = {

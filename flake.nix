@@ -39,13 +39,19 @@
         "aarch64-darwin"
       ];
 
-      # This is a function that generates an attribute by calling a function you
-      # pass to it, with each system as an argument
-      forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
+      # systems をループして各システム用の attribute を生成する関数
+      forAllSystems =
+        f:
+        builtins.listToAttrs (
+          map (system: {
+            name = system;
+            value = f system;
+          }) systems
+        );
     in
     {
       # Formatter for your nix files, available through 'nix fmt'
-      formatter.x86_64-linux = (import inputs.nixpkgs { system = "x86_64-linux"; }).nixfmt-rfc-style;
+      formatter = forAllSystems (system: (import inputs.nixpkgs { inherit system; }).nixfmt-rfc-style);
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };

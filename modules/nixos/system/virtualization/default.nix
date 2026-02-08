@@ -35,8 +35,15 @@
 
     # Container tools (LXC)
     lxc # Linux Containers
+
+    # Docker
+    docker-compose
+    docker-buildx
   ];
 
   # Enable dconf for virt-manager settings persistence
   programs.dconf.enable = true;
+
+  # Enable Docker
+  virtualisation.docker.enable = true;
 }

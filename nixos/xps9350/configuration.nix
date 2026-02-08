@@ -18,8 +18,8 @@
     outputs.modules.nixos.system.nixpkgs
     outputs.modules.nixos.system.common
     outputs.modules.nixos.system.boot
-    outputs.modules.nixos.system.docker
     outputs.modules.nixos.system.fonts
+    outputs.modules.nixos.system.logind
     outputs.modules.nixos.system.virtualization
     outputs.modules.nixos.system.tuned
     outputs.modules.nixos.system.nix-ld
