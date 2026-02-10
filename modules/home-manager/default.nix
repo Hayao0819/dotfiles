@@ -9,7 +9,7 @@
   gnome = import ./gnome;
   gh = import ./gh;
   wallpapers = import ./wallpapers;
-  claude = import ./claude;
+  llm = import ./llm;
   xdg = import ./xdg;
   theme = import ./theme;
   audio = import ./audio;

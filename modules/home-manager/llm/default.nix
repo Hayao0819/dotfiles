@@ -1,6 +1,8 @@
-# Claude Code configuration module
-{ ... }:
+# LLM tools configuration module
+# Includes Claude Code and Gemini CLI
+{ pkgs, ... }:
 {
+  # Claude Code
   programs.claude-code = {
     enable = true;
     settings = {
@@ -11,4 +13,9 @@
       };
     };
   };
+
+  # Gemini CLI (from llm-agents overlay)
+  home.packages = [
+    pkgs.gemini-cli
+  ];
 }

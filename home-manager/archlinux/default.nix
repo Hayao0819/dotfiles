@@ -13,7 +13,7 @@
     pkgs
     gnome
     wallpapers
-    claude
+    llm
     xdg
     theme
   ]);

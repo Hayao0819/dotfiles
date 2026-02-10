@@ -15,7 +15,7 @@
     zsh
     fish
     pkgs
-    claude
+    llm
     xdg
   ]);
 
