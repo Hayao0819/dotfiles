@@ -113,8 +113,8 @@
 
   # === GNOME Console ===
   "org/gnome/Console" = {
-    custom-font = "JetBrainsMonoNL Nerd Font Mono 10";
-    font-scale = 0.9;
+    custom-font = "SauceCodePro Nerd Font 10";
+    font-scale = 1.0;
     ignore-scrollback-limit = true;
     use-system-font = false;
   };

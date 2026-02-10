@@ -20,9 +20,9 @@
           "Noto Color Emoji"
         ];
         monospace = [
+          "Source Han Code JP"
           "JetBrainsMono Nerd Font"
           "SauceCodePro Nerd Font Mono"
-          "Source Han Code JP"
           "Noto Sans Mono CJK JP"
           "Noto Color Emoji"
         ];
