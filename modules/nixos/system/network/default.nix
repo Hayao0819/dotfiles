@@ -8,11 +8,13 @@
     # VPN plugins for NetworkManager GUI
     plugins = with pkgs; [
       networkmanager-openvpn # OpenVPN support
+      networkmanager-openconnect # OpenConnect/GlobalProtect support
     ];
   };
 
-  # OpenVPN client package
+  # VPN client packages
   environment.systemPackages = with pkgs; [
     openvpn
+    openconnect # GlobalProtect VPN client (use with --protocol=gp)
   ];
 }

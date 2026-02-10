@@ -5,10 +5,12 @@
   # Common nixpkgs configuration
   nixpkgs = {
     # Add overlays
+    # Note: Order matters! unstable-packages must come before modifications
+    # because modifications patches pkgs.unstable.gnomeExtensions.copyous
     overlays = [
       outputs.overlays.additions
-      outputs.overlays.modifications
       outputs.overlays.unstable-packages
+      outputs.overlays.modifications
       outputs.overlays.ipu7-packages # IPU7 camera support (PR #479283)
       outputs.overlays.llm-agents # llm-agents packages (ccstatusline, etc.)
     ];

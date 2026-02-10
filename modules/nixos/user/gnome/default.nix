@@ -107,14 +107,11 @@
         gnomeExtensions.user-themes
         # gnomeExtensions.pano # Archived, doesn't support GNOME 49
         gnomeExtensions.desktop-icons-ng-ding
+        gnomeExtensions.disable-3-finger-gestures-redux
       ])
       ++ (with pkgs.unstable; [
         gnomeExtensions.arcmenu
-        gnomeExtensions.copyous # Pano successor - supports images, links, colors
-
-        # Copyous runtime dependencies (loaded via GObject Introspection)
-        libgda6 # SQLite database access for clipboard history
-        gsound # Sound playback (optional)
+        gnomeExtensions.copyous # Pano successor - supports images, links, colors (patched with GI paths)
       ]);
   };
 }

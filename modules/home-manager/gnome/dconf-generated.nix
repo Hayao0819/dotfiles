@@ -21,6 +21,7 @@
       "gsconnect@andyholmes.github.io"
       "appindicatorsupport@rgcjonas.gmail.com"
       "copyous@boerdereinar.dev"
+      "disable-three-finger-gestures-redux@cygnusx-1-org.github.com"
     ];
     favorite-apps = [
       "brave-browser.desktop"
