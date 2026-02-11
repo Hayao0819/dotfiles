@@ -1,0 +1,177 @@
+name: Build and Push Container Images
+
+on:
+  push:
+    branches: [nix, main]
+    paths:
+      - "containers/**"
+      - "flake.nix"
+      - "flake.lock"
+      - ".github/workflows/build-containers.yml"
+  pull_request:
+    branches: [nix, main]
+    paths:
+      - "containers/**"
+      - "flake.nix"
+  workflow_dispatch:
+    inputs:
+      push_images:
+        description: "Push images to registry"
+        required: false
+        default: "false"
+        type: boolean
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository_owner }}
+
+jobs:
+  detect-changes:
+    name: Detect Changed Containers
+    runs-on: ubuntu-latest
+    outputs:
+      containers: ${{ steps.detect.outputs.containers }}
+      has_changes: ${{ steps.detect.outputs.has_changes }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed containers
+        id: detect
+        run: |
+          # Get list of all containers
+          ALL_CONTAINERS=$(find containers -maxdepth 1 -mindepth 1 -type d -exec basename {} \; | sort)
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # Build all containers on manual trigger
+            CONTAINERS="$ALL_CONTAINERS"
+          else
+            CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} 2>/dev/null || echo "")
+          fi
+
+          # If flake.nix or flake.lock changed, build all containers
+          if echo "$CHANGED_FILES" | grep -qE "^flake\.(nix|lock)$"; then
+            CONTAINERS="$ALL_CONTAINERS"
+          else
+            # Only build containers that changed
+            CONTAINERS=$(echo "$CHANGED_FILES" | grep -o "containers/[^/]*" | sed 's|containers/||' | sort -u || echo "")
+          fi
+
+          # For workflow_dispatch, use all containers
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            CONTAINERS="$ALL_CONTAINERS"
+          fi
+
+          # Convert to JSON array
+          if [[ -n "$CONTAINERS" ]]; then
+            CONTAINERS_JSON=$(echo "$CONTAINERS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            HAS_CHANGES="true"
+          else
+            CONTAINERS_JSON="[]"
+            HAS_CHANGES="false"
+          fi
+
+          echo "containers=${CONTAINERS_JSON}" >> $GITHUB_OUTPUT
+          echo "has_changes=${HAS_CHANGES}" >> $GITHUB_OUTPUT
+          echo "Containers to build: ${CONTAINERS_JSON}"
+
+  build:
+    name: Build ${{ matrix.container }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ${{ fromJson(needs.detect-changes.outputs.containers) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Cache Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build container image
+        id: build
+        run: |
+          echo "Building container-${{ matrix.container }}..."
+          nix build .#container-${{ matrix.container }} --show-trace
+
+          # Get image info
+          IMAGE_PATH=$(readlink -f result)
+          echo "image_path=${IMAGE_PATH}" >> $GITHUB_OUTPUT
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: container-${{ matrix.container }}
+          path: result
+          retention-days: 7
+
+  push:
+    name: Push Images to Registry
+    needs: [detect-changes, build]
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/nix') ||
+      (github.event_name == 'workflow_dispatch' && inputs.push_images == true)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        container: ${{ fromJson(needs.detect-changes.outputs.containers) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Cache Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        run: |
+          set -euo pipefail
+
+          CONTAINER="${{ matrix.container }}"
+          COMMIT_SHA="${{ github.sha }}"
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          DATE_TAG=$(date -u +'%Y%m%d')
+
+          # Build the image
+          echo "Building container-${CONTAINER}..."
+          nix build .#container-${CONTAINER} --show-trace
+
+          # Push with multiple tags
+          TAGS=(
+            "latest"
+            "${SHORT_SHA}"
+            "${DATE_TAG}"
+          )
+
+          for TAG in "${TAGS[@]}"; do
+            IMAGE_URL="${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/${CONTAINER}:${TAG}"
+            echo "Pushing ${IMAGE_URL}..."
+            skopeo copy \
+              "docker-archive://./result" \
+              "docker://${IMAGE_URL}"
+          done
+
+          echo "Successfully pushed ${CONTAINER} to GHCR"
