@@ -48,6 +48,12 @@ in
       default = true;
       description = "Install system utilities (GParted, Baobab, Mission Center)";
     };
+
+    office = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Install office suite (OnlyOffice)";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -93,6 +99,12 @@ in
           gparted
           baobab # GNOME disk usage analyzer
           globalprotect-openconnect # GlobalProtect VPN client with GUI
+        ]
+      )
+      ++ lib.optionals cfg.office (
+        with pkgs;
+        [
+          onlyoffice-desktopeditors # Office suite for documents, spreadsheets, presentations
         ]
       );
   };
