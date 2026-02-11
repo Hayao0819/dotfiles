@@ -21,6 +21,7 @@
     xdg
     theme
     audio
+    osint
   ]);
 
   home = {
@@ -31,6 +32,15 @@
 
   # Enable audio with PipeWire and EasyEffects
   audio.enable = true;
+
+  # Enable OSINT tools
+  osint = {
+    enable = true;
+    sherlock.enable = true;
+    maigret.enable = true;
+    holehe.enable = true;
+    ghunt.enable = true;
+  };
 
   programs.home-manager.enable = true;
   systemd.user.startServices = "sd-switch";

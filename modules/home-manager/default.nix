@@ -13,4 +13,5 @@
   xdg = import ./xdg;
   theme = import ./theme;
   audio = import ./audio;
+  osint = import ./osint;
 }

@@ -61,6 +61,21 @@
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
 
+      # Container images (Docker)
+      # Build with: nix build .#container-<name>
+      # Load with: docker load < result
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = import inputs.nixpkgs { inherit system; };
+          containers = import ./containers { inherit pkgs; };
+        in
+        {
+          container-caddy = containers.caddy;
+          container-cloudflared = containers.cloudflared;
+        }
+      );
+
       # modules
       modules = import ./modules; # { inherit inputs; };
 
