@@ -33,6 +33,22 @@
   # Enable audio with PipeWire and EasyEffects
   audio.enable = true;
 
+  # OnlyOffice Desktop Editors configuration
+  # GPU acceleration and Japanese language settings
+  programs.onlyoffice = {
+    enable = true;
+    package = null; # Package is installed via NixOS system packages
+    settings = {
+      editorWindowMode = false;
+      titlebar = "custom";
+      # appdata contains JSON settings (base64 encoded):
+      # {"username":"hayao","docopenmode":"edit","restart":true,"langid":"ja-JP",
+      #  "uiscaling":"100","uitheme":"theme-white","editorwindowmode":false,
+      #  "spellcheckdetect":"auto","usegpu":true}
+      appdata = "@ByteArray(eyJ1c2VybmFtZSI6ImhheWFvIiwiZG9jb3Blbm1vZGUiOiJlZGl0IiwicmVzdGFydCI6dHJ1ZSwibGFuZ2lkIjoiamEtSlAiLCJ1aXNjYWxpbmciOiIxMDAiLCJ1aXRoZW1lIjoidGhlbWUtd2hpdGUiLCJlZGl0b3J3aW5kb3dtb2RlIjpmYWxzZSwic3BlbGxjaGVja2RldGVjdCI6ImF1dG8iLCJ1c2VncHUiOnRydWV9)";
+    };
+  };
+
   # Enable OSINT tools
   osint = {
     enable = true;
