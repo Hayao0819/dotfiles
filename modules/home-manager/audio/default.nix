@@ -5,6 +5,8 @@
   ...
 }:
 let
+  cfg = config.audio;
+
   # JackHack96/EasyEffects-Presets - Popular presets collection
   jackHack96Presets = pkgs.fetchFromGitHub {
     owner = "JackHack96";
@@ -20,23 +22,8 @@ let
     rev = "347dc4dd0ada677a15db2676cd9a5082e2f0033a";
     sha256 = "sha256-DHuYj9IynIhjdEdISiBObauvVPbahcmzSmwhdr6puUU=";
   };
-in
-{
-  options = {
-    audio = {
-      enable = lib.mkEnableOption "Audio configuration with PipeWire and EasyEffects";
-    };
-  };
 
-  config = lib.mkIf config.audio.enable {
-    home.packages = with pkgs; [
-      easyeffects
-      # Required LV2 plugins for presets
-      lsp-plugins
-      zam-plugins
-      mda_lv2
-    ];
-
+  presetsConfig = {
     # Copy presets to EasyEffects config directory
     xdg.configFile = {
       # JackHack96 presets
@@ -56,8 +43,35 @@ in
       "easyeffects/output/ドンシャリマシマシベースチョモランマボーカル.json".source =
         ./presets + "/ドンシャリマシマシベースチョモランマボーカル.json";
     };
-
-    # Enable EasyEffects service (autostart)
-    services.easyeffects.enable = true;
   };
+in
+{
+  options = {
+    audio = {
+      enable = lib.mkEnableOption "Audio configuration with PipeWire and EasyEffects";
+      easyeffects.presets.enable = lib.mkEnableOption "EasyEffects presets only (without package/service)";
+    };
+  };
+
+  config = lib.mkMerge [
+    (lib.mkIf cfg.easyeffects.presets.enable presetsConfig)
+
+    (lib.mkIf cfg.enable (
+      lib.mkMerge [
+        presetsConfig
+        {
+          home.packages = with pkgs; [
+            easyeffects
+            # Required LV2 plugins for presets
+            lsp-plugins
+            zam-plugins
+            mda_lv2
+          ];
+
+          # Enable EasyEffects service (autostart)
+          services.easyeffects.enable = true;
+        }
+      ]
+    ))
+  ];
 }

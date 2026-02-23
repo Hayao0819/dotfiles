@@ -16,7 +16,11 @@
     llm
     xdg
     theme
+    audio
   ]);
+
+  # EasyEffects presets only (package is managed by pacman)
+  audio.easyeffects.presets.enable = true;
 
   home = {
     username = "hayao";
