@@ -8,13 +8,14 @@
 
   # System-level packages
   environment.packages = with pkgs; [
+    git
     vim
     openssh
   ];
 
   # Home Manager integration
   home-manager.config =
-    { pkgs, ... }:
+    { ... }:
     {
       imports = with outputs.modules.home-manager; [
         git
