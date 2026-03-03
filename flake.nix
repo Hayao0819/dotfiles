@@ -30,6 +30,12 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -72,6 +78,9 @@
 
       # home-manager
       homeConfigurations = import ./home-manager { inherit inputs outputs; };
+
+      # nix-on-droid
+      nixOnDroidConfigurations = import ./nix-on-droid { inherit inputs outputs; };
 
       # Task runner applications
       apps = import ./tasks.nix { inherit inputs systems; };

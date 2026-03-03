@@ -33,11 +33,4 @@ in
       ./wsl
     ];
   };
-
-  "termux" = mkHomeConfig {
-    system = "aarch64-linux";
-    modules = [
-      ./termux
-    ];
-  };
 }
