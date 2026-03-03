@@ -23,11 +23,22 @@ in
         default = isMacOS;
         description = "Is installed packages are MacOS targetted.";
       };
+      isHeadless = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Headless environment (no desktop packages). Only global packages are installed.";
+      };
     };
   };
 
   config = {
     # Packages to be installed on my machine
-    home.packages = if config.packages.isMacOS then globals ++ macos else globals ++ linux;
+    home.packages =
+      if config.packages.isHeadless then
+        globals
+      else if config.packages.isMacOS then
+        globals ++ macos
+      else
+        globals ++ linux;
   };
 }
