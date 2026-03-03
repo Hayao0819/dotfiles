@@ -14,6 +14,7 @@
   ];
 
   # Home Manager integration
+  home-manager.backupFileExtension = "hm-backup";
   home-manager.config =
     { ... }:
     {
