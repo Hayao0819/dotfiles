@@ -17,15 +17,16 @@
   home-manager.config =
     { ... }:
     {
-      imports = with outputs.modules.home-manager; [
-        git
-        gh
-        zsh
-        fish
-        pkgs
-        llm
-        xdg
-      ];
+      imports =
+        (with outputs.modules.home-manager; [
+          git
+          gh
+          zsh
+          fish
+          llm
+          xdg
+        ])
+        ++ [ outputs.modules.home-manager.pkgs ];
 
       packages.isHeadless = true;
 
