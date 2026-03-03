@@ -23,7 +23,6 @@
           gh
           zsh
           fish
-          llm
           xdg
         ])
         ++ [ outputs.modules.home-manager.pkgs ];

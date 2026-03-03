@@ -70,8 +70,9 @@
     };
   };
 
-  # Gemini CLI (from llm-agents overlay)
+  # LLM-related packages (from llm-agents overlay)
   home.packages = [
+    pkgs.llm-agents.ccstatusline
     pkgs.gemini-cli
   ];
 }

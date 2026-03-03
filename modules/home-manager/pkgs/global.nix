@@ -2,8 +2,6 @@
 # both MacOS and Linux.
 { pkgs, ... }:
 [
-  # Claude Code statusline
-  pkgs.llm-agents.ccstatusline
   # Downloader
   pkgs.aria2
 

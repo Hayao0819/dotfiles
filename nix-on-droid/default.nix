@@ -11,7 +11,6 @@
         outputs.overlays.additions
         outputs.overlays.unstable-packages
         outputs.overlays.modifications
-        outputs.overlays.llm-agents
       ];
     };
     modules = [ ./termux ];
