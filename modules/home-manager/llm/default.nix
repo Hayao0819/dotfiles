@@ -12,6 +12,9 @@
         padding = 0;
       };
     };
+    skills = {
+      init-flake = ./skills/init-flake.md;
+    };
   };
 
   # ccstatusline configuration
