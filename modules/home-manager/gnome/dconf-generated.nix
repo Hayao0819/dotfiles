@@ -122,7 +122,7 @@
 
   # === Nautilus Preferences ===
   "org/gnome/nautilus/preferences" = {
-    default-folder-viewer = "icon-view";
+    default-folder-viewer = "list-view";
     show-image-thumbnails = "always";
   };
 
