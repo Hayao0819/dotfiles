@@ -22,9 +22,6 @@
       # Disable greeting
       set -g fish_greeting
 
-      # Key bindings (use default emacs-style)
-      set --erase --universal fish_key_bindings
-
       # Theme colors (from fish_frozen_theme.fish)
       set --global fish_color_autosuggestion brblack
       set --global fish_color_cancel -r
@@ -101,6 +98,11 @@
       }
     ];
   };
+
+  # Prevent fish 4.3+ from creating migration file and showing upgrade message
+  xdg.configFile."fish/conf.d/fish_frozen_key_bindings.fish".text = ''
+    set --erase --universal fish_key_bindings
+  '';
 
   # Ensure fish is available
   home.packages = with pkgs; [
