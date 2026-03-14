@@ -16,6 +16,18 @@
       # Commit Rules
 
       - コミット作成時に `Co-Authored-By` ヘッダーを絶対に追加しないこと。Claude Code やその他の AI をco-authorとして記載することを禁止する。コミットメッセージには `Co-Authored-By` 行を一切含めないこと。
+
+      # Web Search
+
+      - 常に積極的にWeb検索を活用し、最新のベストプラクティスを見つけること。
+
+      # Safety
+
+      - undo不可能な破壊的変更は絶対に行わないこと。例: 未コミットの変更がある状態での `git reset --hard`、`git checkout .`、`git clean -f` 等。必ず事前に未コミットの変更がないか確認し、ある場合はユーザーに確認を取ること。
+
+      # Chat History
+
+      - 「過去のチャットを参照して」と言われた場合、`~/.claude/` 以下のチャットログファイル（JSON等）を直接読み取って参照すること。
     '';
     skills = {
       init-flake = ./skills/init-flake;
