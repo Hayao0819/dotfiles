@@ -24,6 +24,7 @@
     outputs.modules.nixos.system.tuned
     outputs.modules.nixos.system.nix-ld
     outputs.modules.nixos.system.audio
+    outputs.modules.nixos.system.printing
 
     # User-level modules
     outputs.modules.nixos.user.gnome

@@ -10,6 +10,7 @@
   network = import ./network;
   nix-ld = import ./nix-ld;
   nixpkgs = import ./nixpkgs;
+  printing = import ./printing;
   tuned = import ./tuned;
   virtualization = import ./virtualization;
   zsh = import ./zsh;
