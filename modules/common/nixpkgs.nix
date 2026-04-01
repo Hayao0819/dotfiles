@@ -13,6 +13,7 @@
       outputs.overlays.modifications
       outputs.overlays.ipu7-packages # IPU7 camera support (PR #479283)
       outputs.overlays.llm-agents # llm-agents packages (ccstatusline, etc.)
+      outputs.overlays.os-prober-fix # Fix lsblk warnings in os-prober
     ];
 
     # Configure nixpkgs

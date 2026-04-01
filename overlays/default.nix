@@ -108,6 +108,19 @@
   # llm-agents packages (ccstatusline, etc.)
   llm-agents = inputs.llm-agents.overlays.default;
 
+  # Patch os-prober to suppress lsblk stderr warnings for non-existent /dev/mapper devices
+  # This fixes the "lsblk: /dev/mapper/no*[0-9]: ブロックデバイスではありません" warnings
+  os-prober-fix = final: prev: {
+    os-prober = prev.os-prober.overrideAttrs (oldAttrs: {
+      postPatch = (oldAttrs.postPatch or "") + ''
+        # Redirect lsblk stderr to /dev/null in common.sh fs_type function
+        substituteInPlace common.sh \
+          --replace-fail 'lsblk --nodeps --noheading --output FSTYPE -- "$1"' \
+                         'lsblk --nodeps --noheading --output FSTYPE -- "$1" 2>/dev/null'
+      '';
+    });
+  };
+
   # IPU7 camera packages from PR #479283
   # Remove this overlay once the PR is merged into nixpkgs
   ipu7-packages =
