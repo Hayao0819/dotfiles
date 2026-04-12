@@ -9,7 +9,4 @@
 
   # JavaScript tool manager
   pkgs.volta
-
-  # Claude Code CLI - AI coding assistant (from unstable)
-  pkgs.claude-code
 ]
