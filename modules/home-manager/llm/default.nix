@@ -34,6 +34,11 @@
 
       - 「過去のチャットを参照して」と言われた場合、`~/.claude/` 以下のチャットログファイル（JSON等）を直接読み取って参照すること。
     '';
+    mcpServers = {
+      thunderbird-mail = {
+        command = "${pkgs.thunderbird-mcp}/bin/thunderbird-mcp";
+      };
+    };
     skills = {
       init-flake = ./skills/init-flake;
     };

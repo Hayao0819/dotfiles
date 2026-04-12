@@ -4,4 +4,5 @@ pkgs: {
   # example = pkgs.callPackage ./example { };
   hello = pkgs.callPackage ./hello { };
   roulette = pkgs.callPackage ./roulette { };
+  thunderbird-mcp = pkgs.callPackage ./thunderbird-mcp { };
 }
