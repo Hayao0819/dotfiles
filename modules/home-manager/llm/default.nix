@@ -10,7 +10,11 @@
   # Claude Code
   programs.claude-code = {
     enable = true;
+    package = inputs.llm-agents.packages.${pkgs.system}.claude-code;
     settings = {
+      autoUpdater = {
+        disabled = true;
+      };
       statusLine = {
         type = "command";
         command = "ccstatusline";
