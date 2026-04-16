@@ -1,11 +1,20 @@
 # LLM tools configuration module
 # Includes Claude Code and Gemini CLI
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   # Claude Code
   programs.claude-code = {
     enable = true;
+    package = inputs.llm-agents.packages.${pkgs.system}.claude-code;
     settings = {
+      autoUpdater = {
+        disabled = true;
+      };
       statusLine = {
         type = "command";
         command = "ccstatusline";
@@ -29,6 +38,11 @@
 
       - 「過去のチャットを参照して」と言われた場合、`~/.claude/` 以下のチャットログファイル（JSON等）を直接読み取って参照すること。
     '';
+    mcpServers = {
+      thunderbird-mail = {
+        command = "${pkgs.thunderbird-mcp}/bin/thunderbird-mcp";
+      };
+    };
     skills = {
       init-flake = ./skills/init-flake;
     };
@@ -90,9 +104,9 @@
     };
   };
 
-  # LLM-related packages (from llm-agents overlay)
+  # LLM-related packages
   home.packages = [
-    pkgs.llm-agents.ccstatusline
+    inputs.llm-agents.packages.${pkgs.system}.ccstatusline
     pkgs.gemini-cli
   ];
 }
