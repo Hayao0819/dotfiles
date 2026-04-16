@@ -33,4 +33,11 @@ in
       ./wsl
     ];
   };
+
+  "debian" = mkHomeConfig {
+    system = "x86_64-linux";
+    modules = [
+      ./debian
+    ];
+  };
 }

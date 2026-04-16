@@ -56,15 +56,27 @@
         alias open="xdg-open"
       end
 
-      # Cargo
-      fish_add_path -g $HOME/.cargo/bin
+      # XDG Data Dirs for Flatpak (if Flatpak is installed)
+      if command -q flatpak
+        set -l xdg_data_home $XDG_DATA_HOME ~/.local/share
+        set -gx --path XDG_DATA_DIRS "$xdg_data_home[1]/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
+      end
 
-      # Golang
-      set -gx GOPATH $HOME/.go
-      fish_add_path -g $HOME/.go/bin
+      # Cargo (if available)
+      if test -d $HOME/.cargo/bin
+        fish_add_path -g $HOME/.cargo/bin
+      end
 
-      # Local bin
-      fish_add_path -g $HOME/.local/bin
+      # Golang (if available)
+      if command -q go
+        set -gx GOPATH $HOME/.go
+        fish_add_path -g $HOME/.go/bin
+      end
+
+      # Local bin (always add if directory exists)
+      if test -d $HOME/.local/bin
+        fish_add_path -g $HOME/.local/bin
+      end
 
       # Pyenv (if available)
       if command -q pyenv
@@ -75,7 +87,13 @@
 
       # Volta (if available)
       if test -d $HOME/.volta
-        fish_add_path -g $HOME/.volta/bin
+        set -gx VOLTA_HOME "$HOME/.volta"
+        fish_add_path -g "$VOLTA_HOME/bin"
+      end
+
+      # Nix profile (if available)
+      if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
+        . $HOME/.nix-profile/etc/profile.d/nix.fish
       end
     '';
 
