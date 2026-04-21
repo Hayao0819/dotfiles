@@ -28,6 +28,7 @@
       # qtwebengine is required by globalprotect-openconnect
       permittedInsecurePackages = [
         "qtwebengine-5.15.19"
+        "python3.12-pypdf2-3.0.1" # required by maigret
       ];
     };
   };
