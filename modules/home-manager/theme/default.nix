@@ -1,5 +1,5 @@
 # Unified GTK/Qt theming with Colloid
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
   # Colloid KDE/Kvantum theme (not in nixpkgs)
@@ -72,7 +72,12 @@ in
   '';
 
   # Install Kvantum and Colloid-kde theme
+  # Qt packages are only needed when qt module manages them (not on Arch where pacman does)
   home.packages = [
+    # Colloid Kvantum theme
+    colloid-kde-theme
+  ]
+  ++ pkgs.lib.optionals config.qt.enable [
     # Kvantum theme engine
     pkgs.kdePackages.qtstyleplugin-kvantum
     pkgs.libsForQt5.qtstyleplugin-kvantum
@@ -80,8 +85,5 @@ in
     # Qt configuration tools
     pkgs.libsForQt5.qt5ct
     pkgs.kdePackages.qt6ct
-
-    # Colloid Kvantum theme
-    colloid-kde-theme
   ];
 }

@@ -104,6 +104,11 @@
     };
   };
 
+  # Claude Code flicker-free fullscreen rendering
+  home.sessionVariables = {
+    CLAUDE_CODE_NO_FLICKER = "1";
+  };
+
   # LLM-related packages
   home.packages = [
     inputs.llm-agents.packages.${pkgs.system}.ccstatusline
