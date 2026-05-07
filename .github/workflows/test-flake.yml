@@ -11,6 +11,9 @@ jobs:
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes pipe-operators
 
       - name: Check flake
         run: nix flake check --show-trace
@@ -37,6 +40,9 @@ jobs:
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes pipe-operators
 
       - name: Build NixOS configuration
         if: ${{ matrix.pattern.system != 'macos-latest' }}
