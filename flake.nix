@@ -33,53 +33,82 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    # Better flake management
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
-    { self, ... }@inputs:
-    let
-      inherit (self) outputs;
-      # このFlakesでサポートするシステム
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+    inputs@{ self, flake-parts, ... }:
+    # https://flake.parts/module-arguments.html
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      {
+        config,
+        withSystem,
+        moduleWithSystem,
+        ...
+      }:
+      let
+        # Self reference
+        outputs = self;
+      in
+      {
+        imports = [
+          # Optional: use external flake logic, e.g.
+          # inputs.foo.flakeModules.default
 
-      # systems をループして各システム用の attribute を生成する関数
-      forAllSystems =
-        f:
-        builtins.listToAttrs (
-          map (system: {
-            name = system;
-            value = f system;
-          }) systems
-        );
-    in
-    {
-      # Formatter for your nix files, available through 'nix fmt'
-      formatter = forAllSystems (system: (import inputs.nixpkgs { inherit system; }).nixfmt-rfc-style);
+          # Read more here:
+          # https://flake.parts/best-practices-for-module-writing.html
+        ];
+        flake = {
+          # Put your original flake attributes here.
 
-      # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+          # Your custom packages and modifications, exported as overlays
+          overlays = import ./overlays { inherit inputs; };
 
-      # modules
-      modules = import ./modules; # { inherit inputs; };
+          # modules
+          modules = import ./modules; # { inherit inputs; };
 
-      # nix os
-      nixosConfigurations = import ./nixos { inherit inputs outputs; };
+          # nix os
+          nixosConfigurations = import ./nixos { inherit inputs outputs; };
 
-      # nix-darwin
-      darwinConfigurations = import ./darwin { inherit inputs outputs; };
+          # nix-darwin
+          darwinConfigurations = import ./darwin { inherit inputs outputs; };
 
-      # home-manager
-      homeConfigurations = import ./home-manager { inherit inputs outputs; };
+          # home-manager
+          homeConfigurations = import ./home-manager { inherit inputs outputs; };
 
-      # nix-on-droid
-      nixOnDroidConfigurations = import ./nix-on-droid { inherit inputs outputs; };
+          # nix-on-droid
+          nixOnDroidConfigurations = import ./nix-on-droid { inherit inputs outputs; };
+        };
+        systems = [
+          # systems for which you want to build the `perSystem` attributes
+          "x86_64-linux"
+          # ...
+        ];
+        perSystem =
+          {
+            config,
+            pkgs,
+            system,
+            ...
+          }:
+          {
+            # Formatter for your nix files, available through 'nix fmt'
+            formatter = pkgs.nixfmt-tree;
 
-      # Task runner applications
-      apps = import ./tasks.nix { inherit inputs systems; };
-    };
+            # Packages
+            packages = import ./pkgs {
+              inherit pkgs;
+              flake = self;
+            };
+
+            # Task runner applications
+            apps = import ./tasks.nix { inherit inputs system pkgs; };
+
+            # Development environment
+            devShells.default = import ./shell.nix { inherit pkgs; };
+          };
+      }
+    );
 }

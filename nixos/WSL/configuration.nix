@@ -3,6 +3,7 @@
   pkgs,
   outputs,
   inputs,
+  hostname, # well, if you want to use it :P
   ...
 }:
 

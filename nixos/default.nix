@@ -1,49 +1,46 @@
 { inputs, outputs, ... }:
-{
-  XPS9350 = inputs.nixpkgs.lib.nixosSystem {
-    specialArgs = { inherit inputs outputs; };
+# let there be dragons
+with builtins;
+readDir ./.
+|> attrNames
+|> filter (p: p != "default.nix")
+|> map (conf: {
+  name = conf;
+  value = inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = {
+      inherit inputs outputs;
+      hostname = conf;
+    };
     modules = [
       # > Our main nixos configuration file <
-      ./xps9350/configuration.nix
+      "${inputs.self}/nixos/${conf}/configuration.nix"
     ];
   };
+})
+|> listToAttrs
 
-  WSL = inputs.nixpkgs.lib.nixosSystem {
-    specialArgs = { inherit inputs outputs; };
-    modules = [
-      # NixOS-WSL configuration
-      ./wsl/configuration.nix
-    ];
-  };
+# Why do it by hand, when nix can manage it yourself ?)
+# {
+#   XPS9350 = inputs.nixpkgs.lib.nixosSystem {
+#     specialArgs = { inherit inputs outputs; };
+#     modules = [
+#       # > Our main nixos configuration file <
+#       ./xps9350/configuration.nix
+#     ];
+#   };
 
-  Installer = inputs.nixpkgs.lib.nixosSystem {
-    specialArgs = { inherit inputs outputs; };
-    modules = [
-      # Import common nixpkgs configuration
-      ../modules/common/nixpkgs.nix
-      (
-        {
-          pkgs,
-          lib,
-          modulesPath,
-          ...
-        }:
-        {
-          imports = [
-            (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix")
-          ];
+#   WSL = inputs.nixpkgs.lib.nixosSystem {
+#     specialArgs = { inherit inputs outputs; };
+#     modules = [
+#       # NixOS-WSL configuration
+#       ./wsl/configuration.nix
+#     ];
+#   };
 
-          boot.supportedFilesystems.zfs = lib.mkForce false;
-          boot.kernelPackages = pkgs.linuxPackages_latest;
-
-          nixpkgs.hostPlatform = "x86_64-linux";
-
-          nix.settings = {
-            # Enable flakes and new 'nix' command
-            experimental-features = "nix-command flakes";
-          };
-        }
-      )
-    ];
-  };
-}
+#   Installer = inputs.nixpkgs.lib.nixosSystem {
+#     specialArgs = { inherit inputs outputs; };
+#     modules = [
+#       ./installer/configuration.nix
+#     ];
+#   };
+# }
