@@ -2,12 +2,13 @@
   pkgs,
   lib,
   modulesPath,
+  outputs,
   ...
 }:
 {
   imports = [
     # Import common nixpkgs configuration
-    ../../modules/common/nixpkgs.nix
+    outputs.modules.common.nixpkgs
 
     # Graphical installer configurations
     (modulesPath + "/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix")

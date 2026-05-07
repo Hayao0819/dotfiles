@@ -2,12 +2,13 @@
   lib,
   config,
   inputs,
+  outputs,
   ...
 }:
 {
   # Import common nixpkgs configuration
   imports = [
-    ../../../common/nixpkgs.nix
+    outputs.modules.common.nixpkgs
   ];
 
   config = {
