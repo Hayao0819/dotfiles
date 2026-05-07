@@ -5,6 +5,6 @@ readDir ./.
 |> filter (p: p != "default.nix")
 |> map (mod: {
   name = mod;
-  value = import "${inputs.self}/modules/darwin/${mod}";
+  value = import "${inputs.self}/modules/common/${mod}";
 })
 |> listToAttrs

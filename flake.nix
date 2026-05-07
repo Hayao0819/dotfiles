@@ -68,7 +68,7 @@
           overlays = import ./overlays { inherit inputs; };
 
           # modules
-          modules = import ./modules; # { inherit inputs; };
+          modules = import ./modules { inherit inputs; };
 
           # nix os
           nixosConfigurations = import ./nixos { inherit inputs outputs; };
