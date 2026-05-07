@@ -17,7 +17,7 @@ nix flake check --extra-experimental-features 'nix-command flakes pipe-operators
 # Check NixOS configs
 for cfg in $(nix flake show . --json 2>/dev/null | jq -r '.nixosConfigurations | keys[]?' 2>/dev/null); do
     echo "Checking $cfg..."
-    nix eval --extra-experimental-features 'nix-command flakes' \
+    nix eval --extra-experimental-features 'nix-command flakes pipe-operators' \
         .#nixosConfigurations.$cfg.config.system.build.toplevel \
         --apply 'x: null' 2>&1 | grep -q error && echo "ERROR" && exit 2
 done
@@ -25,13 +25,13 @@ done
 # Check Home Manager
 for cfg in $(nix flake show . --json 2>/dev/null | jq -r '.homeConfigurations | keys[]?' 2>/dev/null); do
     echo "Checking $cfg..."
-    nix eval --extra-experimental-features 'nix-command flakes' \
+    nix eval --extra-experimental-features 'nix-command flakes pipe-operators' \
         .#homeConfigurations.$cfg.activationPackage \
         --apply 'x: null' 2>&1 | grep -q error && echo "ERROR" && exit 2
 done
 
 # Dry-run build
-nix build --dry-run --extra-experimental-features 'nix-command flakes' \
+nix build --dry-run --extra-experimental-features 'nix-command flakes pipe-operators' \
     .#nixosConfigurations.XPS9350.config.system.build.toplevel || exit 3
 ```
 

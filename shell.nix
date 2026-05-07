@@ -38,5 +38,5 @@ pkgs.mkShell {
     shellcheck
   ];
 
-  NIX_CONFIG = "extra-experimental-features = nix-command flakes";
+  NIX_CONFIG = "extra-experimental-features = nix-command flakes pipe-operators";
 }

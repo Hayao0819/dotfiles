@@ -63,7 +63,7 @@ Examples: git (with config), zsh (with plugins), neovim (with settings)
 Run validation after making changes:
 
 ```bash
-nix flake check --extra-experimental-features 'nix-command flakes'
+nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
 
 ## Reference: Repository Structure

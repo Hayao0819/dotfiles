@@ -94,7 +94,7 @@ check_flake_exists() {
 
 # Run nix command with experimental features enabled
 nix_cmd() {
-    nix "$@" --extra-experimental-features 'nix-command flakes'
+    nix "$@" --extra-experimental-features 'nix-command flakes pipe-operators'
 }
 
 # Get list of configurations for a given type

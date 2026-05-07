@@ -15,7 +15,7 @@ Run these checks to identify issues:
 
 ```bash
 # Check for syntax errors
-nix flake check --extra-experimental-features 'nix-command flakes'
+nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
 
 ### Phase 2: Anti-Pattern Detection
@@ -194,10 +194,10 @@ After all changes:
 
 ```bash
 # Syntax and type check
-nix flake check --extra-experimental-features 'nix-command flakes'
+nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
 
 # Evaluate to catch runtime errors
-nix eval .#nixosConfigurations.xps9350.config.system.build.toplevel --extra-experimental-features 'nix-command flakes'
+nix eval .#nixosConfigurations.xps9350.config.system.build.toplevel --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
 
 ## Execution Steps
