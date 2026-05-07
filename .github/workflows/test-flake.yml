@@ -29,10 +29,11 @@ jobs:
             target: WSL
           - system: ubuntu-latest
             target: Installer
-          - system: ubuntu-24.04-arm
-            target: termux
           - system: macos-latest
             target: MacBook
+          # Nix On Droid doesn't provide activation on derivation
+          # - system: ubuntu-24.04-arm
+          #   target: termux
 
     runs-on: ${{ matrix.pattern.system }}
 
