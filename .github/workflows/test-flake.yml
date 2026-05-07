@@ -31,6 +31,8 @@ jobs:
             target: Installer
           - system: ubuntu-24.04-arm
             target: termux
+          - system: macos-latest
+            target: MacBook
 
     runs-on: ${{ matrix.pattern.system }}
 

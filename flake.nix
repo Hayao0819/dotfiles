@@ -7,8 +7,9 @@
 
     # IPU7 camera support (PR #479283) - remove once merged into nixpkgs
     nixpkgs-ipu7.url = "github:NixOS/nixpkgs/pull/479283/head";
+
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
