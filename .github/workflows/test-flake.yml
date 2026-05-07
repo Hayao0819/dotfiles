@@ -35,6 +35,9 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v6
 
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
       - name: Build NixOS configuration
         if: ${{ matrix.pattern.system != 'macos-latest' }}
         run: nix build .#nixosConfigurations.${{ matrix.pattern.target
