@@ -45,7 +45,25 @@
     };
     skills = {
       init-flake = ./skills/init-flake;
+      # 199-biotechnologies/claude-deep-research-skill
+      deep-research = ./skills/deep-research;
+      # Weizhena/Deep-Research-skills
+      research = ./skills/research;
+      research-add-fields = ./skills/research-add-fields;
+      research-add-items = ./skills/research-add-items;
+      research-deep = ./skills/research-deep;
+      research-report = ./skills/research-report;
     };
+    agents = {
+      # Weizhena/Deep-Research-skills
+      web-search-agent = ./agents/web-search-agent.md;
+    };
+  };
+
+  # web-search-agent modules (referenced by the agent via ~/.claude/agents/web-search-modules/)
+  home.file.".claude/agents/web-search-modules" = {
+    source = ./agents/web-search-modules;
+    recursive = true;
   };
 
   # ccstatusline configuration
