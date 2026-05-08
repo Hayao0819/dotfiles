@@ -35,7 +35,7 @@ AI assistant guidance for Nix dotfiles repository.
 2. **ALWAYS validate** after any `.nix` file change:
 
    ```bash
-   nix flake check --extra-experimental-features 'nix-command flakes'
+   nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
    ```
 
 3. **Repository**: Nix Flakes for NixOS, Home Manager, Darwin

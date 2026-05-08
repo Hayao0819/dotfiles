@@ -3,7 +3,7 @@
 {
   imports = [
     # Centralized nixpkgs configuration
-    ../../modules/common/nixpkgs.nix
+    outputs.modules.common.nixpkgs
   ]
   ++ (with outputs.modules.home-manager; [
     git

@@ -89,7 +89,7 @@ Based on the assessment:
 Run validation after making changes:
 
 ```bash
-nix flake check --extra-experimental-features 'nix-command flakes'
+nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
 
 ## Reference: Repository Structure

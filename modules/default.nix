@@ -1,5 +1,16 @@
-{
-  nixos = import ./nixos;
-  home-manager = import ./home-manager;
-  darwin = import ./darwin;
-}
+{ inputs }:
+with builtins;
+readDir ./.
+|> attrNames
+|> filter (p: p != "default.nix")
+|> map (mod: {
+  name = mod;
+  value = import "${inputs.self}/modules/${mod}" { inherit inputs; };
+})
+|> listToAttrs
+
+# {
+#   nixos = import ./nixos;
+#   home-manager = import ./home-manager;
+#   darwin = import ./darwin;
+# }

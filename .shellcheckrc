@@ -1,8 +1,5 @@
 # Shellcheck configuration
 # https://www.shellcheck.net/wiki/Ignore
-
-
 shell=bash
 
 source-path=SCRIPTDIR
-

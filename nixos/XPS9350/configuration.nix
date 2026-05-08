@@ -6,6 +6,7 @@
   pkgs,
   outputs,
   inputs,
+  hostname,
   ...
 }:
 
@@ -79,7 +80,7 @@
     gaming = true; # Include Bottles for Wine
   };
 
-  networking.hostName = "XPS9350"; # Define your hostname.
+  networking.hostName = hostname; # Change dirname to change hostname :P
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable touchpad support (enabled default in most desktopManager).

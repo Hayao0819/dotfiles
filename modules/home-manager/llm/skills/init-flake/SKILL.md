@@ -91,13 +91,13 @@ result-*
 Run validation to ensure the flake is correct:
 
 ```bash
-cd "$ARGUMENTS" && nix flake check --extra-experimental-features 'nix-command flakes'
+cd "$ARGUMENTS" && nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
 
 Then test the dev shell:
 
 ```bash
-cd "$ARGUMENTS" && nix develop --extra-experimental-features 'nix-command flakes' --command echo "Shell works!"
+cd "$ARGUMENTS" && nix develop --extra-experimental-features 'nix-command flakes pipe-operators' --command echo "Shell works!"
 ```
 
 ## Notes

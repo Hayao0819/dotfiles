@@ -14,6 +14,24 @@
       openssl
       curl
       icu
+
+      # @orzklv: you gon' need these :)
+      acl
+      attr
+      bzip2
+      libglvnd
+      libsodium
+      libssh
+      libxml2
+      mesa
+      systemd
+      util-linux
+      vulkan-loader
+      xz
+      zstd
     ];
   };
+
+  # @orzklv: in case what you're running is something too ambigious
+  services.envfs.enable = true;
 }

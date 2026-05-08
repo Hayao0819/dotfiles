@@ -2,12 +2,13 @@
   lib,
   config,
   inputs,
+  outputs,
   ...
 }:
 {
   # Import common nixpkgs configuration
   imports = [
-    ../../../common/nixpkgs.nix
+    outputs.modules.common.nixpkgs
   ];
 
   config = {
@@ -23,7 +24,7 @@
 
       settings = {
         # Enable flakes and new 'nix' command
-        experimental-features = "nix-command flakes";
+        experimental-features = "nix-command flakes pipe-operators";
       };
     };
   };

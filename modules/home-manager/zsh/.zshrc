@@ -119,5 +119,6 @@ export GOPATH="$HOME/.go"
 export PATH="$PATH:$HOME/.go/bin"
 
 # Volta (Node.js version manager)
+# @orzklv: are you sure? i mean you have nix for node version managing :O
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"

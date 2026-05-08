@@ -3,3 +3,4 @@ created.list
 nohup.out
 result
 .claude/settings.local.json
+.direnv

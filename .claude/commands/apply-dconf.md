@@ -139,7 +139,7 @@ key = ''{"json": "value"}'';
 ## Step 6: Validate
 
 ```bash
-nix flake check --extra-experimental-features 'nix-command flakes'
+nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
 
 ## Summary Output
