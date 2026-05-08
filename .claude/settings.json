@@ -29,10 +29,7 @@
       "Bash(sqlite3:*)",
       "Bash(dconf dump:*)",
       "Bash(/tmp/arch-dconf.dump:*)",
-      "Bash(git add:*)",
-      "Bash(./scripts/test-validation.sh:*)",
-      "Bash(./scripts/task-runner.sh:*)",
-      "Bash(./scripts/validate-nix.sh:*)"
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

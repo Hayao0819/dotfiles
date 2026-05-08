@@ -18,7 +18,6 @@ AI assistant guidance for Nix dotfiles repository.
 - [Nix Language](docs/guides/nix-language.md) - Language quick reference
 - [File System Mounts](docs/guides/filesystem-mounts.md) - Mount configuration
 - [Task Runner](docs/guides/task-runner.md) - Built-in automation
-- [Task Runner Details](docs/guides/task-runner/) - Advanced patterns & examples
 
 ### Troubleshooting
 

@@ -2,8 +2,6 @@
 
 Nix入門しました。
 
-# Installation
-
 ## NixOS
 
 ```shell
@@ -13,22 +11,28 @@ sudo nixos-rebuild boot --flake github:Hayao0819/dotfiles/nix#XPS9350 --upgrade
 
 ## Home Manager
 
+Install `home-manager`
+
+<https://nix-community.github.io/home-manager/index.xhtml#ch-installation>
+
+Apply them.
+
 ```shell
 # Any Linux
 ## Stable
-nix run github:nix-community/home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@stable
+home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@stable
 ## Unstable
-nix run github:nix-community/home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@unstable
+home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@unstable
 
 # MacBook
 ## Stable
-nix run github:nix-community/home-managner -- switch --flake github:Hayao0819/dotfiles/nix#darwin-stable
+home-managner -- switch --flake github:Hayao0819/dotfiles/nix#darwin-stable
 ## Unstable
-nix run github:nix-community/home-managner -- switch --flake github:Hayao0819/dotfiles/nix#darwin-unstable
+home-managner -- switch --flake github:Hayao0819/dotfiles/nix#darwin-unstable
 ```
 
 ## Special Thanks
 
 - [watasuke102/dotfiles](https://github.com/watasuke102/dotfiles) 非常に参考にさせていただいております
-- [orzklv/nix](https://github.com/orzklv/nix) 非常に参考にさせていただいております2️⃣
+- orzklv/nix 非常に参考にさせていただいております2️⃣
 - [watasuke102/mit-sushi-ware](https://github.com/watasuke102/mit-sushi-ware) MIT-SUSHI-WARE ライセンス

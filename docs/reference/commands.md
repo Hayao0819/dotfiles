@@ -4,11 +4,11 @@
 
 ```bash
 nix run .                          # Auto-detect and deploy all
-nix run . -- deploy XPS9350        # Deploy specific config
-nix run . -- nixos                 # NixOS only
-nix run . -- home archlinux        # Home Manager only
-nix run . -- update                # Update flake inputs
-nix run . -- clean                 # Clean old generations
+nix run . -- XPS9350 switch        # Deploy specific config
+nix run .#update                   # Update flake inputs
+nix run .#check                    # Run flake validation
+nix run .#clean                    # Clean old generations
+nix run .#status                   # Show system information
 ```
 
 ## NixOS

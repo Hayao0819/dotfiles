@@ -5,10 +5,12 @@
 
   programs.sheldon = {
     enable = true;
-    # @orzklv: i saw fish and zsh config, i dunno which is your default
+    # Plugins below are zsh-only, so only enable zsh integration.
+    # Enabling fish/bash integration causes those shells to source
+    # zsh plugin files at startup and fail with parse errors.
     enableZshIntegration = true;
-    enableFishIntegration = true;
-    enableBashIntegration = true;
+    enableFishIntegration = false;
+    enableBashIntegration = false;
 
     # `sheldon` configuration file
     # ----------------------------
