@@ -18,6 +18,10 @@
   virtualisation.virtualbox.host = {
     enable = true;
     enableExtensionPack = true; # USB 2.0/3.0, VirtualBox RDP, etc.
+
+    # Fix -> KVM issue / compilation failing
+    enableKvm = true;
+    addNetworkInterface = false;
   };
 
   # Spice agent for VM clipboard sharing and display optimization
