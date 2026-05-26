@@ -32,8 +32,15 @@ stdenv.mkDerivation (finalAttrs: {
   versionTag = "2.29";
 
   src = fetchFromGitHub {
+    # intel/linux-sgx was renamed to intel/confidential-computing.sgx upstream.
+    # The old name still redirects on GitHub, but `fetchFromGitHub` with
+    # `fetchSubmodules = true` against the old slug has been observed to
+    # produce a different output hash (2026-05) — likely because Intel moved
+    # a submodule pin without bumping the tag. Pinning the canonical repo
+    # name keeps the fetch reproducible. (sgx-psw 2.29 in nixpkgs PR #524479
+    # uses this same canonical slug, so the two derivations share the source.)
     owner = "intel";
-    repo = "linux-sgx";
+    repo = "confidential-computing.sgx";
     rev = "sgx_${finalAttrs.versionTag}";
     hash = "sha256-zNSL03Mx3VaTXh/VIDlhHnaWmnooKkPxWHoYMhf6WcU=";
     fetchSubmodules = true;
