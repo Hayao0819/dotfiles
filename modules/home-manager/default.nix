@@ -10,19 +10,3 @@ readDir ./.
   value = import "${inputs.self}/modules/home-manager/${mod}";
 })
 |> listToAttrs
-
-# {
-#   # List your module files here
-#   git = import ./git;
-#   zsh = import ./zsh;
-#   fish = import ./fish;
-#   pkgs = import ./pkgs;
-#   gnome = import ./gnome;
-#   gh = import ./gh;
-#   wallpapers = import ./wallpapers;
-#   llm = import ./llm;
-#   xdg = import ./xdg;
-#   theme = import ./theme;
-#   audio = import ./audio;
-#   osint = import ./osint;
-# }

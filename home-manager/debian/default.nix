@@ -10,6 +10,7 @@
     gh
     zsh
     fish
+    direnv
     pkgs
     wallpapers
     llm

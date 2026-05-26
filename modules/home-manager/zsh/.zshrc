@@ -122,3 +122,8 @@ export PATH="$PATH:$HOME/.go/bin"
 # @orzklv: are you sure? i mean you have nix for node version managing :O
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# direnv
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi

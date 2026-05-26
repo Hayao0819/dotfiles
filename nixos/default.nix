@@ -18,29 +18,3 @@ readDir ./.
   };
 })
 |> listToAttrs
-
-# Why do it by hand, when nix can manage it yourself ?)
-# {
-#   XPS9350 = inputs.nixpkgs.lib.nixosSystem {
-#     specialArgs = { inherit inputs outputs; };
-#     modules = [
-#       # > Our main nixos configuration file <
-#       ./xps9350/configuration.nix
-#     ];
-#   };
-
-#   WSL = inputs.nixpkgs.lib.nixosSystem {
-#     specialArgs = { inherit inputs outputs; };
-#     modules = [
-#       # NixOS-WSL configuration
-#       ./wsl/configuration.nix
-#     ];
-#   };
-
-#   Installer = inputs.nixpkgs.lib.nixosSystem {
-#     specialArgs = { inherit inputs outputs; };
-#     modules = [
-#       ./installer/configuration.nix
-#     ];
-#   };
-# }

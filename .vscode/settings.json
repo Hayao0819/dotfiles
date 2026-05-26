@@ -2,8 +2,7 @@
   "editor.formatOnSave": true,
   // ShellCheck
   "shellcheck.customArgs": [
-    "-x",
-    "--rcfile=${workspaceFolder}/.shellcheckrc"
+    "-x"
   ],
   // Markdownlint
   "markdownlint.config": {

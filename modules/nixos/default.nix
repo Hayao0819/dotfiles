@@ -11,11 +11,3 @@ readDir ./.
   value = import "${inputs.self}/modules/nixos/${mod}" { inherit inputs; };
 })
 |> listToAttrs
-
-# {
-#   # System-level modules
-#   system = import ./system;
-
-#   # User-level modules
-#   user = import ./user;
-# }

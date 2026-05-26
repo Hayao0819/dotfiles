@@ -10,19 +10,3 @@ readDir ./.
   value = import "${inputs.self}/modules/nixos/system/${mod}";
 })
 |> listToAttrs
-
-# {
-#   audio = import ./audio;
-#   boot = import ./boot;
-#   common = import ./common;
-#   fonts = import ./fonts;
-#   locale = import ./locale;
-#   logind = import ./logind;
-#   network = import ./network;
-#   nix-ld = import ./nix-ld;
-#   nixpkgs = import ./nixpkgs;
-#   printing = import ./printing;
-#   tuned = import ./tuned;
-#   virtualization = import ./virtualization;
-#   zsh = import ./zsh;
-# }

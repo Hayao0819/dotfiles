@@ -18,17 +18,17 @@ Install `home-manager`
 Apply them.
 
 ```shell
-# Any Linux
-## Stable
-home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@stable
-## Unstable
-home-manager -- switch --flake github:Hayao0819/dotfiles/nix#hayao@unstable
+# Arch Linux
+home-manager switch --flake github:Hayao0819/dotfiles/nix#archlinux
 
-# MacBook
-## Stable
-home-managner -- switch --flake github:Hayao0819/dotfiles/nix#darwin-stable
-## Unstable
-home-managner -- switch --flake github:Hayao0819/dotfiles/nix#darwin-unstable
+# Debian
+home-manager switch --flake github:Hayao0819/dotfiles/nix#debian
+
+# Generic Linux
+home-manager switch --flake github:Hayao0819/dotfiles/nix#linux
+
+# macOS
+home-manager switch --flake github:Hayao0819/dotfiles/nix#darwin
 ```
 
 ## Special Thanks

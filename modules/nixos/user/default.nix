@@ -10,12 +10,3 @@ readDir ./.
   value = import "${inputs.self}/modules/nixos/user/${mod}";
 })
 |> listToAttrs
-
-# {
-#   apps = import ./apps;
-#   archtools = import ./archtools;
-#   fcitx5 = import ./fcitx5;
-#   gnome = import ./gnome;
-#   hyprland = import ./hyprland;
-#   steam = import ./steam;
-# }

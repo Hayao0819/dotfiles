@@ -39,7 +39,7 @@ AI assistant guidance for Nix dotfiles repository.
 
 3. **Repository**: Nix Flakes for NixOS, Home Manager, Darwin
 4. **Platforms**: NixOS (full OS), Linux (Home Manager), macOS (nix-darwin)
-5. **Main configs**: `XPS9350` (NixOS), `archlinux` (Home Manager)
+5. **Main configs**: `XPS9350` (NixOS), `debian` (Home Manager)
 
 ## Auto-Update Policy
 

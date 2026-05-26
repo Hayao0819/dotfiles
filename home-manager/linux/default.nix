@@ -14,6 +14,7 @@
     gh
     zsh
     fish
+    direnv
     pkgs
     gnome
     wallpapers
