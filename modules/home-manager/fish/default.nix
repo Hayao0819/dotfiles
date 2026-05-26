@@ -22,6 +22,9 @@
       # Disable greeting
       set -g fish_greeting
 
+      # Suppress (venv) prefix from Python venv's activate.fish; powerline-go shows venv already.
+      set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+
       # Theme colors (from fish_frozen_theme.fish)
       set --global fish_color_autosuggestion brblack
       set --global fish_color_cancel -r
