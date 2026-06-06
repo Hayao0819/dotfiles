@@ -37,6 +37,11 @@
       # Chat History
 
       - 「過去のチャットを参照して」と言われた場合、`~/.claude/` 以下のチャットログファイル（JSON等）を直接読み取って参照すること。
+
+      # Natural Writing
+
+      - 人間が読む文章を生成するときは、出力前に必ず `natural-writing` スキルを参照し、そのチェックリストを適用すること。対象は日本語・英語問わず: ドキュメント、README、markdown、ブログ、コミットメッセージ、PR/Issue の説明文、コードレビューコメントとその返信、メール、Slack/Discord 等のチャット、リリースノート、設計ドキュメント、論文・学術的文章を含むあらゆる人間向けプロース。
+      - ユーザーが「自然に」と明示しなくても適用すること。純粋なコード生成・データ変換・ツール出力のような散文を含まない出力には適用しない。
     '';
     mcpServers = {
       thunderbird-mail = {
@@ -53,6 +58,7 @@
       research-add-items = ./skills/research-add-items;
       research-deep = ./skills/research-deep;
       research-report = ./skills/research-report;
+      natural-writing = ./skills/natural-writing;
     };
     agents = {
       # Weizhena/Deep-Research-skills
