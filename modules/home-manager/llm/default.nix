@@ -20,6 +20,10 @@
         command = "ccstatusline";
         padding = 0;
       };
+      skipAutoPermissionPrompt = true;
+      permissions = {
+        defaultMode = "auto";
+      };
     };
     memory.text = ''
       # Commit Rules
