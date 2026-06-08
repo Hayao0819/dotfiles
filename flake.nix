@@ -2,21 +2,24 @@
   description = "Hayao Nix Dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # IPU7 camera support (PR #479283) - remove once merged into nixpkgs
     nixpkgs-ipu7.url = "github:NixOS/nixpkgs/pull/479283/head";
 
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Better flake management
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
@@ -34,9 +37,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-
-    # Better flake management
-    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
@@ -89,14 +89,13 @@
         ];
         perSystem =
           {
-            config,
             pkgs,
             system,
             ...
           }:
           {
             # Formatter for your nix files, available through 'nix fmt'
-            formatter = pkgs.nixfmt-tree;
+            formatter = pkgs.nixfmt-rs;
 
             # Packages
             packages = import ./pkgs {

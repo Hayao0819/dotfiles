@@ -9,7 +9,7 @@
     git = {
       isMacOS = lib.mkOption {
         type = lib.types.bool;
-        default = pkgs.hostPlatform.isDarwin;
+        default = pkgs.stdenv.hostPlatform.isDarwin;
         description = "Install MacOS specific agent.";
       };
     };

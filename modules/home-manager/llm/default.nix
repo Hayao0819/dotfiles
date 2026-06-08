@@ -10,7 +10,7 @@
   # Claude Code
   programs.claude-code = {
     enable = true;
-    package = inputs.llm-agents.packages.${pkgs.system}.claude-code;
+    package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       autoUpdater = {
         disabled = true;
@@ -140,7 +140,7 @@
 
   # LLM-related packages
   home.packages = [
-    inputs.llm-agents.packages.${pkgs.system}.ccstatusline
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
     pkgs.gemini-cli
   ];
 }
