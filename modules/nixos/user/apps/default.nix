@@ -98,7 +98,8 @@ in
           mission-center # System monitor like Windows Task Manager
           gparted
           baobab # GNOME disk usage analyzer
-          globalprotect-openconnect # GlobalProtect VPN client with GUI
+          # @orzklv: error: 'globalprotect-openconnect' was removed because it was unmaintained in Nixpkgs and needed upgrading to the Tauri rewrite, as the old version depends on the removed Qt 5 WebEngine
+          # globalprotect-openconnect # GlobalProtect VPN client with GUI
         ]
       )
       ++ lib.optionals cfg.office (

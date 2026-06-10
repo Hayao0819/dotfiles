@@ -37,7 +37,6 @@
   # pkgs.hello
   # pkgs.roulette
 
-  pkgs.nil
-  pkgs.nixfmt-rfc-style
-  pkgs.nixfmt-tree
+  pkgs.nixd
+  pkgs.nixfmt-rs
 ]

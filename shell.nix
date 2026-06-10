@@ -23,11 +23,10 @@
 pkgs.mkShell {
   packages = with pkgs; [
     # Nix related
-    nil # old lsp
     nixd # better lsp
-    nixfmt # formatter
     statix # lint
     deadnix # dead code check
+    nixfmt-rs # formatter
 
     # Utilities
     git

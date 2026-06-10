@@ -10,7 +10,7 @@
   # Claude Code
   programs.claude-code = {
     enable = true;
-    package = inputs.llm-agents.packages.${pkgs.system}.claude-code;
+    package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       autoUpdater = {
         disabled = true;
@@ -25,7 +25,7 @@
         defaultMode = "auto";
       };
     };
-    memory.text = ''
+    context = ''
       # Commit Rules
 
       - コミット作成時に `Co-Authored-By` ヘッダーを絶対に追加しないこと。Claude Code やその他の AI をco-authorとして記載することを禁止する。コミットメッセージには `Co-Authored-By` 行を一切含めないこと。
@@ -140,7 +140,7 @@
 
   # LLM-related packages
   home.packages = [
-    inputs.llm-agents.packages.${pkgs.system}.ccstatusline
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
     pkgs.gemini-cli
   ];
 }
