@@ -25,7 +25,7 @@
         defaultMode = "auto";
       };
     };
-    memory.text = ''
+    context = ''
       # Commit Rules
 
       - コミット作成時に `Co-Authored-By` ヘッダーを絶対に追加しないこと。Claude Code やその他の AI をco-authorとして記載することを禁止する。コミットメッセージには `Co-Authored-By` 行を一切含めないこと。
