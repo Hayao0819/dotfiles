@@ -13,7 +13,7 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications =
-    final: prev:
+    _final: prev:
     let
       # Helper to patch GNOME extensions with GIRepository search paths
       patchGnomeExtension =
@@ -66,34 +66,6 @@
               ];
             }
           ];
-        };
-      };
-
-      unstable = prev.unstable // {
-        gnomeExtensions = prev.unstable.gnomeExtensions // {
-          copyous = patchGnomeExtension {
-            extension = prev.unstable.gnomeExtensions.copyous;
-            patches = [
-              {
-                file = "lib/misc/db.js";
-                replacements = [
-                  {
-                    from = "gda = (await import('gi://Gda')).default;";
-                    to = "imports.gi.GIRepository.Repository.prepend_search_path('${final.libgda6}/lib/girepository-1.0'); gda = (await import('gi://Gda')).default;";
-                  }
-                ];
-              }
-              {
-                file = "lib/common/sound.js";
-                replacements = [
-                  {
-                    from = "const gsound = (await import('gi://GSound')).default;";
-                    to = "imports.gi.GIRepository.Repository.prepend_search_path('${final.gsound}/lib/girepository-1.0'); const gsound = (await import('gi://GSound')).default;";
-                  }
-                ];
-              }
-            ];
-          };
         };
       };
     };

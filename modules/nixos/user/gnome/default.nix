@@ -111,7 +111,7 @@
       ])
       ++ (with pkgs.unstable; [
         gnomeExtensions.arcmenu
-        gnomeExtensions.copyous # Pano successor - supports images, links, colors (patched with GI paths)
+        gnomeExtensions.copyous # Pano successor - supports images, links, colors
       ]);
   };
 }
