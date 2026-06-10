@@ -37,6 +37,7 @@
       # Safety
 
       - undo不可能な破壊的変更は絶対に行わないこと。例: 未コミットの変更がある状態での `git reset --hard`、`git checkout .`、`git clean -f` 等。必ず事前に未コミットの変更がないか確認し、ある場合はユーザーに確認を取ること。
+      - ユーザーからの明示的な許可なく、以下の取り消しが困難または不可能な操作を行わないこと: `git push`、`git commit`、GitHub の PR/Issue へのコメント投稿、PR/Issue の close/reopen、PR/Issue の新規作成。ユーザーが該当操作を明示的に指示した場合のみ実行可能。それ以外は必ず事前に確認を取ること。
 
       # Chat History
 
