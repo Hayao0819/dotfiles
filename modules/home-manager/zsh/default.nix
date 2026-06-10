@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
 
   imports = [
@@ -11,6 +11,8 @@
   programs.zsh = {
     # Install zsh
     enable = true;
+
+    dotDir = config.home.homeDirectory;
 
     # ZSH Autosuggestions
     # The option `programs.zsh.enableAutosuggestions' defined in config

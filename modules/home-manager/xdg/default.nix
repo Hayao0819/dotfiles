@@ -12,6 +12,7 @@ in
     userDirs = {
       enable = true;
       createDirectories = true;
+      setSessionVariables = true;
       desktop = "${homeDir}/Desktop";
       documents = "${homeDir}/Documents";
       download = "${homeDir}/Downloads";
