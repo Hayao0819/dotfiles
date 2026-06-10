@@ -66,13 +66,13 @@ jobs:
     name: "Merge Update PRs"
     needs: [test, build]
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.user.login == 'Hayao0819' && github.event_name
-      == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' && (github.event.pull_request.user.login
+      == 'Hayao0819' || contains(github.event.pull_request.labels.*.name, 'automated'))
+      }}
 
     steps:
       - name: Enable auto-merge for Update PRs
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          # setup your PAT for the repo to auto merge updates that pass tests
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}

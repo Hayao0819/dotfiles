@@ -31,6 +31,7 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           inputs: ${{ github.event.inputs.inputs }}
           pr-title: "chore: update flake inputs"
           pr-labels: |
