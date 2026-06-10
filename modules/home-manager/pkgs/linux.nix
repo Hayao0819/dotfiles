@@ -6,7 +6,4 @@
   pkgs.docker-compose
   pkgs.pinentry-gnome3
   pkgs.dconf2nix
-
-  # JavaScript tool manager
-  pkgs.volta
 ]

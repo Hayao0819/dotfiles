@@ -9,18 +9,13 @@ let
   macos = import ./osx.nix { inherit pkgs; };
   linux = import ./linux.nix { inherit pkgs; };
   globals = import ./global.nix { inherit pkgs; };
-
-  # Check if the target is MacOS or Linux
-  isMacOS =
-    pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
-    || pkgs.stdenv.hostPlatform.system == "x86_64-darwin";
 in
 {
   options = {
     packages = {
       isMacOS = lib.mkOption {
         type = lib.types.bool;
-        default = isMacOS;
+        default = pkgs.stdenv.hostPlatform.isDarwin;
         description = "Is installed packages are MacOS targetted.";
       };
       isHeadless = lib.mkOption {
