@@ -57,11 +57,6 @@ jobs:
         run: nix build .#darwinConfigurations.${{ matrix.pattern.target
           }}.config.system.build.toplevel --show-trace --accept-flake-config --fallback
 
-      - name: Build Nix-On-Droid configuration
-        if: ${{ matrix.pattern.system == 'ubuntu-24.04-arm' }}
-        run: nix build .#nixOnDroidConfigurations.${{ matrix.pattern.target
-          }}.config.build.activationPackage --show-trace --accept-flake-config --fallback
-
   update-merge:
     name: "Merge Update PRs"
     needs: [test, build]
