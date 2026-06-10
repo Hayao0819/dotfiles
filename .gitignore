@@ -3,4 +3,6 @@ created.list
 nohup.out
 result
 .claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/worktrees/
 .direnv
