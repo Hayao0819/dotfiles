@@ -4,8 +4,13 @@
 #   1. Run: dconf dump / | dconf2nix > /path/to/this/file
 #   2. Paste the output below (replace everything after this comment block)
 #
-# Note: This file is imported by default.nix with `lib.hm.gvariant` in scope
-{ mkUint32, mkTuple }:
+# Note: This file is imported by default.nix with `lib.hm.gvariant` in scope.
+# After regenerating, replace hardcoded /home/<user> paths with ${homeDir}.
+{
+  mkUint32,
+  mkTuple,
+  homeDir,
+}:
 
 {
   # === GNOME Shell ===
@@ -42,14 +47,14 @@
   "org/gnome/desktop/background" = {
     color-shading-type = "solid";
     picture-options = "zoom";
-    picture-uri = "file:///home/hayao/.wallpapers/venti.png";
-    picture-uri-dark = "file:///home/hayao/.wallpapers/venti.png";
+    picture-uri = "file://${homeDir}/.wallpapers/venti.png";
+    picture-uri-dark = "file://${homeDir}/.wallpapers/venti.png";
   };
 
   # === Desktop Screensaver ===
   "org/gnome/desktop/screensaver" = {
     lock-enabled = false;
-    picture-uri = "file:///home/hayao/.wallpapers/venti.png";
+    picture-uri = "file://${homeDir}/.wallpapers/venti.png";
   };
 
   # === Desktop Notifications ===

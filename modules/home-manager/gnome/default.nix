@@ -1,6 +1,10 @@
 # GNOME configuration for Home Manager
 # Migrated from Arch Linux dconf settings
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 let
   inherit (lib.hm.gvariant) mkUint32 mkTuple;
@@ -10,7 +14,10 @@ in
     enable = true;
     # Import dconf2nix generated settings
     # To update: dconf dump / | dconf2nix > modules/home-manager/gnome/dconf-generated.nix
-    settings = import ./dconf-generated.nix { inherit mkUint32 mkTuple; };
+    settings = import ./dconf-generated.nix {
+      inherit mkUint32 mkTuple;
+      homeDir = config.home.homeDirectory;
+    };
   };
 
   # Workaround for Chromium bug: NoDisplay=true at end of .desktop file is ignored
