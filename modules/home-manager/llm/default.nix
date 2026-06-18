@@ -73,6 +73,7 @@
       research-report = ./skills/research-report;
       natural-writing = ./skills/natural-writing;
       paper-writing = ./skills/paper-writing;
+      android-control = ./skills/android-control;
     };
     agents = {
       # Weizhena/Deep-Research-skills
