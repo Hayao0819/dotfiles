@@ -29,6 +29,7 @@
       # Commit Rules
 
       - コミット作成時に `Co-Authored-By` ヘッダーを絶対に追加しないこと。Claude Code やその他の AI をco-authorとして記載することを禁止する。コミットメッセージには `Co-Authored-By` 行を一切含めないこと。
+      - PR の作成時にも、`Created-By`、`Co-Authored-By`、`🤖 Generated with Claude Code` 等の AI 帰属の記載を一切含めないこと。PR のタイトル・本文に、Claude Code やその他の AI が作成・生成したことを示すフッターや署名を付けない。
       - コミットメッセージを書くときは `natural-writing` スキルと、そのプロジェクトの過去のコミット履歴 (`git log` を十分な件数で確認) を毎回参照し、形式・接頭辞 (例: `feat:`, `fix:`, `chore:`)・粒度・口調が既存の流れから逸脱しないよう擬態すること。
 
       # Web Search
