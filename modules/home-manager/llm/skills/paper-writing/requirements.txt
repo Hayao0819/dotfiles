@@ -1,0 +1,17 @@
+# Paper Writing Skill Dependencies
+#
+# Core: Python 3.9+ standard library only (urllib). No pip install needed for
+# citation verification or BibTeX fetching — they hit public HTTP APIs.
+#
+# APIs used (no key required; send a polite mailto where supported):
+#   Crossref          https://api.crossref.org        (DOI + BibTeX via content negotiation)
+#   DBLP              https://dblp.org/search/publ/api (CS venues; clean .bib at /rec/{key}.bib)
+#   Semantic Scholar  https://api.semanticscholar.org/graph/v1  (externalIds cross-linking; optional key raises rate limit)
+#   OpenAlex          https://api.openalex.org         (broad coverage; optional free key in 2026)
+#   arXiv             http://export.arxiv.org/api/query (preprints; 3s delay between calls)
+#
+# Set a contact email so APIs put you in the polite pool:
+#   export PAPER_WRITING_MAILTO="you@example.com"
+#
+# Optional:
+#   PAPER_WRITING_S2_KEY  — Semantic Scholar API key (x-api-key header)

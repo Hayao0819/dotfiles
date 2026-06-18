@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime paper state (kept local, never committed from the skill dir)
+passport.yaml
+*.bib
+*.aux
+*.log
+*.out
+drafts/
+
+# JSON state, but keep schemas
+*.json
+!schemas/*.json
+
+# Test output
+.pytest_cache/
+.coverage

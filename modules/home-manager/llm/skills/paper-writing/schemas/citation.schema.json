@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "citation.schema.json",
+  "title": "Citation candidate pool entry",
+  "description": "One real, verified source. The model may cite ONLY entries whose verification.status == 'verified'.",
+  "type": "object",
+  "required": ["id", "title", "verification"],
+  "properties": {
+    "id": { "type": "string", "description": "sha256(canonical_locator)[:16] — stable across the paper" },
+    "type": { "type": "string", "enum": ["article", "inproceedings", "misc", "techreport", "book", "phdthesis"] },
+    "doi": { "type": "string" },
+    "arxiv": { "type": "string" },
+    "pmid": { "type": "string" },
+    "dblp_key": { "type": "string" },
+    "title": { "type": "string" },
+    "authors": { "type": "array", "items": { "type": "string" } },
+    "year": { "type": "integer" },
+    "venue": { "type": "string" },
+    "pages": { "type": "string" },
+    "bibtex": { "type": "string", "description": "Fetched from an API (DBLP .bib or Crossref content negotiation), never written by the model" },
+    "verification": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["verified", "unverified", "rejected"] },
+        "matched_on": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["title", "first_author", "year", "venue", "pages"] },
+          "description": "Fields that matched the authoritative record. A resolving DOI alone is NOT enough."
+        },
+        "support_quote": { "type": "string", "description": "<=25 words from the source that supports the claim (faithfulness)" },
+        "locator": { "type": "string", "description": "Page/section the quote is from" },
+        "source_api": { "type": "string", "enum": ["crossref", "dblp", "semanticscholar", "openalex", "arxiv", "pubmed"] },
+        "checked_at": { "type": "string", "description": "ISO timestamp (pass in via args; do not call the clock from a workflow script)" }
+      }
+    }
+  }
+}

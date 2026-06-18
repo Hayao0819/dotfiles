@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "outline.schema.json",
+  "title": "Paper outline + first-reader story + paragraph specs",
+  "type": "object",
+  "required": ["title", "language", "story", "sections"],
+  "properties": {
+    "title": { "type": "string" },
+    "venue": { "type": "string", "description": "Target conference/journal (e.g. USENIX Security, CSS, NeurIPS)" },
+    "language": { "type": "string", "enum": ["en", "ja"] },
+    "field": { "type": "string", "description": "cs-security | ml | biomedical | humanities | other — selects field-aware guardrails" },
+    "story": {
+      "type": "string",
+      "description": "One paragraph for a first-time in-field-but-not-subfield reader: problem -> why it matters -> what we did -> what we found -> so what."
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["heading", "paragraphs"],
+        "properties": {
+          "heading": { "type": "string" },
+          "beat": { "type": "string", "description": "Which story beat this section advances" },
+          "reader_question": { "type": "string", "description": "The question the reader holds when arriving here" },
+          "question_origin": { "type": "string", "description": "Which earlier section raised that question (or 'unmotivated')" },
+          "paragraphs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "message"],
+              "properties": {
+                "id": { "type": "string" },
+                "message": { "type": "string", "description": "The single contestable claim this paragraph makes" },
+                "support_citation_ids": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "Stable ids into the citation pool (citation.schema.json)"
+                },
+                "support_data": { "type": "string", "description": "Non-citation evidence (a figure, a number, an experiment)" },
+                "human_authored": { "type": "boolean", "description": "True for synthesis-heavy paragraphs the human drafts; the skill only comments" },
+                "status": { "type": "string", "enum": ["spec", "drafted", "reviewed"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

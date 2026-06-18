@@ -71,6 +71,7 @@
       research-deep = ./skills/research-deep;
       research-report = ./skills/research-report;
       natural-writing = ./skills/natural-writing;
+      paper-writing = ./skills/paper-writing;
     };
     agents = {
       # Weizhena/Deep-Research-skills
