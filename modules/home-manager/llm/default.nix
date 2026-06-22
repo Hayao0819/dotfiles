@@ -30,7 +30,8 @@
 
       - コミット作成時に `Co-Authored-By` ヘッダーを絶対に追加しないこと。Claude Code やその他の AI をco-authorとして記載することを禁止する。コミットメッセージには `Co-Authored-By` 行を一切含めないこと。
       - PR の作成時にも、`Created-By`、`Co-Authored-By`、`🤖 Generated with Claude Code` 等の AI 帰属の記載を一切含めないこと。PR のタイトル・本文に、Claude Code やその他の AI が作成・生成したことを示すフッターや署名を付けない。
-      - コミットメッセージを書くときは `natural-writing` スキルと、そのプロジェクトの過去のコミット履歴 (`git log` を十分な件数で確認) を毎回参照し、形式・接頭辞 (例: `feat:`, `fix:`, `chore:`)・粒度・口調が既存の流れから逸脱しないよう擬態すること。
+      - コミットメッセージを書くときは `natural-writing` スキルと、そのプロジェクトの過去のコミット履歴 (`git log` を十分な件数で確認) を毎回参照し、形式・接頭辞 (例: `feat:`, `fix:`, `chore:`)・粒度・口調が既存の流れから逸脱しないよう擬態すること。過去のコミットメッセージの参照は毎回必ず行い、自分の好みではなくその履歴の書き方に合わせること。
+      - コミットメッセージは原則 1 行 (subject のみ) で簡潔に完結させること。冗長な説明・箇条書き・段落の本文をだらだら書かない。変更内容を 1 行で要約できないほど大きい場合は、まずコミットを分割できないか検討すること。本文 (body) を付けるのは「なぜ」が subject だけでは絶対に伝わらず、かつ過去の履歴でも本文を付ける慣習がある場合に限り、その場合も必要最小限の行数に留めること。
 
       # Web Search
 
@@ -55,6 +56,12 @@
 
       - わからないことは推測せず「わからない」と明示した上で、`research`, `deep-research`, `web-search-agent` 等の調査エージェントや Web 検索を駆使し、一次情報から事実を確認して問題解決を図ること。
       - 勝手な推測、過去の習わしの真似、それらしい記憶頼りで埋めないこと。コード・履歴・公式ドキュメント・上流の実装を一次情報として裏付けを取ってから結論を出すこと。
+
+      # Code Comments
+
+      - これはすべてのエージェント・サブエージェントに適用される。コード中のコメントは必要最小限に留めること。コメントの量は周囲の既存コードの密度に合わせ、そこから逸脱して増やさないこと。
+      - コードを読めば自明なこと (変数名・関数名・処理内容をそのまま日本語/英語に置き換えただけの説明) はコメントに書かない。「何をしているか」ではなく、コードからは読み取れない「なぜそうしているか」(非自明な前提・回避策・意図的な選択) のみを、本当に必要なときだけ書くこと。
+      - 自分の作業ログ・変更履歴・TODO・AI が書いた旨を示すコメントをコード中に残さないこと。変更の経緯は git とコミットメッセージに委ねること。
     '';
     mcpServers = {
       thunderbird-mail = {
@@ -74,6 +81,17 @@
       natural-writing = ./skills/natural-writing;
       paper-writing = ./skills/paper-writing;
       android-control = ./skills/android-control;
+      writing-go = ./skills/writing-go;
+      writing-ts = ./skills/writing-ts;
+      writing-next = ./skills/writing-next;
+      writing-kotlin = ./skills/writing-kotlin;
+      writing-rust = ./skills/writing-rust;
+      writing-zig = ./skills/writing-zig;
+      writing-nix = ./skills/writing-nix;
+      writing-python = ./skills/writing-python;
+      auditing-kernel = ./skills/auditing-kernel;
+      auditing-c-memory = ./skills/auditing-c-memory;
+      auditing-web-app = ./skills/auditing-web-app;
     };
     agents = {
       # Weizhena/Deep-Research-skills

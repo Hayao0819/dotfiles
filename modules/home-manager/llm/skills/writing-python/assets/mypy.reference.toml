@@ -1,0 +1,10 @@
+# Strict mypy config (paste into pyproject.toml). Adopt per project.
+[tool.mypy]
+python_version = "3.13"
+strict = true            # disallow_untyped_defs, disallow_any_generics, warn_return_any, ...
+warn_unreachable = true  # not included in --strict
+enable_error_code = ["redundant-expr", "truthy-bool", "ignore-without-code"]
+# Per-module relaxations for untyped third-party libs go here:
+# [[tool.mypy.overrides]]
+# module = ["cv2.*", "ultralytics.*"]
+# ignore_missing_imports = true

@@ -1,0 +1,16 @@
+# Starter [lints] for Cargo.toml (or [workspace.lints] in a workspace root).
+# Adopt per project; priority = -1 lets specific lints override the group.
+
+[lints.rust]
+unsafe_code = "warn"
+missing_debug_implementations = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Opt-in restriction lint worth having when you write unsafe
+# (missing_safety_doc is already warn-by-default in the `style` group):
+undocumented_unsafe_blocks = "warn"
+# Tame a couple of noisy pedantic lints if they get in the way:
+module_name_repetitions = "allow"
+must_use_candidate = "allow"

@@ -1,0 +1,19 @@
+# pylint config (paste into pyproject.toml). Keeps the inference/design/duplicate
+# checks ruff can't do; lets ruff own style/imports/format.
+[tool.pylint.main]
+py-version = "3.13"
+jobs = 0          # parallel
+
+[tool.pylint."messages control"]
+# Disable what ruff already covers (style, imports, formatting) to avoid noise;
+# keep the inference + design + duplicate-code checks, which are pylint's reason
+# to exist alongside ruff.
+disable = [
+  "line-too-long",          # ruff
+  "wrong-import-order",     # ruff (I)
+  "unused-import",          # ruff (F401)
+  "missing-module-docstring",
+]
+
+[tool.pylint.design]
+max-args = 8

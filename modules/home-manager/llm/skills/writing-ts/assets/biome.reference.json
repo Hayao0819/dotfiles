@@ -1,0 +1,15 @@
+{
+  "//": "Reference Biome 2.x config (format + fast lint). Adopt per repo.",
+  "//2": "Keep typescript-eslint alongside for type-checked rules Biome can't do yet.",
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": { "noFloatingPromises": "error" }
+    }
+  },
+  "javascript": { "formatter": { "quoteStyle": "double" } }
+}

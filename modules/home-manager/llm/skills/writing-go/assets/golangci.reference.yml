@@ -1,0 +1,23 @@
+# golangci-lint v2 reference config (golangci-lint 2.x, March 2025+).
+# Starting point — adopt per repo; if a project already has one, defer to it.
+# Upgrade a v1 config with: golangci-lint migrate
+version: "2"
+
+linters:
+  default: standard # errcheck, govet, ineffassign, staticcheck, unused
+  enable:
+    - errorlint # %w/errors.Is/As misuse — pairs with reference/errors.md
+    - bodyclose # unclosed http.Response.Body
+    - testifylint # require-on-wrong-goroutine and other testify traps
+    - gosec # common security mistakes
+    - misspell
+    - revive # configurable stylistic checks (successor to golint)
+  settings:
+    errorlint:
+      errorf: true
+      asserts: true
+      comparison: true
+
+formatters:
+  enable:
+    - gofumpt # stricter superset of gofmt -s

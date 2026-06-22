@@ -1,0 +1,9 @@
+{
+  "//": "Strict Pyright/Pylance config. Or set [tool.pyright] in pyproject.toml.",
+  "typeCheckingMode": "strict",
+  "pythonVersion": "3.13",
+  "reportMissingTypeStubs": "warning",
+  "reportUnnecessaryTypeIgnoreComment": "warning",
+  "venvPath": ".",
+  "venv": ".venv"
+}
