@@ -80,6 +80,7 @@
       research-report = ./skills/research-report;
       natural-writing = ./skills/natural-writing;
       paper-writing = ./skills/paper-writing;
+      writing-tech-article = ./skills/writing-tech-article;
       android-control = ./skills/android-control;
       writing-go = ./skills/writing-go;
       writing-ts = ./skills/writing-ts;

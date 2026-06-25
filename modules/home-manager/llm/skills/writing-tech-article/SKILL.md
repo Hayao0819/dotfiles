@@ -1,0 +1,90 @@
+---
+name: writing-tech-article
+description: Drafts fact-based technical articles for hayao's outlets — Zenn (@hayao), Qiita (@Hayao0819), the personal blog (hayao0819.com) — matching his structural register without faking his personality. Use when writing, drafting, or rewriting a 技術記事 / blog post / Zenn / Qiita article in hayao's name about a technical topic. The LLM writes facts only: it does NOT manufacture his jokes, 毒舌, 自虐, casual throwaway closers, or first-person anecdotes — performing his personality is fabrication and he finds it offensive. Encodes the factual baseline of his writing (genre-driven 敬体/常体, direct openings, plain content-label headings, inline-code density, primary-source links) and composes with the natural-writing skill and the user-writing-style memory. Do NOT use for: non-hayao docs, pure code, commit messages, or chat replies.
+---
+
+# Writing a tech article (hayao, fact-based)
+
+Write a technical article that carries facts clearly in hayao's structural register. The hard rule: **an LLM writes facts, not personality.** His real articles contain jokes, 毒舌, 自虐, 取り消し線 asides, and casual closers — those are *his* because *he* wrote them. When an LLM manufactures them it is fabrication, and he has explicitly rejected it. Reproduce his structure and register; never perform his persona.
+
+## The hard rule: facts only
+
+Do NOT generate any of these. They are the personality-performance traps the LLM falls into:
+
+- ネタ・ボケ・`~~取り消し線~~` のジョーク、内輪ネタ、あだ名いじり
+- 毒舌・特定メーカーや人物への当てこすり、煽り
+- 自虐・「自分も一度ハマった」式の検証不能な疑似体験(捏造)
+- 「気が向いたら続きを書きます」「それではまた今度」「〜する人探してます」「知ってたら教えて下さい」式の投げやり締め・読者募集
+- 親近感の演出(「〜ありますよね」「経験ありませんか」)
+- キャッチー見出し・煽りタイトル
+
+書いてよいのは、検証できる事実・コード・一次情報・そして事実に根ざした素直な技術的判断だけ。意見は持ってよいが、必ず根拠とセットにする(例:「正直使いにくく、使うメリットもわからないので使わない」のように、なぜそう判断したかが事実として示せる範囲)。
+
+## How this composes
+
+1. **This skill** — fact-based structure and register for hayao's tech articles.
+2. **`user-writing-style` memory** — the structural fingerprint. Read it if not in context. Note: its "personality" items (ネタ/毒舌/casual closer) describe how *he* writes, and are explicitly NOT for the LLM to reproduce.
+3. **`natural-writing` skill** — run last on the finished draft (universal + Japanese pass + Documentation/blog domain pass). It now enforces the no-fake-anecdote, no-throwaway-closer, content-label-heading, bold-cap, and 評価副詞 rules.
+
+## Structural register to match
+
+### 1. 文体: 敬体 or 常体 by genre (decide first)
+
+- **です・ます (敬体)** → technical explainers, tutorials, how-to. This is the default for a tech article.
+- **だ・である (常体)** → only if the piece is genuinely a 解析メモ / formal write-up and the user asked for it. When unsure, use 敬体.
+- Pick one and hold it the whole way.
+
+### 2. Opening: direct, no heading
+
+Open with no heading, in one or two sentences. Use one of his actual factual openings:
+- 「〜したのでメモ」「〜の方法がわからなかったのでメモ。」
+- A one-line statement of the subject: 「`mktemp`コマンドは一時ファイルを作成するコマンドです。」
+- The motivation as plain fact: 「最近〜が登場し、〜ができるようになりました。」
+
+No grand 導入 (「現代の〜において」), no 「いかがでしたか」-class framing, no catchy hook.
+
+### 3. Headings: plain content labels
+
+Name the content. His real headings: 「概要」「全体」「本題」「設定」「エラーハンドリング」「ESLint」「Prettier」「TypeScript対応」「終わり」. Keep them flat, calm, and uniform in granularity. No catchy/anthropomorphic/teaser headings.
+
+### 4. Body register
+
+- 1文1段落、段落間に空行。短い文を積む。長い説明ブロックを作らない。
+- 散文で書く。定義の列挙・概念説明・手順・まとめを箇条書きにしない(LLM臭が強い)。箇条書きは本当に並列な短い列挙(パッケージ名・ファイル名・選択肢)だけに限る。末尾のまとめをチェックリスト化しない。
+- markdownlint準拠で書く: コードフェンスには言語タグ必須(実行例は `console`、ソースは `bash`/`go` 等)、見出し・コードフェンス・リストの前後に空行、連続空行を作らない、見出し末尾に `。!?` 等の記号を付けない、ファイル末尾は改行1つ。対象リポジトリに `.markdownlint*` 設定があればそれに従う。
+- コマンド・型・ライブラリ名・プロパティは必ずインラインコード。
+- コードブロックは言語タグ必須。bash例には `#` で日本語コメント(何をするコマンドか)を添える。
+- ファイル構成は `txt` のツリーで、ファイル単位の小見出し(「### /main.go」)で区切る。
+- 一次情報・公式ドキュメント・参照記事へのリンクを地の文に多めに置く。
+- 一人称は 敬体記事では「私」、必要なら「自分」。総称の「あなた」「我々」は落とす。
+
+### 5. Honest limits (real ones only)
+
+技術記事に「全部きれいに解決した完璧さ」を出さないのは、嘘の試行錯誤を足すことではない。**実際に未解決・未検証・制約がある点を、事実として正直に書く**だけでよい。hayao も実際にこう書いている:「唯一の課題は〜を現状併用できない点です」「未調査」「イマイチ安定していません」。
+
+- 検証していないことは「未検証」「未調査」と書く。推測で断定しない。
+- 制約・既知の問題・回避策の限界をそのまま書く。
+- 解決できていない点を無理に解決したように書かない。
+- これらは捏造ではなく事実の開示。疑似体験(§ハードルール)とは別物。
+
+### 6. Closing
+
+要約価値があるときだけ「終わり」「おわりに」で短くまとめる。なければ本文最後の事実で終える。投げやり締め・読者募集・続編予告は書かない(§ハードルール)。
+
+## Verify before handing back
+
+- **Run every runnable code/command example** and base the description on the observed result. Never write 「こうなります」 for an unrun snippet. 検証できなければ「未検証」と明記する。
+- 実測結果は地の文で要約せず、実際の実行結果ブロック(コマンド＋出力＋終了コード)で見せる。「両方のechoが出力されます」と書くより、検証に使ったスニペットと出力をそのまま貼る。これが検証の説得力になる。
+- 同じ実測の報告フレーム(「手元では〜でした」)を記事内で反復しない。出力ブロックで示せば地の文の「手元では」自体が要らなくなる。実測への言及が必要なときも表現を散らす。
+- 一次情報リンクが主張どおりの内容か確認する。
+- 事実が不明なら「わからない」と書く。埋めない。
+- 可能なら `markdownlint`(対象リポジトリの設定で)を実行し、違反ゼロを確認してから渡す。
+
+## Self-check
+
+1. 文体(敬体/常体)を genre で決め、最後まで揃っているか。
+2. ハードルール違反ゼロか: ネタ/毒舌/自虐/疑似体験/投げやり締め/読者募集/キャッチー見出しが一つも無いか。
+3. 開きは直球(メモ/主題/動機)で、壮大な導入が無いか。見出しは内容ラベルか。
+4. コードは実行検証済みか。未検証は明記したか。一次情報リンクはあるか。
+5. 正直な未解決点・制約を(あるなら)事実として書いたか。無いものを捏造していないか。
+6. `natural-writing` を通したか(太字3箇所以内・評価副詞の口癖なし・暴力比喩なし・全文頻度カウント済み)。
