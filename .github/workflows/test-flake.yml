@@ -1,6 +1,9 @@
 name: Test Flake
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [nix]
+  pull_request:
 
 jobs:
   test:
