@@ -64,12 +64,16 @@
 
       # Code Comments
 
-      - これはすべてのエージェント・サブエージェントに適用される。コード中のコメントは必要最小限に留めること。コメントの量は周囲の既存コードの密度に合わせ、そこから逸脱して増やさないこと。迷ったら書かない — 意図はコード自体とコミットメッセージで伝える。
-      - コードを読めば自明なこと (変数名・関数名・処理内容をそのまま日本語/英語に置き換えただけの説明) はコメントに書かない。「何をしているか」ではなく、コードからは読み取れない「なぜそうしているか」(非自明な前提・回避策・意図的な選択) のみを、本当に必要なときだけ書くこと。
-      - LLM が書きがちな複数節のだらだらした説明を書かないこと。書く価値があるなら 1 文で要点 (なぜ) を締める。例: 「Buffer is an append-only log buffer. It implements io.Writer (the build backend writes to it) and lets readers wait for new bytes from an offset until the buffer is closed.」ではなく「Buffer is an append-only log buffer implementing io.Writer; readers wait for new bytes from an offset until it is closed.」程度まで凝縮する。
-      - コメントはなるべく簡単でわかりやすい単語で書くこと。難しい語彙や凝った言い回し・長文を避け、平易に読める短い文にする。
-      - 既存コードを触るときは、その周辺の冗長・自明なコメントも同じ基準で削ること。コメントは増やす方向でなく減らす方向に整える。
-      - 自分の作業ログ・変更履歴・TODO・AI が書いた旨を示すコメントをコード中に残さないこと。変更の経緯は git とコミットメッセージに委ねること。
+      - これはすべてのエージェント・サブエージェントに適用される。既定はコメントを書かないこと。コメントは例外であり、無いと読めないコードは、まずリネームや分割で自明にできないかを先に検討する。迷ったら書かない。
+      - 書きたい情報は、まず宛先を次の指針で振り分けること。コードコメント以外で表現できるものはコメントに書かない:
+        - How (どう動くか) はコード自体で表現する。処理・変数名・関数名を言い換えただけの説明をコメントに書かない。
+        - What (何をするか、仕様) はテストコードで表現する。仕様の説明をコメントに書かない。
+        - Why (なぜこの変更をしたか) はコミットメッセージで表現する。変更の経緯や理由をコメントに書かない。
+        - Why not (なぜ別のやり方を採らなかったか、なぜあえてこう書いたか) だけがコードコメントの担当。
+      - したがってコードコメントに書いてよいのは、原則として Why not と、コードから読み取れない非自明な事実 (単位・不変条件・並行性の前提・外部仕様や issue への参照など) に限る。それ以外は書かない。
+      - 書く場合はなるべく短く、1 文・1 行で要点を締めること。複数節のだらだらした説明を書かない。平易で短い文にし、難しい語彙や凝った言い回しを避ける。例: 「Buffer is an append-only log buffer. It implements io.Writer (the build backend writes to it) and lets readers wait for new bytes from an offset until the buffer is closed.」ではなく「Buffer is an append-only log buffer implementing io.Writer; readers wait for new bytes from an offset until it is closed.」程度まで凝縮する。
+      - コメント量は周囲の既存コードの密度に合わせ、そこから増やさないこと。既存コードを触るときは、周辺の冗長・自明なコメントも同じ基準で削り、増やす方向でなく減らす方向に整える。
+      - 自分の作業ログ・変更履歴・TODO・AI が書いた旨を示すコメントを残さないこと。変更の経緯は git とコミットメッセージに委ねる。
     '';
     mcpServers = {
       thunderbird-mail = {
