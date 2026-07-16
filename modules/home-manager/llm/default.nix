@@ -193,5 +193,7 @@
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
     pkgs.gemini-cli
+    pkgs.claude-code-proxy
+    pkgs.claude-sol
   ];
 }
