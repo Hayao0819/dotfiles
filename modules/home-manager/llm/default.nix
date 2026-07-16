@@ -1,5 +1,5 @@
 # LLM tools configuration module
-# Includes Claude Code and Gemini CLI
+# Includes Claude Code, Codex CLI and Gemini CLI
 {
   pkgs,
   lib,
@@ -174,6 +174,15 @@
     };
   };
 
+  # Codex: fully unattended, but still sandboxed to the workspace.
+  home.file.".codex/config.toml".source = (pkgs.formats.toml { }).generate "codex-config.toml" {
+    approval_policy = "never";
+    sandbox_mode = "workspace-write";
+    sandbox_workspace_write = {
+      network_access = true;
+    };
+  };
+
   # Claude Code flicker-free fullscreen rendering
   home.sessionVariables = {
     CLAUDE_CODE_NO_FLICKER = "1";
@@ -182,6 +191,7 @@
   # LLM-related packages
   home.packages = [
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
     pkgs.gemini-cli
   ];
 }
