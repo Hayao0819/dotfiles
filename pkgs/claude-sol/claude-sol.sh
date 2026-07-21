@@ -1,9 +1,15 @@
 # Opus is unreachable through the proxy; use plain `claude` for it.
-# Sign in once before first use: claude-code-proxy codex auth login
 
 port="${CCP_PORT:-18765}"
 model="${CLAUDE_SOL_MODEL:-gpt-5.6-sol[1m]}"
 fast_model="${CLAUDE_SOL_FAST_MODEL:-gpt-5.6-luna[1m]}"
+
+# The proxy keeps its own credential store, so gate on its auth status and run
+# the browser login on first use rather than failing later with a 401.
+if ! claude-code-proxy codex auth status >/dev/null 2>&1; then
+  echo "claude-sol: not signed in to claude-code-proxy; opening browser login..." >&2
+  claude-code-proxy codex auth login
+fi
 
 port_open() {
   (exec 3<>"/dev/tcp/127.0.0.1/${port}") 2>/dev/null
