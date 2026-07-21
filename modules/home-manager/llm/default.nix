@@ -6,6 +6,15 @@
   inputs,
   ...
 }:
+let
+  codexConfig = (pkgs.formats.toml { }).generate "codex-config.toml" {
+    approval_policy = "never";
+    sandbox_mode = "workspace-write";
+    sandbox_workspace_write = {
+      network_access = true;
+    };
+  };
+in
 {
   # Claude Code
   programs.claude-code = {
@@ -174,14 +183,16 @@
     };
   };
 
-  # Codex: fully unattended, but still sandboxed to the workspace.
-  home.file.".codex/config.toml".source = (pkgs.formats.toml { }).generate "codex-config.toml" {
-    approval_policy = "never";
-    sandbox_mode = "workspace-write";
-    sandbox_workspace_write = {
-      network_access = true;
-    };
-  };
+  # Codex owns config.toml at runtime (trust, model, notices), so seed a
+  # writable copy instead of a read-only store symlink it cannot persist to.
+  home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if [ -L "$HOME/.codex/config.toml" ]; then
+      run rm -f "$HOME/.codex/config.toml"
+    fi
+    if [ ! -e "$HOME/.codex/config.toml" ]; then
+      run install -Dm600 ${codexConfig} "$HOME/.codex/config.toml"
+    fi
+  '';
 
   # Claude Code flicker-free fullscreen rendering
   home.sessionVariables = {
