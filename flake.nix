@@ -41,7 +41,6 @@
 
   outputs =
     inputs@{ self, flake-parts, ... }:
-    # https://flake.parts/module-arguments.html
     flake-parts.lib.mkFlake { inherit inputs; } (
       {
         config,
@@ -50,42 +49,20 @@
         ...
       }:
       let
-        # Self reference
         outputs = self;
       in
       {
-        imports = [
-          # Optional: use external flake logic, e.g.
-          # inputs.foo.flakeModules.default
-
-          # Read more here:
-          # https://flake.parts/best-practices-for-module-writing.html
-        ];
+        imports = [ ];
         flake = {
-          # Put your original flake attributes here.
-
-          # Your custom packages and modifications, exported as overlays
           overlays = import ./overlays { inherit inputs; };
-
-          # modules
           modules = import ./modules { inherit inputs; };
-
-          # nix os
           nixosConfigurations = import ./nixos { inherit inputs outputs; };
-
-          # nix-darwin
           darwinConfigurations = import ./darwin { inherit inputs outputs; };
-
-          # home-manager
           homeConfigurations = import ./home-manager { inherit inputs outputs; };
-
-          # nix-on-droid
           nixOnDroidConfigurations = import ./nix-on-droid { inherit inputs outputs; };
         };
         systems = [
-          # systems for which you want to build the `perSystem` attributes
           "x86_64-linux"
-          # ...
         ];
         perSystem =
           {
@@ -94,19 +71,12 @@
             ...
           }:
           {
-            # Formatter for your nix files, available through 'nix fmt'
             formatter = pkgs.nixfmt-rs;
 
-            # Packages
-            packages = import ./pkgs {
-              inherit pkgs;
-              flake = self;
-            };
+            packages = import ./pkgs { inherit pkgs; };
 
-            # Task runner applications
             apps = import ./tasks.nix { inherit inputs system pkgs; };
 
-            # Development environment
             devShells.default = import ./shell.nix { inherit pkgs; };
           };
       }
