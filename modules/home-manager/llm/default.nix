@@ -1,6 +1,7 @@
 # LLM tools configuration module
 # Includes Claude Code, Codex CLI and Gemini CLI
 {
+  config,
   pkgs,
   lib,
   inputs,
@@ -12,6 +13,7 @@ let
     sandbox_mode = "workspace-write";
     sandbox_workspace_write = {
       network_access = true;
+      writable_roots = [ config.home.homeDirectory ];
     };
   };
 in
