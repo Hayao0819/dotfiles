@@ -73,8 +73,6 @@
     };
   };
 
-  llm-agents = inputs.llm-agents.overlays.default;
-
   os-prober-fix = _final: prev: {
     os-prober = prev.os-prober.overrideAttrs (oldAttrs: {
       postPatch = (oldAttrs.postPatch or "") + ''
