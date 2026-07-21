@@ -68,8 +68,7 @@ in
 
       # Use packages from our overlay (from PR #479283)
       extraPackages =
-        [ ]
-        ++ optional (cfg.platform == "ipu7x") pkgs.icamerasrc-ipu7x
+        optional (cfg.platform == "ipu7x") pkgs.icamerasrc-ipu7x
         ++ optional (cfg.platform == "ipu75xa") pkgs.icamerasrc-ipu75xa;
 
       input = {

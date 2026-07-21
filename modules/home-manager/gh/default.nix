@@ -1,12 +1,7 @@
-{
-  ...
-}:
-{
-  # GitHub CLI Configuration
+_: {
   programs.gh = {
     enable = true;
 
-    # Git credential helper integration
     gitCredentialHelper = {
       enable = true;
       hosts = [
@@ -15,7 +10,6 @@
       ];
     };
 
-    # General settings
     settings = {
       git_protocol = "ssh";
       editor = "";

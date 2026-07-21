@@ -123,12 +123,6 @@ in
     };
   };
 
-  # web-search-agent modules (referenced by the agent via ~/.claude/agents/web-search-modules/)
-  home.file.".claude/agents/web-search-modules" = {
-    source = ./agents/web-search-modules;
-    recursive = true;
-  };
-
   # ccstatusline configuration
   xdg.configFile."ccstatusline/settings.json".text = builtins.toJSON {
     version = 3;
@@ -192,28 +186,33 @@ in
     };
   };
 
-  # Codex owns config.toml at runtime (trust, model, notices), so seed a
-  # writable copy instead of a read-only store symlink it cannot persist to.
-  home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if [ -L "$HOME/.codex/config.toml" ]; then
-      run rm -f "$HOME/.codex/config.toml"
-    fi
-    if [ ! -e "$HOME/.codex/config.toml" ]; then
-      run install -Dm600 ${codexConfig} "$HOME/.codex/config.toml"
-    fi
-  '';
+  home = {
+    file.".claude/agents/web-search-modules" = {
+      source = ./agents/web-search-modules;
+      recursive = true;
+    };
 
-  # Claude Code flicker-free fullscreen rendering
-  home.sessionVariables = {
-    CLAUDE_CODE_NO_FLICKER = "1";
+    # Codex owns config.toml at runtime (trust, model, notices), so seed a
+    # writable copy instead of a read-only store symlink it cannot persist to.
+    activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ -L "$HOME/.codex/config.toml" ]; then
+        run rm -f "$HOME/.codex/config.toml"
+      fi
+      if [ ! -e "$HOME/.codex/config.toml" ]; then
+        run install -Dm600 ${codexConfig} "$HOME/.codex/config.toml"
+      fi
+    '';
+
+    sessionVariables = {
+      CLAUDE_CODE_NO_FLICKER = "1";
+    };
+
+    packages = [
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
+      pkgs.gemini-cli
+      pkgs.claude-code-proxy
+      pkgs.claude-sol
+    ];
   };
-
-  # LLM-related packages
-  home.packages = [
-    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
-    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
-    pkgs.gemini-cli
-    pkgs.claude-code-proxy
-    pkgs.claude-sol
-  ];
 }

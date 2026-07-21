@@ -23,14 +23,7 @@
   # EasyEffects presets only (package is managed by pacman)
   audio.easyeffects.presets.enable = true;
 
-  # On Arch, Qt theming packages (kvantum, qt6ct, qt5ct) are installed via pacman.
-  # Disable Home Manager's qt module to prevent Nix's QT_PLUGIN_PATH injection,
-  # which causes duplicate style plugin loading and infinite recursion in QProxyStyle.
   qt.enable = lib.mkForce false;
-  home.sessionVariables = {
-    QT_QPA_PLATFORMTHEME = "qt6ct";
-    QT_STYLE_OVERRIDE = "kvantum";
-  };
 
   # Alias .desktop files to match NixOS naming for dconf favorite-apps consistency
   xdg.desktopEntries = {
@@ -71,9 +64,13 @@
     username = "hayao";
     homeDirectory = "/home/hayao";
     enableNixpkgsReleaseCheck = false;
+    sessionVariables = {
+      QT_QPA_PLATFORMTHEME = "qt6ct";
+      QT_STYLE_OVERRIDE = "kvantum";
+    };
+    stateVersion = "24.11";
   };
 
   programs.home-manager.enable = true;
   systemd.user.startServices = "sd-switch";
-  home.stateVersion = "24.11";
 }

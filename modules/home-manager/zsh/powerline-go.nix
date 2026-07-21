@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   programs.powerline-go = {
     enable = true;
     newline = true;

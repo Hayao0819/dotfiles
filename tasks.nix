@@ -1,5 +1,3 @@
-# Task runner applications
-# Separated from flake.nix for maintainability
 {
   inputs,
   system,

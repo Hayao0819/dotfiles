@@ -1,53 +1,37 @@
-# Virtualization configuration for NixOS
-# Migrated from Arch Linux (QEMU/KVM, libvirt, VirtualBox)
 { pkgs, ... }:
 
 {
-  # QEMU/KVM virtualization with libvirt
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true; # TPM emulation support
-      # OVMF is included by default with QEMU in NixOS
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+      };
     };
+
+    virtualbox.host = {
+      enable = true;
+      enableExtensionPack = true;
+      enableKvm = true;
+      addNetworkInterface = false;
+    };
+
+    docker.enable = true;
   };
 
-  # VirtualBox
-  virtualisation.virtualbox.host = {
-    enable = true;
-    enableExtensionPack = true; # USB 2.0/3.0, VirtualBox RDP, etc.
-
-    # Fix -> KVM issue / compilation failing
-    enableKvm = true;
-    addNetworkInterface = false;
-  };
-
-  # Spice agent for VM clipboard sharing and display optimization
   services.spice-vdagentd.enable = true;
 
-  # Virtualization management tools
   environment.systemPackages = with pkgs; [
-    # QEMU/KVM
-    virt-manager # GUI for libvirt
-    virt-viewer # VM display viewer
-    virtiofsd # VirtIO filesystem daemon for file sharing
-
-    # Utilities
-    qemu-utils # QEMU disk image utilities (qemu-img, etc.)
-
-    # Container tools (LXC)
-    lxc # Linux Containers
-
-    # Docker
+    virt-manager
+    virt-viewer
+    virtiofsd
+    qemu-utils
+    lxc
     docker-compose
     docker-buildx
   ];
 
-  # Enable dconf for virt-manager settings persistence
   programs.dconf.enable = true;
-
-  # Enable Docker
-  virtualisation.docker.enable = true;
 }

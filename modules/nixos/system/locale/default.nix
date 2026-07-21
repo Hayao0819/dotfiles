@@ -1,10 +1,6 @@
-# Locale and timezone configuration
-{ ... }:
-{
-  # Set your time zone.
+_: {
   time.timeZone = "Asia/Tokyo";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "ja_JP.UTF-8";
 
   i18n.extraLocaleSettings = {

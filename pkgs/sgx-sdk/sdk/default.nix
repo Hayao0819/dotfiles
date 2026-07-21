@@ -303,8 +303,8 @@ stdenv.mkDerivation (finalAttrs: {
   # $(nix-build -A sgx-sdk.runTestsHW)/bin/run-tests-hw
   passthru.runTestsHW =
     let
-      testsHW = lib.filterAttrs (_: v: v ? "name") (callPackage ../samples { sgxMode = "HW"; });
-      testsHWLinked = linkFarmFromDrvs "sgx-samples-hw-bundle" (lib.attrValues testsHW);
+      testsHW = callPackage ../samples { sgxMode = "HW"; } |> lib.filterAttrs (_: v: v ? "name");
+      testsHWLinked = testsHW |> lib.attrValues |> linkFarmFromDrvs "sgx-samples-hw-bundle";
     in
     writeShellApplication {
       name = "run-tests-hw";

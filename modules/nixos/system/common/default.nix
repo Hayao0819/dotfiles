@@ -1,8 +1,4 @@
-{
-  ...
-}:
-{
-  # Allow nixos-rebuild without password
+_: {
   security.sudo.extraRules = [
     {
       groups = [ "wheel" ];

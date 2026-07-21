@@ -21,8 +21,7 @@
   config = lib.mkIf config.osint.enable {
     home.packages =
       with pkgs;
-      [ ]
-      ++ lib.optionals config.osint.sherlock.enable [ sherlock ]
+      lib.optionals config.osint.sherlock.enable [ sherlock ]
       ++ lib.optionals config.osint.maigret.enable [ maigret ]
       ++ lib.optionals config.osint.holehe.enable [ holehe ]
       ++ lib.optionals config.osint.ghunt.enable [ ghunt ];

@@ -3,11 +3,10 @@
   outputs,
   ...
 }:
-with builtins;
-readDir ./.
-|> attrNames
-|> filter (p: p != "default.nix")
-|> map (conf: {
+builtins.readDir ./.
+|> builtins.attrNames
+|> builtins.filter (p: p != "default.nix")
+|> builtins.map (conf: {
   name = conf;
   value = inputs.nix-darwin.lib.darwinSystem {
     system = "aarch64-darwin";
@@ -15,9 +14,8 @@ readDir ./.
       inherit inputs outputs;
     };
     modules = [
-      # > Our main nixos configuration file <
       "${inputs.self}/darwin/${conf}/configuration.nix"
     ];
   };
 })
-|> listToAttrs
+|> builtins.listToAttrs

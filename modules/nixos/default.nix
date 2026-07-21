@@ -1,13 +1,9 @@
-# NixOS modules organized by category
-# - system: OS-level configuration (boot, networking, services)
-# - user: User-facing applications and desktop environments
 { inputs }:
-with builtins;
-readDir ./.
-|> attrNames
-|> filter (p: p != "default.nix")
-|> map (mod: {
+builtins.readDir ./.
+|> builtins.attrNames
+|> builtins.filter (p: p != "default.nix")
+|> builtins.map (mod: {
   name = mod;
   value = import "${inputs.self}/modules/nixos/${mod}" { inherit inputs; };
 })
-|> listToAttrs
+|> builtins.listToAttrs

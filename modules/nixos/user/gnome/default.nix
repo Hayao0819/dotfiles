@@ -24,6 +24,8 @@
 
       # Enable the GNOME desktop environment
       desktopManager.gnome.enable = true;
+      udev.packages = with pkgs; [ gnome-settings-daemon ];
+      gnome.gnome-keyring.enable = true;
     };
 
     # Make sure opengl is enabled
@@ -66,26 +68,13 @@
       simple-scan # scanner tool
     ];
 
-    # Setting daemons
-    services = {
-      # Udev daemon management
-      udev.packages = with pkgs; [ gnome-settings-daemon ];
-    };
-
-    programs.gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-
-    # Enable the DConf configuration system.
-    programs.dconf.enable = true;
-
-    # Enable GNOME Keyring (required for VS Code Settings Sync)
-    services.gnome.gnome-keyring.enable = true;
-
-    # Enabling seahorse keyring
-    programs.seahorse = {
-      enable = true;
+    programs = {
+      gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+      };
+      dconf.enable = true;
+      seahorse.enable = true;
     };
 
     # Install packages

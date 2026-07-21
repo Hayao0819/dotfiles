@@ -1,7 +1,3 @@
-# TuneD - Tuning Profile Delivery Mechanism for Linux
-# https://tuned-project.org
-{ ... }:
-{
-  # Enable tuned service
+_: {
   services.tuned.enable = true;
 }

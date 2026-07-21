@@ -74,7 +74,7 @@ in
   cxx11SGXDemo = buildSample "Cxx11SGXDemo";
   cxx14SGXDemo = buildSample "Cxx14SGXDemo";
   cxx17SGXDemo = buildSample "Cxx17SGXDemo";
-  localAttestation = (buildSample "LocalAttestation").overrideAttrs (old: {
+  localAttestation = (buildSample "LocalAttestation").overrideAttrs (_old: {
     installPhase = ''
       runHook preInstall
 
@@ -95,7 +95,7 @@ in
   });
   powerTransition = buildSample "PowerTransition";
   protobufSGXDemo = buildSample "ProtobufSGXDemo";
-  remoteAttestation = (buildSample "RemoteAttestation").overrideAttrs (old: {
+  remoteAttestation = (buildSample "RemoteAttestation").overrideAttrs (_old: {
     # Makefile sets rpath to point to $TMPDIR
     preFixup = ''
       patchelf --remove-rpath $out/bin/app
@@ -108,7 +108,7 @@ in
   sampleEnclave = buildSample "SampleEnclave";
   sampleEnclaveGMIPP = buildSample "SampleEnclaveGMIPP";
   sampleMbedCrypto = buildSample "SampleMbedCrypto";
-  sealUnseal = (buildSample "SealUnseal").overrideAttrs (old: {
+  sealUnseal = (buildSample "SealUnseal").overrideAttrs (_old: {
     prePatch = ''
       substituteInPlace App/App.cpp \
         --replace '"sealed_data_blob.txt"' '"/tmp/sealed_data_blob.txt"'

@@ -1,10 +1,8 @@
 { inputs, outputs, ... }:
-# let there be dragons
-with builtins;
-readDir ./.
-|> attrNames
-|> filter (p: p != "default.nix")
-|> map (conf: {
+builtins.readDir ./.
+|> builtins.attrNames
+|> builtins.filter (p: p != "default.nix")
+|> builtins.map (conf: {
   name = conf;
   value = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
@@ -12,9 +10,8 @@ readDir ./.
       hostname = conf;
     };
     modules = [
-      # > Our main nixos configuration file <
       "${inputs.self}/nixos/${conf}/configuration.nix"
     ];
   };
 })
-|> listToAttrs
+|> builtins.listToAttrs
