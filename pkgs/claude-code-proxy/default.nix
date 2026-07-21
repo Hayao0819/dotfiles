@@ -2,63 +2,28 @@
 # > claude-code-proxy serve
 {
   lib,
-  stdenv,
-  fetchurl,
-  autoPatchelfHook,
+  rustPlatform,
+  fetchFromGitHub,
 }:
-let
-  version = "0.1.21";
-  dists = {
-    x86_64-linux = {
-      arch = "linux-amd64";
-      hash = "sha256-8n8BruxnPzOh+GkBN+T3NtluZvI/dXj3eAg1hb9Ib+E=";
-    };
-    aarch64-linux = {
-      arch = "linux-arm64";
-      hash = "sha256-GLFezMpxPq+wfyAW9LTsk5aEuP+SqmmjcgDQr7gopZw=";
-    };
-    x86_64-darwin = {
-      arch = "darwin-amd64";
-      hash = "sha256-G0oSWdx02ime4s1ygy97GM1bgtwFbLGc0h/ZQOvWvxw=";
-    };
-    aarch64-darwin = {
-      arch = "darwin-arm64";
-      hash = "sha256-EsNANC8NzUdqKQQScutlR2xdcwVPAMm7ocqTAAIM8mc=";
-    };
-  };
-  dist =
-    dists.${stdenv.hostPlatform.system}
-      or (throw "claude-code-proxy: unsupported system ${stdenv.hostPlatform.system}");
-in
-stdenv.mkDerivation {
+
+rustPlatform.buildRustPackage {
   pname = "claude-code-proxy";
-  inherit version;
+  version = "0.1.22-hayao.1";
 
-  src = fetchurl {
-    url = "https://github.com/raine/claude-code-proxy/releases/download/v${version}/claude-code-proxy-${dist.arch}.tar.gz";
-    inherit (dist) hash;
+  src = fetchFromGitHub {
+    owner = "Hayao0819";
+    repo = "claude-code-proxy";
+    rev = "1fb1e119d9784bf4fb101b23fe73bf834b9f52d4";
+    hash = "sha256-AlqJs/e8vBHGC+EbnG7G+M33DdPtDzKpwfWE1Xbbuj8=";
   };
 
-  sourceRoot = ".";
-
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
-
-  dontConfigure = true;
-  dontBuild = true;
-
-  installPhase = ''
-    runHook preInstall
-    install -Dm755 claude-code-proxy $out/bin/claude-code-proxy
-    runHook postInstall
-  '';
+  cargoHash = "sha256-P9PltttLDvYPspKhiasXzSkImMtjJ6y4BTIKE6rZ6Y8=";
+  doCheck = false;
 
   meta = with lib; {
     description = "Anthropic-compatible proxy to drive Claude Code from a ChatGPT/Codex subscription";
-    homepage = "https://github.com/raine/claude-code-proxy";
+    homepage = "https://github.com/Hayao0819/claude-code-proxy";
     license = licenses.mit;
-    platforms = attrNames dists;
-    sourceProvenance = [ sourceTypes.binaryNativeCode ];
     mainProgram = "claude-code-proxy";
   };
 }

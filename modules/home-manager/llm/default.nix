@@ -185,6 +185,13 @@ in
     };
   };
 
+  xdg.configFile."claude-code-proxy/config.json".text = builtins.toJSON {
+    codex = {
+      reasoningSummary = "off";
+      reasoningSignatures = "off";
+    };
+  };
+
   # Codex owns config.toml at runtime (trust, model, notices), so seed a
   # writable copy instead of a read-only store symlink it cannot persist to.
   home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
