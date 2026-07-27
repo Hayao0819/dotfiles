@@ -65,7 +65,7 @@
     homeDirectory = "/home/hayao";
     enableNixpkgsReleaseCheck = false;
     sessionVariables = {
-      QT_QPA_PLATFORMTHEME = "qt6ct";
+      # No qt6ct here: it forces a light palette onto Kirigami apps (black-on-black fields)
       QT_STYLE_OVERRIDE = "kvantum";
     };
     stateVersion = "24.11";

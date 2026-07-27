@@ -17,8 +17,9 @@ let
     installPhase = ''
       runHook preInstall
 
-      mkdir -p $out/share/Kvantum
+      mkdir -p $out/share/Kvantum $out/share/color-schemes
       cp -r Kvantum/* $out/share/Kvantum/
+      cp color-schemes/*.colors $out/share/color-schemes/
 
       runHook postInstall
     '';
@@ -69,8 +70,11 @@ in
   # Kvantum configuration - use Colloid Nord theme
   xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
     [General]
-    theme=ColloidNord
+    theme=ColloidNordDark
   '';
+
+  # Kirigami/QQC2 apps read colors from kdeglobals, not Kvantum
+  xdg.configFile."kdeglobals".source = "${colloid-kde-theme}/share/color-schemes/ColloidDarkNord.colors";
 
   # Install Kvantum and Colloid-kde theme
   # Qt packages are only needed when qt module manages them (not on Arch where pacman does)
