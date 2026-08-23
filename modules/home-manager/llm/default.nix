@@ -26,6 +26,7 @@ in
       autoUpdater = {
         disabled = true;
       };
+      cleanupPeriodDays = 3650;
       statusLine = {
         type = "command";
         command = "ccstatusline";
