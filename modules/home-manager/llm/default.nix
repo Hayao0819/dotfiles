@@ -8,6 +8,23 @@
   ...
 }:
 let
+  jsonFormat = pkgs.formats.json { };
+
+  claudeMcpPlugin = pkgs.runCommand "claude-code-hm-plugin" { } ''
+    install -Dm644 ${jsonFormat.generate "claude-code-plugin.json" { name = "hm"; }} \
+      $out/.claude-plugin/plugin.json
+    install -Dm644 ${
+      jsonFormat.generate "claude-code-mcp.json" {
+        mcpServers = {
+          thunderbird-mail = {
+            command = "${pkgs.thunderbird-mcp}/bin/thunderbird-mcp";
+            type = "stdio";
+          };
+        };
+      }
+    } $out/.mcp.json
+  '';
+
   codexConfig = (pkgs.formats.toml { }).generate "codex-config.toml" {
     approval_policy = "never";
     sandbox_mode = "workspace-write";
@@ -87,11 +104,6 @@ in
       - コメント量は周囲の既存コードの密度に合わせ、そこから増やさないこと。既存コードを触るときは、周辺の冗長・自明なコメントも同じ基準で削り、増やす方向でなく減らす方向に整える。
       - 自分の作業ログ・変更履歴・TODO・AI が書いた旨を示すコメントを残さないこと。変更の経緯は git とコミットメッセージに委ねる。
     '';
-    mcpServers = {
-      thunderbird-mail = {
-        command = "${pkgs.thunderbird-mcp}/bin/thunderbird-mcp";
-      };
-    };
     skills = {
       init-flake = ./skills/init-flake;
       natural-writing = ./skills/natural-writing;
@@ -115,6 +127,11 @@ in
       web-search-agent = ./agents/web-search-agent.md;
     };
   };
+
+  # Not programs.claude-code.mcpServers: home-manager 26.05 then wraps claude with
+  # --plugin-dir, which `claude rc` rejects (home-manager#9618, fixed on master by
+  # #9626). A skills-dir plugin is what that fix ships instead.
+  home.file.".claude/skills/claude-code-home-manager".source = claudeMcpPlugin;
 
   # ccstatusline configuration
   xdg.configFile."ccstatusline/settings.json".text = builtins.toJSON {
