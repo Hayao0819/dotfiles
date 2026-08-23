@@ -26,7 +26,8 @@ overriding goal is to prevent fabricated citations and invented jargon.
   not jump ahead and start writing prose.
 - Always apply the **natural-writing** skill to any prose this skill produces
   (it owns the generic anti-LLM checklist for English and Japanese). Use
-  **deep-research** for source gathering. Run the heaviest proofreading pass on
+  the built-in **deep-research** workflow for source gathering
+  (`Workflow({name: 'deep-research', args: '<question>'})`). Run the heaviest proofreading pass on
   **Opus** (`claude-opus-4-8`).
 - This is **not** an AI humanizer or detector-evasion tool. See
   [reference/anti-hallucination.md](reference/anti-hallucination.md).
@@ -50,8 +51,9 @@ Each phase can be invoked on its own. Finish a phase, then stop for confirmation
 
 ### Phase 1 — Research
 
-Call **deep-research** to map the topic, prior work, and a citation candidate
-pool. Every pool entry carries a stable id (DOI / arXiv / PMID / DBLP) and
+Run the built-in **deep-research** workflow
+(`Workflow({name: 'deep-research', args: '<question>'})`) to map the topic,
+prior work, and a citation candidate pool. Every pool entry carries a stable id (DOI / arXiv / PMID / DBLP) and
 API-derived canonical metadata. **Knowledge Isolation Directive**: factual
 content — claims, citations, data, methods — comes only from session materials.
 If the outline needs something the materials do not cover, write

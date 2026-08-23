@@ -65,7 +65,7 @@ in
 
       # Investigation
 
-      - わからないことは推測せず「わからない」と明示した上で、`research`, `deep-research`, `web-search-agent` 等の調査エージェントや Web 検索を駆使し、一次情報から事実を確認して問題解決を図ること。
+      - わからないことは推測せず「わからない」と明示した上で、`web-search-agent` 等の調査エージェントや Web 検索、組み込みの `deep-research` ワークフローを駆使し、一次情報から事実を確認して問題解決を図ること。
       - 勝手な推測、過去の習わしの真似、それらしい記憶頼りで埋めないこと。コード・履歴・公式ドキュメント・上流の実装を一次情報として裏付けを取ってから結論を出すこと。
 
       # Subagent Model Selection
@@ -93,14 +93,6 @@ in
     };
     skills = {
       init-flake = ./skills/init-flake;
-      # 199-biotechnologies/claude-deep-research-skill
-      deep-research = ./skills/deep-research;
-      # Weizhena/Deep-Research-skills
-      research = ./skills/research;
-      research-add-fields = ./skills/research-add-fields;
-      research-add-items = ./skills/research-add-items;
-      research-deep = ./skills/research-deep;
-      research-report = ./skills/research-report;
       natural-writing = ./skills/natural-writing;
       paper-writing = ./skills/paper-writing;
       writing-tech-article = ./skills/writing-tech-article;
