@@ -96,12 +96,16 @@
     {
       inherit (ipu7-pkgs)
         ipu7-camera-bins
-        ipu7-camera-hal-ipu7x
-        ipu7-camera-hal-ipu75xa
+        ipu7x-camera-hal
+        ipu75xa-camera-hal
         ;
+      # icamerasrc is in gst_all_1 namespace
       inherit (ipu7-pkgs.gst_all_1)
         icamerasrc-ipu7x
         icamerasrc-ipu75xa
         ;
+      # ipu7-drivers out-of-tree kernel module (required for icamerasrc)
+      # The in-tree module (kernel 6.17+) crashes with icamerasrc
+      linuxPackages_ipu7 = ipu7-pkgs.linuxPackages;
     };
 }

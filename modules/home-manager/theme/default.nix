@@ -74,7 +74,8 @@ in
   '';
 
   # Kirigami/QQC2 apps read colors from kdeglobals, not Kvantum
-  xdg.configFile."kdeglobals".source = "${colloid-kde-theme}/share/color-schemes/ColloidDarkNord.colors";
+  xdg.configFile."kdeglobals".source =
+    "${colloid-kde-theme}/share/color-schemes/ColloidDarkNord.colors";
 
   # Install Kvantum and Colloid-kde theme
   # Qt packages are only needed when qt module manages them (not on Arch where pacman does)

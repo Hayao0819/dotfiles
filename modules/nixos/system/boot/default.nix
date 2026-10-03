@@ -8,6 +8,7 @@
 }:
 let
   cfg = config.boot.loader.type;
+  entryCount = config.boot.loader.minegrubEntryCount;
 
   # Custom minegrub theme with wider buttons
   customMinegrubTheme = pkgs.stdenv.mkDerivation {
@@ -20,8 +21,9 @@ let
     };
 
     patchPhase = ''
-      # Adjust top position for 5 boot options
-      top_value=$((170 + (5 - 2) * 72))
+      # The bottom bar sits below the entry list, so its offset has to track the
+      # number of entries; the theme cannot compute this at boot time.
+      top_value=$((170 + (${toString entryCount} - 2) * 72))
       sed -i '/^+ image {/,/^}$/s/top = 40%+[0-9]\+/top = 40%+'"$top_value"'/' minegrub/theme.txt
 
       # Increase button width from 600 to 800
@@ -49,6 +51,16 @@ in
     description = "Boot loader type to use (grub or systemd-boot)";
   };
 
+  options.boot.loader.minegrubEntryCount = lib.mkOption {
+    type = lib.types.ints.positive;
+    default = 5;
+    description = ''
+      Number of top-level GRUB entries the minegrub theme is laid out for,
+      counting the two NixOS adds itself. Keep in sync with extraEntries or the
+      bottom bar is drawn in the wrong place.
+    '';
+  };
+
   config = lib.mkMerge [
     # Common EFI settings
     {
@@ -60,22 +72,16 @@ in
       boot.loader.grub = {
         enable = true;
         device = "nodev";
-        useOSProber = true;
+        # os-prober records the other OS's kernels as they were at rebuild time,
+        # so a kernel installed there afterwards never shows up. Hosts declare
+        # their foreign entries in extraEntries instead.
+        useOSProber = false;
         efiSupport = true;
         default = "saved";
 
         # Custom minegrub theme with wider buttons
         theme = "${customMinegrubTheme}/grub/themes/minegrub";
         splashImage = "${customMinegrubTheme}/grub/themes/minegrub/background.png";
-
-        # Remove device names from os-prober entries (e.g., "(on /dev/nvme0n1p2)")
-        # Uses extraInstallCommands to run AFTER grub.cfg is generated
-        extraInstallCommands = ''
-          ${pkgs.gnused}/bin/sed -i \
-            -e "s/menuentry '\([^']*\) (on \/dev\/[^)]*)/menuentry '\1/g" \
-            -e "s/submenu '\([^']*\) (on \/dev\/[^)]*)/submenu '\1/g" \
-            /boot/grub/grub.cfg
-        '';
       };
     })
 

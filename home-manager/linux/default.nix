@@ -7,14 +7,13 @@
 {
   imports = [
     # Centralized nixpkgs configuration
-    outputs.modules.common.nixpkgs
+    ../../modules/common/nixpkgs
   ]
   ++ (with outputs.modules.home-manager; [
     git
     gh
     zsh
     fish
-    direnv
     pkgs
     gnome
     wallpapers
@@ -51,12 +50,19 @@
   };
 
   # Enable OSINT tools
+  # Note: maigret removed due to pypdf2 CVE vulnerabilities (CVE-2026-27024 etc.)
+  # The combination below provides similar coverage:
+  # - sherlock: username search (~400 sites)
+  # - socialscan: accurate username/email verification
+  # - sn0int: data correlation and recursive investigation
   osint = {
     enable = true;
     sherlock.enable = true;
-    maigret.enable = true;
+    socialscan.enable = true;
     holehe.enable = true;
     ghunt.enable = true;
+    theharvester.enable = true;
+    sn0int.enable = true;
   };
 
   programs.home-manager.enable = true;

@@ -51,12 +51,39 @@
     # Minegrub theme for GRUB bootloader
     inputs.minegrub-theme.nixosModules.default
 
-    # IPU7 camera support module (from PR #479483)
-    ./ipu7.nix
+    # IPU7 camera support modules (from PR #479283)
+    ./ipu7-libcamera.nix # Base support + libcamera backend (working)
+    ./ipu7-icamerasrc.nix # icamerasrc/v4l2-relayd backend (requires out-of-tree driver)
   ];
 
   # Boot loader type (grub or systemd-boot)
   boot.loader.type = "grub";
+
+  # Arch keeps these filenames stable across kernel updates, so the entries stay
+  # valid without rebuilding NixOS every time Arch ships a new kernel.
+  # NixOS adds two entries of its own; keep minegrubEntryCount at 2 + these.
+  boot.loader.minegrubEntryCount = 5;
+  boot.loader.grub.extraEntries = ''
+    menuentry "Arch Linux (linux-myxps)" --class arch --class gnu-linux --class os {
+      search --no-floppy --fs-uuid --set=root 1555-49E0
+      linux /vmlinuz-linux-myxps root=UUID=889a598f-9c2d-4c07-be12-e3afcb7fbde2 rw loglevel=3 quiet splash
+      initrd /initramfs-linux-myxps.img
+    }
+
+    menuentry "Arch Linux (linux-zen)" --class arch --class gnu-linux --class os {
+      search --no-floppy --fs-uuid --set=root 1555-49E0
+      linux /vmlinuz-linux-zen root=UUID=889a598f-9c2d-4c07-be12-e3afcb7fbde2 rw loglevel=3 quiet splash
+      initrd /initramfs-linux-zen.img
+    }
+
+    menuentry "Windows 11" --class windows --class os {
+      insmod part_gpt
+      insmod fat
+      insmod chain
+      search --no-floppy --fs-uuid --set=root 2A16-4E48
+      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+    }
+  '';
 
   # Intel IPU7 (Lunar Lake) camera support
   # Platform options: "ipu7x" or "ipu75xa" - check your hardware
@@ -96,6 +123,7 @@
       "docker"
       "libvirtd"
       "vboxusers"
+      "video"
     ];
   };
 
@@ -107,7 +135,10 @@
     };
   };
 
-  boot.kernelPackages = pkgs.unstable.linuxPackages_latest;
+  # Use kernel 6.18 instead of latest (6.19+) due to VirtualBox incompatibility
+  # VirtualBox vboxdrv module fails to build on 6.19+ (nixpkgs issue #491434)
+  # TODO: Switch back to linuxPackages_latest when VirtualBox is fixed
+  boot.kernelPackages = pkgs.unstable.linuxPackages_6_18;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
