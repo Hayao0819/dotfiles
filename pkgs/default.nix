@@ -6,12 +6,11 @@ let
     "default.nix"
     "intel-cvs" # Kernel module - requires kernel argument
   ];
+  names = builtins.attrNames (builtins.readDir ./.);
+  filtered = builtins.filter (p: !builtins.elem p excluded) names;
+  packages = builtins.map (p: {
+    name = p;
+    value = pkgs.callPackage (./. + "/${p}") { };
+  }) filtered;
 in
-builtins.readDir ./.
-|> builtins.attrNames
-|> builtins.filter (p: !builtins.elem p excluded)
-|> builtins.map (p: {
-  name = p;
-  value = pkgs.callPackage (./. + "/${p}") { };
-})
-|> builtins.listToAttrs
+builtins.listToAttrs packages
