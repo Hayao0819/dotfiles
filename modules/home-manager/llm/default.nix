@@ -49,6 +49,7 @@ in
     enable = true;
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
+      env.CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION = "600";
       autoUpdater = {
         disabled = true;
       };
