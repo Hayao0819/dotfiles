@@ -46,6 +46,16 @@ Reusable configs in `modules/` are auto-imported and can be enabled/disabled via
 - **Home Manager**: User environment (non-NixOS Linux)
 - **Darwin**: macOS via nix-darwin
 
+### LLM Tools
+
+`modules/home-manager/llm/default.nix` installs Herdr from the existing
+`llm-agents` flake input, alongside Claude Code and Codex. `flake.lock` pins the
+package version. Update it through the flake input and apply the Home Manager
+configuration.
+
+After migrating from Herdr's installer, check `type -a herdr`: an existing
+`~/.local/bin/herdr` can take precedence over the Home Manager package.
+
 ## Adding Configurations
 
 ### New NixOS Machine
