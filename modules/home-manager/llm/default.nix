@@ -9,6 +9,15 @@
 }:
 let
   jsonFormat = pkgs.formats.json { };
+  claudeSettingsPath = "${config.programs.claude-code.configDir}/settings.json";
+  mergePython = pkgs.python3.withPackages (ps: [ ps.tomlkit ]);
+  mergeSettings = pkgs.runCommand "llm-merge-settings" { nativeBuildInputs = [ mergePython ]; } ''
+    cp ${./merge_settings.py} merge_settings.py
+    cp ${./test_merge_settings.py} test_merge_settings.py
+    python -B -m unittest -v test_merge_settings
+    install -Dm644 merge_settings.py $out/merge_settings.py
+  '';
+  mergeSettingsCommand = "${mergePython}/bin/python ${mergeSettings}/merge_settings.py";
 
   claudeMcpPlugin = pkgs.runCommand "claude-code-hm-plugin" { } ''
     install -Dm644 ${jsonFormat.generate "claude-code-plugin.json" { name = "hm"; }} \
@@ -25,7 +34,7 @@ let
     } $out/.mcp.json
   '';
 
-  codexConfig = (pkgs.formats.toml { }).generate "codex-config.toml" {
+  codexConfig = jsonFormat.generate "codex-settings.json" {
     approval_policy = "never";
     sandbox_mode = "workspace-write";
     sandbox_workspace_write = {
@@ -133,6 +142,10 @@ in
   # #9626). A skills-dir plugin is what that fix ships instead.
   home.file.".claude/skills/claude-code-home-manager".source = claudeMcpPlugin;
 
+  # Home Manager 26.05 predates mutableSettings; keep its generated settings
+  # source while replacing only the immutable runtime settings link.
+  home.file."${claudeSettingsPath}".enable = false;
+
   # ccstatusline configuration
   xdg.configFile."ccstatusline/settings.json".text = builtins.toJSON {
     version = 3;
@@ -202,15 +215,12 @@ in
       recursive = true;
     };
 
-    # Codex owns config.toml at runtime (trust, model, notices), so seed a
-    # writable copy instead of a read-only store symlink it cannot persist to.
-    activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if [ -L "$HOME/.codex/config.toml" ]; then
-        run rm -f "$HOME/.codex/config.toml"
-      fi
-      if [ ! -e "$HOME/.codex/config.toml" ]; then
-        run install -Dm600 ${codexConfig} "$HOME/.codex/config.toml"
-      fi
+    activation.llmSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      run ${mergeSettingsCommand} json \
+        ${config.home.file."${claudeSettingsPath}".source} \
+        ${lib.escapeShellArg claudeSettingsPath}
+      run ${mergeSettingsCommand} toml ${codexConfig} \
+        ${lib.escapeShellArg "${config.home.homeDirectory}/.codex/config.toml"}
     '';
 
     sessionVariables = {
