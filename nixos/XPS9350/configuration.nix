@@ -37,6 +37,7 @@
 
     # nm-vpngate - VPN Gate client for NetworkManager
     inputs.nm-vpngate.nixosModules.default
+    inputs.gpgui-free.nixosModules.default
 
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
@@ -97,6 +98,9 @@
     enable = true;
     autoConnect = false; # Manual connection only
   };
+
+  # GlobalProtect VPN GUI
+  programs.gpgui-free.enable = true;
 
   # Enable audio with PipeWire
   audio.enable = true;

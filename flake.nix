@@ -25,6 +25,11 @@
 
     nm-vpngate.url = "github:Hayao0819/nm-vpngate";
 
+    gpgui-free = {
+      url = "github:MaebashiRamens/gpgui-free";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     minegrub-theme.url = "github:Lxtharia/minegrub-theme";
 
     nixos-wsl = {
