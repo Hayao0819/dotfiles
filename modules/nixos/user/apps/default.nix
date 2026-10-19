@@ -54,6 +54,12 @@ in
       default = true;
       description = "Install office suite (OnlyOffice)";
     };
+
+    reverseEngineering = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Install reverse engineering tools (Ghidra)";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -106,6 +112,15 @@ in
         with pkgs;
         [
           onlyoffice-desktopeditors # Office suite for documents, spreadsheets, presentations
+        ]
+      )
+      ++ lib.optionals cfg.reverseEngineering (
+        with pkgs;
+        [
+          ghidra # NSA's software reverse engineering suite
+          cutter # RE platform powered by rizin
+          imhex # Hex editor for reverse engineers
+          binwalk # Firmware analysis tool
         ]
       );
   };

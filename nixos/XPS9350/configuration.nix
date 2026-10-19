@@ -108,7 +108,8 @@
   # Enable user GUI applications
   user.apps = {
     enable = true;
-    gaming = true; # Include Bottles for Wine
+    gaming = true;
+    reverseEngineering = true;
   };
 
   networking.hostName = hostname; # Change dirname to change hostname :P
