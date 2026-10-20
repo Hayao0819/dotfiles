@@ -22,7 +22,7 @@ in
     communication = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Install communication apps (Discord, Slack, Zoom)";
+      description = "Install communication apps (Discord, Slack, Zoom, Signal)";
     };
 
     media = lib.mkOption {
@@ -78,6 +78,7 @@ in
           vesktop # Discord client with Vencord built-in
           slack
           zoom-us
+          signal-desktop
         ]
       )
       ++ lib.optionals cfg.media (
