@@ -220,11 +220,11 @@
         "zls": "zls"
       },
       "locked": {
-        "lastModified": 1791683055,
-        "narHash": "sha256-iRSIoQXGWJmeiXG0cYOu/Hn1jG/Wc/yzfMdJLRbXdoU=",
+        "lastModified": 1792510236,
+        "narHash": "sha256-Yrn66Aj/yZgm1NOes9/8h5EFfygpKJ7uKcEWZ1bx5XQ=",
         "owner": "MaebashiRamens",
         "repo": "gpgui-free",
-        "rev": "fda5d66a4a62f8b1e9b95235ecf54bdcb4d3c47a",
+        "rev": "722049e5a363d94bc3087bf271f7e67cd4bb5798",
         "type": "github"
       },
       "original": {
