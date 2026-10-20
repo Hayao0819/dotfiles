@@ -24,9 +24,6 @@ home-manager switch --flake github:Hayao0819/dotfiles/nix#archlinux
 # Debian
 home-manager switch --flake github:Hayao0819/dotfiles/nix#debian
 
-# Generic Linux
-home-manager switch --flake github:Hayao0819/dotfiles/nix#linux
-
 # macOS
 home-manager switch --flake github:Hayao0819/dotfiles/nix#darwin
 ```

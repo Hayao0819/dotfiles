@@ -20,13 +20,6 @@ in
     ];
   };
 
-  "linux" = mkHomeConfig {
-    system = "x86_64-linux";
-    modules = [
-      ./linux
-    ];
-  };
-
   "wsl" = mkHomeConfig {
     system = "x86_64-linux";
     modules = [
