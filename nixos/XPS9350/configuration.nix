@@ -102,6 +102,9 @@
   # GlobalProtect VPN GUI
   programs.gpgui-free.enable = true;
 
+  # Tailscale VPN
+  services.tailscale.enable = true;
+
   # GNOME Remote Desktop (RDP) - extend mode for virtual monitor
   services.gnome.gnome-remote-desktop.enable = true;
 
