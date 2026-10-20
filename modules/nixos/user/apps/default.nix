@@ -117,8 +117,7 @@ in
       ++ lib.optionals cfg.reverseEngineering (
         with pkgs;
         [
-          ghidra
-          ghidrust # Rust binary analysis extension for Ghidra
+          ghidra # Includes GhidRust via withExtensions
           cutter
           imhex
           binwalk

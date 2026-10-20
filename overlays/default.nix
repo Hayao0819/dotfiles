@@ -62,8 +62,29 @@
         };
       };
 
-      # Use Ghidra 12.1.4 from unstable
-      inherit (final.unstable) ghidra;
+      # GhidRust extension built against unstable Ghidra
+      ghidrust = final.unstable.ghidra.passthru.buildGhidraExtension {
+        pname = "ghidrust";
+        version = "unstable-2024-05-19";
+
+        src = final.fetchFromGitHub {
+          owner = "DMaroo";
+          repo = "GhidRust";
+          rev = "a4c5ebeee4c7506c29191fc5be9fc0cda9934952";
+          hash = "sha256-LKbj1qOeMdiEoe9DTjwHQ6qQUv33ExUReEZ3xEyE7Cw=";
+        };
+
+        meta = {
+          description = "Rust binary analysis extension for Ghidra";
+          homepage = "https://github.com/DMaroo/GhidRust";
+          license = final.lib.licenses.asl20;
+        };
+      };
+
+      # Use Ghidra 12.1.4 from unstable with GhidRust extension
+      ghidra = final.unstable.ghidra.withExtensions (_: [
+        final.ghidrust
+      ]);
     };
 
   unstable-packages = final: _prev: {
