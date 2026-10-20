@@ -1,48 +1,15 @@
-# File System Mounts
+# NixOS のマウント設定
 
-## Basic Mount
+対象マシンの設定に追加します。UUID は `lsblk -f` で確認してください。
+既存のルート・ブート領域の定義は `hardware-configuration.nix` を参照します。
+
 ```nix
 fileSystems."/mnt/data" = {
-  device = "/dev/disk/by-uuid/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-  fsType = "ext4";  # or btrfs, ntfs, exfat
+  device = "/dev/disk/by-uuid/<UUID>";
+  fsType = "ext4";
+  options = [ "nofail" ]; # 未接続でも起動する外付けディスク向け
 };
 ```
 
-## Find UUIDs
-```bash
-lsblk -f
-ls -la /dev/disk/by-uuid/
-```
-
-## Mount Options
-```nix
-fileSystems."/mnt/external" = {
-  device = "/dev/disk/by-uuid/...";
-  fsType = "btrfs";
-  options = [
-    "nofail"       # Don't fail boot if mount fails
-    "users"        # Allow any user to mount/unmount
-    "x-gvfs-show"  # Show in file managers
-  ];
-};
-```
-
-## Btrfs Subvolumes
-```nix
-fileSystems."/" = {
-  device = "/dev/disk/by-uuid/...";
-  fsType = "btrfs";
-  options = [ "subvol=@" ];
-};
-
-fileSystems."/home" = {
-  device = "/dev/disk/by-uuid/...";  # Same device
-  fsType = "btrfs";
-  options = [ "subvol=@home" ];
-};
-```
-
-## Important
-- Always use `/dev/disk/by-uuid/` (topology-independent)
-- Use `nofail` for optional/external drives
-- Changes require `nixos-rebuild switch`
+変更後は [検証](../setup/validation.md) を行い、対象の NixOS 設定を適用します。
+standalone Home Manager はシステムのマウントを管理しません。

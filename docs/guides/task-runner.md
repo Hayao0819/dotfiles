@@ -1,26 +1,17 @@
-# Nix Flake Task Runner
+# タスクランナー
 
-## Quick Start
+`tasks.nix` の補助コマンドです。`x86_64-linux` と `aarch64-linux` で利用できます。
+macOS では [直接の適用コマンド](../reference/commands.md) を使用してください。
 
 ```bash
-nix run .                        # Deploy all (auto-detect)
-nix run . -- <config> switch     # Deploy specific config
-nix run .#update                 # Update flake inputs
-nix run .#check                  # Run flake validation
-nix run .#clean                  # Clean old generations
-nix run .#status                 # Show system information
+nix run . -- --nixos XPS9350 --action switch
+nix run . -- --home debian
+nix run .#update
+nix run .#check
+nix run .#status
+nix run .#clean
 ```
 
-## Implementation
-
-Defined in `tasks.nix` as flake apps using `pkgs.writeShellScript`. Each app is a self-contained shell script with no external script dependencies.
-
-## Available Apps
-
-| App | Description |
-|-----|-------------|
-| `default` / `deploy` | Deploy NixOS + Home Manager |
-| `update` | Update all flake inputs |
-| `check` | Run `nix flake check` |
-| `clean` | Clean generations older than 7 days |
-| `status` | Show current system generation info |
+引数なしの適用は NixOS のホスト名から設定を選びます。
+standalone Home Manager の適用先は `--home` で指定します。
+`clean` は 7 日より古い世代を削除して GC を実行するため、削除した世代には戻せません。

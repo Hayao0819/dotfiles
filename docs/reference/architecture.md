@@ -1,71 +1,40 @@
-# Architecture
+# 構成
 
-## Directory Structure
+## ディレクトリ
 
-```txt
-├── flake.nix              # Main entry point (flake-parts)
-├── modules/
-│   ├── common/            # Shared modules (nixpkgs config)
-│   ├── nixos/             # NixOS modules (system/, user/)
-│   ├── home-manager/      # Home Manager modules
-│   └── darwin/            # macOS modules
-├── nixos/                 # NixOS machine configs
-│   ├── XPS9350/
-│   ├── WSL/
-│   └── Installer/
-├── home-manager/          # Home Manager configs
-│   ├── archlinux/
-│   ├── debian/
-│   ├── linux/
-│   ├── darwin/
-│   └── wsl/
-├── darwin/                # nix-darwin configs
-│   └── MacBook/
-├── pkgs/                  # Custom packages
-├── overlays/              # Nixpkgs overlays
-└── tasks.nix              # Flake apps (deploy, check, etc.)
-```
+| パス | 内容 |
+|---|---|
+| `flake.nix` / `flake.lock` | 出力の定義と依存バージョン |
+| `nixos/` | NixOS のマシン別設定 |
+| `home-manager/` | standalone Home Manager の設定 |
+| `darwin/` | nix-darwin の設定 |
+| `nix-on-droid/` | Android のユーザー環境 |
+| `modules/` | 共通・プラットフォーム別のモジュール |
+| `pkgs/` / `overlays/` | 独自パッケージとパッケージの変更 |
+| `tasks.nix` | 更新・適用などの補助コマンド |
 
-## Auto-Import
+## 適用先
 
-All `modules/` and machine config directories use `readDir` with pipe-operators for automatic module discovery. Adding a new module only requires creating a directory with `default.nix` — no index file edits needed.
+| 出力 | 対象 |
+|---|---|
+| `nixosConfigurations.XPS9350` | NixOS。Home Manager は `nixos/XPS9350/home.nix` を統合 |
+| `nixosConfigurations.WSL` / `Installer` | NixOS-WSL / インストーラー |
+| `homeConfigurations.archlinux` | x86_64 Linux。GNOME・テーマ・XDG 設定を含む |
+| `homeConfigurations.debian` | x86_64 Linux。シェル・開発ツール中心 |
+| `homeConfigurations.asahilinux` | aarch64 Linux。Debian 設定を継承し dconf 管理を無効化 |
+| `homeConfigurations.wsl` | x86_64 Linux。壁紙・テーマ・音声設定を除外 |
+| `darwinConfigurations.MacBook` | Apple Silicon の macOS |
+| `nixOnDroidConfigurations.termux` | Android |
 
-## Configuration Patterns
+standalone の設定は `hayao` / `/home/hayao` 用です。
+`home-manager/darwin/` は standalone 出力として登録されていません。
+Asahi のカーネル・ブートローダー・音声基盤はホスト OS で管理します。
 
-### Machine Configurations
+## 設定の追加
 
-Each machine: `nixos/<Machine>/configuration.nix` imports hardware settings + shared modules.
+共通モジュールは `modules/` の各 `default.nix` から自動検出されます。
+新しい Home Manager 設定は `home-manager/<名前>/default.nix` を作り、
+`home-manager/default.nix` に対象アーキテクチャと出力を登録してください。
+NixOS のマシンは `nixos/<名前>/configuration.nix` で定義します。
 
-### Module System
-
-Reusable configs in `modules/` are auto-imported and can be enabled/disabled via options.
-
-### Platform Separation
-
-- **NixOS**: Full OS management
-- **Home Manager**: User environment (non-NixOS Linux)
-- **Darwin**: macOS via nix-darwin
-
-### LLM Tools
-
-`modules/home-manager/llm/default.nix` installs Herdr from the existing
-`llm-agents` flake input, alongside Claude Code and Codex. `flake.lock` pins the
-package version. Update it through the flake input and apply the Home Manager
-configuration.
-
-After migrating from Herdr's installer, check `type -a herdr`: an existing
-`~/.local/bin/herdr` can take precedence over the Home Manager package.
-
-## Adding Configurations
-
-### New NixOS Machine
-
-1. Create `nixos/<Name>/configuration.nix` and `hardware-configuration.nix`
-2. Auto-imported — no need to edit `nixos/default.nix`
-3. `sudo nixos-rebuild switch --flake .#<Name>`
-
-### New Home Manager Config
-
-1. Create `home-manager/<name>/default.nix`
-2. Auto-imported — no need to edit index files
-3. `nix run home-manager -- switch --flake .#<name>`
+適用方法は [コマンド一覧](commands.md)、変更後の確認は [検証手順](../setup/validation.md) を参照してください。

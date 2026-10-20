@@ -1,61 +1,8 @@
-# Nix Language Quick Reference
+# Nix の編集
 
-## Core Concepts
-- **Purely functional**: No side effects
-- **Lazy evaluation**: Only evaluates what's needed
-- **Domain-specific**: Designed for package/system configuration
+共通設定を追加するときは `modules/` の既存モジュールを参考にしてください。
+条件付きのモジュール設定には `lib.mkIf`、既定値には `lib.mkDefault` を使用します。
+このリポジトリの `|>` 構文には `pipe-operators` の有効化が必要です。
 
-## Essential Syntax
-
-### inherit
-```nix
-# Copies variables from scope
-inherit (lib) mkIf mkOption types;
-# Same as: mkIf = lib.mkIf; mkOption = lib.mkOption; types = lib.types;
-```
-
-### Functions
-```nix
-# Single argument (use attrs for multiple)
-myFunc = { name, version ? "1.0" }: "${name}-${version}";
-myFunc { name = "hello"; }  # Call
-```
-
-### Attribute Sets
-```nix
-{
-  name = "pkg";
-  meta.description = "desc";  # Nested
-}
-```
-
-## Module Pattern
-```nix
-{ lib, pkgs, config, ... }:
-let
-  cfg = config.services.myService;
-  inherit (lib) mkIf mkOption types;
-in {
-  options.services.myService = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
-
-  config = mkIf cfg.enable {
-    # Applied only when enabled
-  };
-}
-```
-
-## Key lib Functions
-- `mkIf`: Conditional config (prevents recursion)
-- `mkOption`: Declare options
-- `mkDefault/mkForce`: Priority control
-- `mkMerge`: Merge attribute sets
-
-## Common Types
-- Basic: `bool`, `int`, `str`, `path`
-- Containers: `listOf`, `attrsOf`, `submodule`
-- Special: `package`, `nullOr`, `either`
+言語仕様は [Nix 公式マニュアル](https://nix.dev/manual/nix/latest/language/)、
+変更後の確認方法は [検証手順](../setup/validation.md) を参照してください。

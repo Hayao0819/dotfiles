@@ -1,41 +1,29 @@
-# Validation Guide
+# 変更後の検証
 
-## Quick Check
+`direnv allow` または `nix develop` で開発ツールを読み込めます。
+開発環境は `x86_64-linux` と `aarch64-linux` に対応しています。
+
+ファイル変更後は treefmt、Nix ファイル変更後は flake check を実行します。
+
 ```bash
-nix flake check --extra-experimental-features 'nix-command flakes pipe-operators'
+treefmt
+nix flake check path:. --extra-experimental-features 'nix-command flakes pipe-operators'
+git diff --check
 ```
 
-## Full Validation Script
+現在の `treefmt.toml` は雛形で、実行できるフォーマッターが未設定です。
+Nix ファイルの整形には `nixfmt` を使用できます。
+
+flake check は実行環境と異なるアーキテクチャや独自の出力をすべてビルドするものではありません。
+変更した適用先も明示してビルドしてください。以下は設定の適用を行いません。
+
 ```bash
-#!/bin/bash
-# Add untracked files
-git add .
+# このマシンで利用するプロファイルを指定
+nix build --no-link path:.#homeConfigurations.asahilinux.activationPackage \
+  --extra-experimental-features 'nix-command flakes pipe-operators' \
+  --max-jobs 1 --cores 1
 
-# Check syntax
-nix flake check --extra-experimental-features 'nix-command flakes pipe-operators' --show-trace || exit 1
-
-# Check NixOS configs
-for cfg in $(nix flake show . --json 2>/dev/null | jq -r '.nixosConfigurations | keys[]?' 2>/dev/null); do
-    echo "Checking $cfg..."
-    nix eval --extra-experimental-features 'nix-command flakes pipe-operators' \
-        .#nixosConfigurations.$cfg.config.system.build.toplevel \
-        --apply 'x: null' 2>&1 | grep -q error && echo "ERROR" && exit 2
-done
-
-# Check Home Manager
-for cfg in $(nix flake show . --json 2>/dev/null | jq -r '.homeConfigurations | keys[]?' 2>/dev/null); do
-    echo "Checking $cfg..."
-    nix eval --extra-experimental-features 'nix-command flakes pipe-operators' \
-        .#homeConfigurations.$cfg.activationPackage \
-        --apply 'x: null' 2>&1 | grep -q error && echo "ERROR" && exit 2
-done
-
-# Dry-run build
-nix build --dry-run --extra-experimental-features 'nix-command flakes pipe-operators' \
-    .#nixosConfigurations.XPS9350.config.system.build.toplevel || exit 3
+# NixOS の場合は対応するビルド環境で実行
+nix build --no-link path:.#nixosConfigurations.XPS9350.config.system.build.toplevel \
+  --extra-experimental-features 'nix-command flakes pipe-operators'
 ```
-
-## When to Run
-- After any .nix file edit
-- Before commits
-- After adding packages/modules

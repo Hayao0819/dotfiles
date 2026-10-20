@@ -2,6 +2,8 @@
 
 Nix入門しました。
 
+構成と使い方は [ドキュメント](docs/README.md) を参照してください。
+
 ## NixOS
 
 ```shell
@@ -28,7 +30,7 @@ home-manager switch --flake github:Hayao0819/dotfiles/nix#debian
 home-manager --extra-experimental-features 'nix-command flakes pipe-operators' switch --flake path:.#asahilinux
 
 # macOS
-home-manager switch --flake github:Hayao0819/dotfiles/nix#darwin
+sudo darwin-rebuild switch --flake github:Hayao0819/dotfiles/nix#MacBook
 ```
 
 ## Special Thanks
