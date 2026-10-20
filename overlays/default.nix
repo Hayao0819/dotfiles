@@ -7,7 +7,7 @@
     };
 
   modifications =
-    _final: prev:
+    final: prev:
     let
       patchGnomeExtension =
         {
@@ -61,6 +61,17 @@
           ];
         };
       };
+
+      # Pin Ghidra to version 12.1.3
+      ghidra = prev.ghidra.overrideAttrs (oldAttrs: rec {
+        version = "12.1.3";
+        src = final.fetchFromGitHub {
+          owner = "NationalSecurityAgency";
+          repo = "ghidra";
+          rev = "Ghidra_${version}_build";
+          hash = "sha256-Ubjh9BCDMAZrGvBrCFk0pfCRnLIG/8Shaiq8Zq2VnWY=";
+        };
+      });
     };
 
   unstable-packages = final: _prev: {

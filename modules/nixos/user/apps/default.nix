@@ -117,10 +117,11 @@ in
       ++ lib.optionals cfg.reverseEngineering (
         with pkgs;
         [
-          ghidra # NSA's software reverse engineering suite
-          cutter # RE platform powered by rizin
-          imhex # Hex editor for reverse engineers
-          binwalk # Firmware analysis tool
+          ghidra
+          ghidrust # Rust binary analysis extension for Ghidra
+          cutter
+          imhex
+          binwalk
         ]
       );
   };
