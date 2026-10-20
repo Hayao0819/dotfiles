@@ -102,6 +102,12 @@
   # GlobalProtect VPN GUI
   programs.gpgui-free.enable = true;
 
+  # GNOME Remote Desktop (RDP) - extend mode for virtual monitor
+  services.gnome.gnome-remote-desktop.enable = true;
+
+  # Open RDP port
+  networking.firewall.allowedTCPPorts = [ 3389 ];
+
   # Enable audio with PipeWire
   audio.enable = true;
 

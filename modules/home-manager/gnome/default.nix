@@ -14,10 +14,17 @@ in
     enable = true;
     # Import dconf2nix generated settings
     # To update: dconf dump / | dconf2nix > modules/home-manager/gnome/dconf-generated.nix
-    settings = import ./dconf-generated.nix {
-      inherit mkUint32 mkTuple;
-      homeDir = config.home.homeDirectory;
-    };
+    settings =
+      (import ./dconf-generated.nix {
+        inherit mkUint32 mkTuple;
+        homeDir = config.home.homeDirectory;
+      })
+      // {
+        # GNOME Remote Desktop - extend mode for virtual monitor
+        "org/gnome/desktop/remote-desktop/rdp" = {
+          screen-share-mode = "extend";
+        };
+      };
   };
 
   # Workaround for Chromium bug: NoDisplay=true at end of .desktop file is ignored
