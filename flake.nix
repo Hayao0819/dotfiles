@@ -68,6 +68,7 @@
         };
         systems = [
           "x86_64-linux"
+          "aarch64-linux"
         ];
         perSystem =
           {
@@ -78,7 +79,9 @@
           {
             formatter = pkgs.nixfmt-rs;
 
-            packages = import ./pkgs { inherit pkgs; };
+            packages = pkgs.lib.filterAttrs (
+              _: package: pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform package
+            ) (import ./pkgs { inherit pkgs; });
 
             apps = import ./tasks.nix { inherit inputs system pkgs; };
 
