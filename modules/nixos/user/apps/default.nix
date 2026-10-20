@@ -121,6 +121,7 @@ in
           cutter
           imhex
           binwalk
+          unstable.unblob
         ]
       );
   };
