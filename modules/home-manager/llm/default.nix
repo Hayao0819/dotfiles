@@ -148,58 +148,61 @@ in
   home.file."${claudeSettingsPath}".enable = false;
 
   # ccstatusline configuration
-  xdg.configFile."ccstatusline/settings.json".text = builtins.toJSON {
-    version = 3;
-    lines = [
-      [
-        {
-          id = "1";
-          type = "model";
-          color = "cyan";
-        }
-        {
-          id = "2";
-          type = "separator";
-        }
-        {
-          id = "3";
-          type = "context-percentage";
-          color = "blue";
-        }
-        {
-          id = "4";
-          type = "separator";
-        }
-        {
-          id = "5";
-          type = "git-branch";
-          color = "magenta";
-        }
-        {
-          id = "6";
-          type = "separator";
-        }
-        {
-          id = "7";
-          type = "git-changes";
-          color = "yellow";
-        }
-      ]
-      [ ]
-      [ ]
-    ];
-    flexMode = "full-minus-40";
-    compactThreshold = 60;
-    colorLevel = 2;
-    inheritSeparatorColors = false;
-    globalBold = false;
-    powerline = {
-      enabled = false;
-      separators = [ "" ];
-      separatorInvertBackground = [ false ];
-      startCaps = [ ];
-      endCaps = [ ];
-      autoAlign = false;
+  xdg.configFile."ccstatusline/settings.json" = {
+    force = true;
+    text = builtins.toJSON {
+      version = 3;
+      lines = [
+        [
+          {
+            id = "1";
+            type = "model";
+            color = "cyan";
+          }
+          {
+            id = "2";
+            type = "separator";
+          }
+          {
+            id = "3";
+            type = "context-percentage";
+            color = "blue";
+          }
+          {
+            id = "4";
+            type = "separator";
+          }
+          {
+            id = "5";
+            type = "git-branch";
+            color = "magenta";
+          }
+          {
+            id = "6";
+            type = "separator";
+          }
+          {
+            id = "7";
+            type = "git-changes";
+            color = "yellow";
+          }
+        ]
+        [ ]
+        [ ]
+      ];
+      flexMode = "full-minus-40";
+      compactThreshold = 60;
+      colorLevel = 2;
+      inheritSeparatorColors = false;
+      globalBold = false;
+      powerline = {
+        enabled = false;
+        separators = [ "" ];
+        separatorInvertBackground = [ false ];
+        startCaps = [ ];
+        endCaps = [ ];
+        autoAlign = false;
+      };
     };
   };
 
