@@ -24,6 +24,9 @@ home-manager switch --flake github:Hayao0819/dotfiles/nix#archlinux
 # Debian
 home-manager switch --flake github:Hayao0819/dotfiles/nix#debian
 
+# Asahi Linux (Apple Silicon, dconf is not managed by Nix)
+home-manager --extra-experimental-features 'nix-command flakes pipe-operators' switch --flake path:.#asahilinux
+
 # macOS
 home-manager switch --flake github:Hayao0819/dotfiles/nix#darwin
 ```
