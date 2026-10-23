@@ -17,7 +17,7 @@ let
       echo "Usage: deploy [--nixos <name>] [--home <name>] [--action switch|boot|test]"
       echo ""
       echo "  --nixos <name>   NixOS configuration name (e.g., XPS9350, WSL)"
-      echo "  --home <name>    Home Manager configuration name (e.g., archlinux, darwin)"
+      echo "  --home <name>    Home Manager configuration name (e.g., xps9350-arch, darwin)"
       echo "  --action <act>   Action: switch (default), boot, test"
       echo ""
       echo "If no flags given, auto-detects based on OS."

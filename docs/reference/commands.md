@@ -10,7 +10,7 @@ Nix の設定で `extra-experimental-features = nix-command flakes pipe-operator
 `before-hm` を付けたバックアップが既にある場合は別の名前を指定します。sudo は不要です。
 
 ```bash
-# asahilinux を archlinux / debian / wsl に置き換えて選択
+# asahilinux を xps9350-arch / debian / wsl に置き換えて選択
 home-manager switch --flake path:.#asahilinux -b before-hm
 ```
 

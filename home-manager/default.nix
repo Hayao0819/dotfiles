@@ -20,10 +20,10 @@ in
     ];
   };
 
-  "archlinux" = mkHomeConfig {
+  "xps9350-arch" = mkHomeConfig {
     system = "x86_64-linux";
     modules = [
-      ./archlinux
+      ./xps9350-arch
     ];
   };
 

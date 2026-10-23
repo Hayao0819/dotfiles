@@ -1,4 +1,4 @@
-# Home Manager configuration for standalone Arch Linux
+# Home Manager configuration for XPS 9350 on standalone Arch Linux
 { outputs, lib, ... }:
 {
   imports = [

@@ -21,7 +21,7 @@ Apply them.
 
 ```shell
 # Arch Linux
-home-manager switch --flake github:Hayao0819/dotfiles/nix#archlinux
+home-manager switch --flake github:Hayao0819/dotfiles/nix#xps9350-arch
 
 # Debian
 home-manager switch --flake github:Hayao0819/dotfiles/nix#debian
