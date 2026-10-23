@@ -25,6 +25,10 @@
 
   qt.enable = lib.mkForce false;
 
+  # Keep GNOME settings managed by the desktop, outside Nix.
+  # mkForce because the gnome module enables dconf.
+  dconf.enable = lib.mkForce false;
+
   # Alias .desktop files to match NixOS naming for dconf favorite-apps consistency
   xdg.desktopEntries = {
     gitkraken = {

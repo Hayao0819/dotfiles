@@ -19,7 +19,7 @@
 |---|---|
 | `nixosConfigurations.XPS9350` | NixOS。Home Manager は `nixos/XPS9350/home.nix` を統合 |
 | `nixosConfigurations.WSL` / `Installer` | NixOS-WSL / インストーラー |
-| `homeConfigurations.xps9350-arch` | x86_64 Linux の XPS 9350。GNOME・テーマ・XDG 設定を含む |
+| `homeConfigurations.xps9350-arch` | x86_64 Linux の XPS 9350。テーマ・XDG 設定を含み dconf 管理を無効化 |
 | `homeConfigurations.debian` | x86_64 Linux。シェル・開発ツール中心 |
 | `homeConfigurations.asahilinux` | aarch64 Linux。Debian 設定を継承し dconf 管理を無効化 |
 | `homeConfigurations.wsl` | x86_64 Linux。壁紙・テーマ・音声設定を除外 |
