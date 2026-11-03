@@ -174,7 +174,7 @@ in
   xdg.configFile."ccstatusline/settings.json" = {
     force = true;
     text = builtins.toJSON {
-      version = 3;
+      version = 4;
       lines = [
         [
           {
