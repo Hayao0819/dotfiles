@@ -10,6 +10,16 @@
 let
   jsonFormat = pkgs.formats.json { };
   claudeSettingsPath = "${config.programs.claude-code.configDir}/settings.json";
+  herdrPackage = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
+  claudeHerdrSessionHook = pkgs.writeShellScript "herdr-claude-session" ''
+    export PATH="${
+      lib.makeBinPath [
+        pkgs.python3
+        pkgs.coreutils
+      ]
+    }:$PATH"
+    exec ${pkgs.runtimeShell} ${herdrPackage}/share/herdr/integrations/claude/herdr-agent-state.sh session
+  '';
   mergePython = pkgs.python3.withPackages (ps: [ ps.tomlkit ]);
   mergeSettings = pkgs.runCommand "llm-merge-settings" { nativeBuildInputs = [ mergePython ]; } ''
     cp ${./merge_settings.py} merge_settings.py
@@ -50,6 +60,18 @@ in
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       env.CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION = "600";
+      hooks.SessionStart = [
+        {
+          matcher = "^(startup|resume|clear|compact|fork)$";
+          hooks = [
+            {
+              type = "command";
+              command = "${claudeHerdrSessionHook}";
+              timeout = 10;
+            }
+          ];
+        }
+      ];
       autoUpdater = {
         disabled = true;
       };
@@ -234,7 +256,7 @@ in
     packages = [
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
+      herdrPackage
       pkgs.gemini-cli
       pkgs.claude-code-proxy
       pkgs.claude-sol
