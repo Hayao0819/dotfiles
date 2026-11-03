@@ -1,5 +1,5 @@
 # LLM tools configuration module
-# Includes Claude Code, Codex CLI, Gemini CLI and Herdr
+# Includes Claude Code, Codex CLI, Gemini CLI, omp and Herdr
 {
   config,
   pkgs,
@@ -257,6 +257,7 @@ in
     packages = [
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccstatusline
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp
       herdrPackage
       pkgs.gemini-cli
       pkgs.claude-code-proxy
