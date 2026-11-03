@@ -45,8 +45,9 @@ let
   '';
 
   codexConfig = jsonFormat.generate "codex-settings.json" {
-    approval_policy = "never";
-    sandbox_mode = "workspace-write";
+    approval_policy = "on-request";
+    sandbox_mode = "danger-full-access";
+    features.daemon_auto_start = false;
     sandbox_workspace_write = {
       network_access = true;
       writable_roots = [ config.home.homeDirectory ];
