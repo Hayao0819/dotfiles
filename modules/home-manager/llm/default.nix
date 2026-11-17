@@ -20,7 +20,10 @@ let
     }:$PATH"
     exec ${pkgs.runtimeShell} ${herdrPackage}/share/herdr/integrations/claude/herdr-agent-state.sh session
   '';
-  mergePython = pkgs.python3.withPackages (ps: [ ps.tomlkit ]);
+  mergePython = pkgs.python3.withPackages (ps: [
+    ps.tomlkit
+    ps.pyyaml
+  ]);
   mergeSettings = pkgs.runCommand "llm-merge-settings" { nativeBuildInputs = [ mergePython ]; } ''
     cp ${./merge_settings.py} merge_settings.py
     cp ${./test_merge_settings.py} test_merge_settings.py

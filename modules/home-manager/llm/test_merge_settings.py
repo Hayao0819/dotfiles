@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import tomlkit
+import yaml
 
 from merge_settings import merge_file
 
@@ -78,6 +79,32 @@ class SettingsMergeTests(unittest.TestCase):
         self.assertTrue(result["sandbox_workspace_write"]["network_access"])
         self.assertIn("last_seen", result)
 
+    def test_yaml_keeps_runtime_keys_and_replaces_declared_lists(self):
+        self.destination.write_text(
+            "modelRoles:\n  default: some/model\ntools:\n  approvalMode: yolo\n"
+            "bash:\n  patterns:\n    - match: old*\n      approval: allow\n"
+        )
+        self.declare(
+            {
+                "tools": {"approvalMode": "write"},
+                "bash": {"patterns": [{"match": "git push*", "approval": "prompt"}]},
+            }
+        )
+        merge_file("yaml", self.source, self.destination)
+        result = yaml.safe_load(self.destination.read_text())
+        self.assertEqual(result["modelRoles"], {"default": "some/model"})
+        self.assertEqual(result["tools"], {"approvalMode": "write"})
+        self.assertEqual(
+            result["bash"]["patterns"], [{"match": "git push*", "approval": "prompt"}]
+        )
+        self.assertEqual(stat.S_IMODE(self.destination.stat().st_mode), 0o600)
+
+    def test_yaml_empty_file_is_treated_as_empty_mapping(self):
+        self.destination.write_text("")
+        self.declare({"value": 1})
+        merge_file("yaml", self.source, self.destination)
+        self.assertEqual(yaml.safe_load(self.destination.read_text()), {"value": 1})
+
     def test_repeated_activation_applies_changes_without_unnecessary_rewrite(self):
         self.declare({"value": 1})
         merge_file("json", self.source, self.destination)
@@ -108,6 +135,8 @@ class SettingsMergeTests(unittest.TestCase):
             ("json", "["),
             ("json", "[]"),
             ("toml", "value = ["),
+            ("yaml", "- a"),
+            ("yaml", "a: ["),
         ):
             with self.subTest(format=format_name, contents=contents):
                 self.destination.write_text(contents)

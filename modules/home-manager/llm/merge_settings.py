@@ -8,6 +8,7 @@ from collections.abc import MutableMapping
 from pathlib import Path
 
 import tomlkit
+import yaml
 
 
 def fingerprint(path):
@@ -56,6 +57,15 @@ def merge_file(format_name, source, destination, dry_run=False):
         if not isinstance(dynamic, dict):
             raise ValueError(f"{destination} must contain a JSON object")
         output = (json.dumps(merge(dynamic, declared), indent=2) + "\n").encode()
+    elif format_name == "yaml":
+        dynamic = yaml.safe_load(raw) if raw is not None else {}
+        if dynamic is None:
+            dynamic = {}
+        if not isinstance(dynamic, dict):
+            raise ValueError(f"{destination} must contain a YAML mapping")
+        output = yaml.safe_dump(
+            merge(dynamic, declared), sort_keys=False, allow_unicode=True
+        ).encode()
     else:
         dynamic = tomlkit.parse(raw.decode()) if raw is not None else tomlkit.document()
         output = tomlkit.dumps(merge(dynamic, declared)).encode()
@@ -86,7 +96,7 @@ def merge_file(format_name, source, destination, dry_run=False):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("format", choices=("json", "toml"))
+    parser.add_argument("format", choices=("json", "toml", "yaml"))
     parser.add_argument("source", type=Path)
     parser.add_argument("destination", type=Path)
     parser.add_argument("--dry-run", action="store_true")
