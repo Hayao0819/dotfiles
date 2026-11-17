@@ -1,0 +1,108 @@
+{
+  "gh_writes": {
+    "pr": [
+      "create",
+      "comment",
+      "merge",
+      "close",
+      "edit",
+      "review",
+      "ready",
+      "reopen",
+      "update-branch"
+    ],
+    "issue": [
+      "create",
+      "comment",
+      "close",
+      "edit",
+      "reopen",
+      "delete",
+      "lock",
+      "unlock",
+      "pin",
+      "unpin",
+      "transfer",
+      "develop"
+    ],
+    "repo": [
+      "create",
+      "fork",
+      "delete",
+      "edit",
+      "rename",
+      "archive",
+      "unarchive",
+      "sync",
+      "deploy-key"
+    ],
+    "release": [
+      "create",
+      "edit",
+      "delete",
+      "upload",
+      "delete-asset"
+    ],
+    "gist": [
+      "create",
+      "edit",
+      "delete",
+      "rename"
+    ],
+    "workflow": [
+      "run",
+      "enable",
+      "disable"
+    ],
+    "label": [
+      "create",
+      "edit",
+      "delete",
+      "clone"
+    ],
+    "secret": [
+      "set",
+      "delete"
+    ],
+    "variable": [
+      "set",
+      "delete"
+    ],
+    "ssh-key": [
+      "add",
+      "delete"
+    ],
+    "gpg-key": [
+      "add",
+      "delete"
+    ],
+    "cache": [
+      "delete"
+    ],
+    "run": [
+      "delete"
+    ]
+  },
+  "regex": [
+    {
+      "name": "git push",
+      "re": "\\bgit(?:\\s+(?:-[Cc]\\s+(?:\"[^\"]*\"|'[^']*'|\\S+)|--(?:git-dir|work-tree|namespace|super-prefix|config-env|exec-path|attr-source)(?:=|\\s+)(?:\"[^\"]*\"|'[^']*'|\\S+)|--(?:no-pager|paginate|bare|no-replace-objects|literal-pathspecs|glob-pathspecs|noglob-pathspecs|icase-pathspecs|no-optional-locks|no-lazy-fetch)|-[pP]))*\\s+push\\b"
+    },
+    {
+      "name": "gh api write",
+      "re": "\\bgh\\s+api\\b(?![^\\n|;&]*(?:\\s-X\\s*|\\s--method[ =]\\s*)(?:GET|get)\\b)(?![^\\n]*\\bgraphql\\b(?![\\s\\S]*mutation))[^\\n|;&]*?(?:\\s-X\\s*(?:POST|PUT|PATCH|DELETE|post|put|patch|delete)\\b|\\s--method[ =]\\s*(?:POST|PUT|PATCH|DELETE|post|put|patch|delete)\\b|\\s-[fF]\\b|\\s--(?:raw-)?field\\b|\\s--input\\b)"
+    },
+    {
+      "name": "GitHub API write via curl/wget",
+      "re": "\\b(?:curl|wget)\\b(?=[^\\n]*api\\.github\\.com)[^\\n]*?(?:\\s-X\\s*(?:POST|PUT|PATCH|DELETE|post|put|patch|delete)\\b|--request[ =]\\s*(?:POST|PUT|PATCH|DELETE|post|put|patch|delete)\\b|\\s-d\\b|\\s--data\\S*|\\s--json\\b|\\s-F\\b|\\s--form\\b|\\s-T\\b|\\s--upload-file\\b)"
+    },
+    {
+      "name": "git push as argv list",
+      "re": "[\"']git[\"']\\s*,(?:\\s*[\"'][^\"']*[\"']\\s*,)*\\s*[\"']push[\"']"
+    },
+    {
+      "name": "gh write as argv list",
+      "re": "[\"']gh[\"']\\s*,\\s*[\"'](?:pr|issue|repo|release|gist|workflow|label|secret|variable)[\"']\\s*,\\s*[\"'](?:create|comment|merge|close|edit|review|ready|reopen|delete|fork|rename|archive|upload|run|set)[\"']"
+    }
+  ]
+}

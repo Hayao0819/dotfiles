@@ -39,6 +39,42 @@ let
     "code-comments"
   ];
 
+  guardPatterns = builtins.fromJSON (builtins.readFile ./guard/patterns.json);
+  externalWriteCommands = guardPatterns.gh_writes;
+  externalWriteLines = lib.concatLists (
+    lib.mapAttrsToList (group: verbs: map (verb: "gh ${group} ${verb}") verbs) externalWriteCommands
+  );
+  ghApiWriteGlobs = [
+    "*gh api*-X *"
+    "*gh api*--method*"
+    "*gh api* -f *"
+    "*gh api* -F *"
+    "*gh api*--field*"
+    "*gh api*--raw-field*"
+    "*gh api*--input*"
+  ];
+
+  ompGuardGlobs = [ "*git*push*" ] ++ map (line: "*${line}*") externalWriteLines ++ ghApiWriteGlobs;
+  guardData = pkgs.writeText "external-writes.json" (
+    builtins.toJSON (guardPatterns // { ompGlobs = ompGuardGlobs; })
+  );
+  guardTools =
+    pkgs.runCommand "external-writes-guard"
+      {
+        nativeBuildInputs = [
+          pkgs.python3
+          pkgs.nodejs
+        ];
+      }
+      ''
+        cp ${./guard}/*.py ${./guard}/*.json ${./guard}/*.mjs ${./guard}/*.ts .
+        python -B -m unittest -v test_external_writes
+        node test_omp_external_writes.mjs
+        install -Dm644 external_writes.py $out/external_writes.py
+      '';
+  guardCommand =
+    mode: "${pkgs.python3}/bin/python3 ${guardTools}/external_writes.py ${mode} ${guardData}";
+
   mergePython = pkgs.python3.withPackages (ps: [
     ps.tomlkit
     ps.pyyaml
@@ -66,7 +102,62 @@ let
     } $out/.mcp.json
   '';
 
+  ompConfig = jsonFormat.generate "omp-settings.json" {
+    bash.patterns = map (match: {
+      inherit match;
+      approval = "prompt";
+    }) ompGuardGlobs;
+  };
+
+  codexSafetyRules =
+    let
+      quote = s: ''"${s}"'';
+      list = items: "[" + lib.concatStringsSep ", " (map quote items) + "]";
+      rule = pattern: example: ''
+        prefix_rule(
+            pattern = ${pattern},
+            decision = "prompt",
+            justification = "External writes need explicit user approval",
+            match = [${example}],
+        )
+      '';
+    in
+    rule
+      (list [
+        "git"
+        "push"
+      ])
+      (list [
+        "git"
+        "push"
+        "origin"
+        "main"
+      ])
+    + lib.concatStrings (
+      lib.mapAttrsToList (
+        group: verbs:
+        rule ("[" + quote "gh" + ", " + quote group + ", " + list verbs + "]") (list [
+          "gh"
+          group
+          (lib.head verbs)
+        ])
+      ) externalWriteCommands
+    );
+
   codexConfig = jsonFormat.generate "codex-settings.json" {
+    hooks.PreToolUse = [
+      {
+        matcher = "^Bash$";
+        hooks = [
+          {
+            type = "command";
+            command = guardCommand "codex";
+            timeout = 10;
+            statusMessage = "Checking external writes";
+          }
+        ];
+      }
+    ];
     approval_policy = "on-request";
     sandbox_mode = "danger-full-access";
     features.daemon_auto_start = false;
@@ -83,6 +174,19 @@ in
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       env.CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION = "600";
+      hooks.PreToolUse = [
+        {
+          matcher = "Bash";
+          hooks = [
+            {
+              type = "command";
+              command = guardCommand "claude";
+              timeout = 10;
+              onFailure = "block";
+            }
+          ];
+        }
+      ];
       hooks.SessionStart = [
         {
           matcher = "^(startup|resume|clear|compact|fork)$";
@@ -107,6 +211,10 @@ in
       skipAutoPermissionPrompt = true;
       permissions = {
         defaultMode = "auto";
+        ask = [
+          "Bash(git push *)"
+        ]
+        ++ map (line: "Bash(${line} *)") externalWriteLines;
       };
     };
     context = claudeRules;
@@ -211,7 +319,11 @@ in
 
   home = {
     file.".codex/AGENTS.md".text = portableRules;
+    file.".codex/rules/nix-safety.rules".text = codexSafetyRules;
     file.".omp/agent/AGENTS.md".text = portableRules;
+    file.".omp/agent/hooks/pre/external-writes.ts".text =
+      builtins.replaceStrings [ "@GUARD_DATA@" ] [ "${guardData}" ]
+        (builtins.readFile ./guard/omp-external-writes.ts);
 
     file.".claude/agents/web-search-modules" = {
       source = ./agents/web-search-modules;
@@ -224,6 +336,8 @@ in
         ${lib.escapeShellArg claudeSettingsPath}
       run ${mergeSettingsCommand} toml ${codexConfig} \
         ${lib.escapeShellArg "${config.home.homeDirectory}/.codex/config.toml"}
+      run ${mergeSettingsCommand} yaml ${ompConfig} \
+        ${lib.escapeShellArg "${config.home.homeDirectory}/.omp/agent/config.yml"}
     '';
 
     sessionVariables = {
