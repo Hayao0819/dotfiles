@@ -216,7 +216,7 @@ in
         [ ]
         [ ]
       ];
-      flexMode = "full-minus-40";
+      flexMode = "full";
       compactThreshold = 60;
       colorLevel = 2;
       inheritSeparatorColors = false;
